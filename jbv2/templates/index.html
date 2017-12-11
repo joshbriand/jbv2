@@ -12,7 +12,7 @@
 	</script>
 	<meta charset="UTF-8">
 	<title>Josh Briand</title>
-	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static',filename='css/main.css') }}" rel="stylesheet" type="text/css">
 	<style>
 
 	</style>
@@ -165,7 +165,7 @@
 					<span class="main-content">
 						<a href="http://www.sarahschoolofmusic.com">
 							<div class="portfolioBox">
-								<img src="img/som.png" width="90%"></img>
+								<img src="{{ url_for('static', filename='img/som.png') }}" width="90%"></img>
 							</div>
 						</a>
 					</span>
@@ -181,7 +181,7 @@
 					<span class="main-content">
 						<a href="http://www.barefootinthebackyard.com">
 							<div class="portfolioBox">
-								<img src="img/bitb.png" width="90%"></img>
+								<img src="{{ url_for('static', filename='img/bitb.png') }}" width="90%"></img>
 							</div>
 						</a>
 					</span>
@@ -197,7 +197,7 @@
 					<span class="main-content">
 						<a href="http://www.lowercaseltd.com">
 							<div class="portfolioBox">
-								<img src="img/lc.png" width="90%"></img>
+								<img src="{{ url_for('static', filename='img/lc.png') }}" width="90%"></img>
 							</div>
 						</a>
 					</span>
@@ -234,8 +234,8 @@
 			</div>
 		</div>
 	</div>
-	<script src="js/libs/jquery.min.js"></script>
-	<script src="js/app.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/app.js') }}"></script>
 </body>
 
 </html>
