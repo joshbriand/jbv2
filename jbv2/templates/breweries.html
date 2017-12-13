@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Metro Vancouver Breweries</title>
+	<link href="{{ url_for('static',filename='css/breweries.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="row">
+		<!--sidebar div is part of the website's responsiveness when viewed on mobile-->
+		<aside id="sidebar" data-bind="style: {display: sidebarDisplay()}">
+			<header class="row" id="sidebar-title">
+				<h1>Metro Vancouver Breweries</h1>
+			</header>
+			<hr>
+			<main class="row" id="sidebar-list">
+				<!--iterate through each city in cityList-->
+				<form data-bind="foreach: cityList">
+					<input type="checkbox" data-bind="checked: $parent.citiesFiltered, click: $parent.cityBoxClicked.bind(name), value: name, attr:{id: name}"></input><label data-bind="text: name"></label>
+					<br>
+					<!--iterate through each brewery in each city-->
+					<div data-bind="foreach: breweries">
+						<div data-bind="visible: $root.citiesFiltered.indexOf(city) + 1">
+							<input class="tab" type="checkbox" data-bind="value:name, checked: $root.breweriesFiltered, checkedValue: $data, attr:{id: name}, click: $root.hideBrewery.bind(name)"></input><label data-bind="text: name, click: $root.breweryNameClicked.bind(name)"></label>
+							<br>
+						</div>
+					</div>
+				</form>
+			</main>
+		</aside>
+		<!--mobile div is another part of the website's responsiveness and is only visible when viewed on a mobile device-->
+		<div id="mobile" data-bind="click: sidebarClicked">
+			<div id="mobilePointer">
+				<h1 data-bind="text: showOrHide"></h1>
+			</div>
+		</div>
+		<section id="map" data-bind="style: {width: mapWidth()}, click: $root.markerClicked">
+		</section>
+	</div>
+	<script src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/libs/knockout-3.2.0.js') }}"></script>
+	<script src="{{ url_for('static',filename='js/breweries.js') }}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyDqVkpJMpeAA3zBigPyw-lt3NIfUQiJW7A&v=3&callback=initMap" async defer onerror="self.mapError()"></script>
+	<script>
+		document.getElementById('Select All').click();
+	</script>
+</body>
+
+</html>
+

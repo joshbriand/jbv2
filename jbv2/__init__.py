@@ -25,12 +25,18 @@ def showIndexPage():
     if request.method == 'GET':
         return render_template('index.html')
 
+@app.route('/breweries', methods=['GET'])
+def showBreweriesPage():
+    '''Handler for brewery web app.'''
+    if request.method == 'GET':
+        return render_template('breweries.html')
+
 
 CLIENT_ID = json.loads(
-    open('/var/www/jbv2/jbv2/google_client_secrets.json', 'r').read())['web']['client_id']
+    open('/home/ubuntu/google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
 
-engine = create_engine('sqlite:////var/www/jbv2/jbv2/recipeindex.db')
+engine = create_engine('postgresql://postgres:thanks@localhost/recipeproject')
 
 Base.metadata.bind = engine
 
@@ -68,7 +74,7 @@ def gconnect():
     try:
         # Upgrade the authorization code into a credentials object
         oauth_flow = flow_from_clientsecrets(
-            '/var/www/recipes/recipes/google_client_secrets.json', scope='')
+            '/home/ubuntu/google_client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
