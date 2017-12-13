@@ -221,7 +221,7 @@ def showRecipes(user_id=""):
         state = generateState()
         login_session['state'] = state
         if user_id == "":
-            # render if user selects All Recipes or goes to '/' or '/recipes'
+            # render if user selects All Recipes or goes to '/recipes'
             # query all recipes to display on webpage
             recipes = session.query(Recipe).order_by(Recipe.date.desc())
             return render_template(
@@ -323,7 +323,7 @@ def addRecipe():
         if 'username' not in login_session:
             # redirect to '/' if user not logged in, error message
             flash('User not logged in')
-            return redirect('/')
+            return redirect('/recipes/')
         else:
             return render_template(
                 'addrecipe.html',
@@ -369,7 +369,7 @@ def showRecipe(recipe_id):
             STATE=state)
     # redirect to '/' and flash error message if recipe id does not exist
     flash('Recipe does not exist')
-    return redirect('/')
+    return redirect('/recipes/')
 
 
 @app.route('/recipe/<int:recipe_id>/edit/', methods=['GET', 'POST'])
@@ -480,7 +480,7 @@ def editRecipe(recipe_id):
     else:
         # redirect and error if recipe does not exist
         flash('Recipe does not exist')
-    return redirect('/')
+    return redirect('/recipes/')
 
 
 @app.route('/recipe/<int:recipe_id>/delete/', methods=['GET', 'POST'])
@@ -520,7 +520,7 @@ def deleteRecipe(recipe_id):
 			session.delete(recipeToDelete)
                         session.commit()
                         flash('Recipe Successfully Deleted')
-                        return redirect('/')
+                        return redirect('/recipes/')
                     else:
                         # redirect to recipe webpage if user cancels action
                         return redirect('/recipe/', recipe_id=recipe_id)
@@ -538,7 +538,7 @@ def deleteRecipe(recipe_id):
     else:
         # error message and redirect if recipe does not exist
         flash('Recipe does not exist')
-        return redirect('/')
+        return redirect('/recipes/')
 
 
 @app.route('/recipe/<int:recipe_id>/like/')
@@ -574,7 +574,7 @@ def likeRecipe(recipe_id):
     else:
         # redirect and error message if recipe id does not exists
         flash('Recipe does not exist')
-    return redirect('/')
+    return redirect('/recipes/')
 
 
 @app.route('/recipe/<int:recipe_id>/unlike/')
@@ -609,7 +609,7 @@ def unlikeRecipe(recipe_id):
     else:
         # redirect and error message if recipe does not exist
         flash('Recipe does not exist')
-    return redirect('/')
+    return redirect('/recipes/')
 
 
 @app.route('/recipe/<int:recipe_id>/addcomment/', methods=['GET', 'POST'])
@@ -649,7 +649,7 @@ def addComment(recipe_id):
     else:
         # redirect and error message if recipe does not exist
         flash('Recipe does not exist')
-        return redirect('/')
+        return redirect('/recipes/')
 
 
 @app.route(
@@ -714,7 +714,7 @@ def editComment(recipe_id, comment_id):
     else:
         # redirect and error message if recipe does not exist
         flash('Recipe does not exist')
-        return redirect('/')
+        return redirect('/recipes/')
 
 
 @app.route(
@@ -768,11 +768,11 @@ def deleteComment(recipe_id, comment_id):
         else:
             # error message and redirect if comment does not exist
             flash('Comment does not exist')
-            return redirect('/')
+            return redirect('/recipes/')
     else:
         # redirect and error message if recipe does not exist
         flash('Recipe does not exist')
-        return redirect('/')
+        return redirect('/recipes/')
 
 
 @app.route('/recipes/JSON/')
