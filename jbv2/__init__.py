@@ -19,19 +19,6 @@ app = Flask(__name__)
 
 APPLICATION_NAME = "Josh Briand's website"
 
-@app.route('/', methods=['GET'])
-def showIndexPage():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('index.html')
-
-@app.route('/breweries', methods=['GET'])
-def showBreweriesPage():
-    '''Handler for brewery web app.'''
-    if request.method == 'GET':
-        return render_template('breweries.html')
-
-
 CLIENT_ID = json.loads(
     open('/home/ubuntu/google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
@@ -58,6 +45,21 @@ def generateState():
                     for x in xrange(32))
     login_session['state'] = state
     return state
+
+@app.route('/', methods=['GET'])
+def showIndexPage():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('index.html')
+
+@app.route('/breweries', methods=['GET'])
+def showBreweriesPage():
+    '''Handler for brewery web app.'''
+    if request.method == 'GET':
+        return render_template('breweries.html')
+
+
+
 
 
 @app.route('/gconnect', methods=['POST'])
@@ -798,6 +800,32 @@ def recipeJSON(recipe_id):
             i.serialize for i in ingredients], processes=[
                 i.serialize for i in processes])
 
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+PASSWORD_RE = re.compile(r"^.{3,20}$")
+
+@app.route('/survey/logout/')
+def surveyLogout(methods=['GET']):
+    if request.method == "GET":
+        def get(self):
+            self.response.headers.add_header('Set-Cookie', 'user=; Path=/')
+            print "logged out"
+            self.redirect('/survey/')
+
+@app.route('/survey/')
+
+@app.route('/survey/takepoll/')
+
+@app.route('/survery/edit/')
+
+@app.route('/survery/addquestion/')
+
+@app.route('/survery/deletequestion/')
+
+@app.route('/survery/adduser/')
+
+@app.route('/survery/deleteuser/')
+
+@app.route('/survey/changepassword/')
 
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''
