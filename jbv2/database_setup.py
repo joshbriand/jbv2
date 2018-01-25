@@ -94,6 +94,6 @@ class Like(Base):
     recipe = relationship(Recipe)
 
 
-engine = create_engine('postgresql://postgres:thanks@localhost/recipeproject')
+engine = create_engine('sqlite:////var/www/jbv2/jbv2/recipes.db')
 
 Base.metadata.create_all(engine)

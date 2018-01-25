@@ -23,7 +23,7 @@ CLIENT_ID = json.loads(
     open('/home/ubuntu/google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
 
-engine = create_engine('postgresql://postgres:thanks@localhost/recipeproject')
+engine = create_engine('sqlite:////var/www/jbv2/jbv2/recipes.db')
 
 Base.metadata.bind = engine
 
@@ -800,16 +800,8 @@ def recipeJSON(recipe_id):
             i.serialize for i in ingredients], processes=[
                 i.serialize for i in processes])
 
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PASSWORD_RE = re.compile(r"^.{3,20}$")
-
+'''
 @app.route('/survey/logout/')
-def surveyLogout(methods=['GET']):
-    if request.method == "GET":
-        def get(self):
-            self.response.headers.add_header('Set-Cookie', 'user=; Path=/')
-            print "logged out"
-            self.redirect('/survey/')
 
 @app.route('/survey/')
 
@@ -826,6 +818,7 @@ def surveyLogout(methods=['GET']):
 @app.route('/survery/deleteuser/')
 
 @app.route('/survey/changepassword/')
+'''
 
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''

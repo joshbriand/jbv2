@@ -5,6 +5,8 @@ var downSection = '';
 $('#joshbriand').click(function(){
 	if (downContent !== '') {
 		up(downContent, downLink);
+                $('#slogan').css('display', 'table');
+                $('#actualSlogan').fadeIn(1200);
 	}
 })
 
