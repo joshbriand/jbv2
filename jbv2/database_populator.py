@@ -6,7 +6,7 @@ from database_setup import Base, User, Recipe, Comments, Like, Process, Ingredie
 
 import psycopg2
 
-engine = create_engine('sqlite:////var/www/jbv2/jbv2/recipes.db')
+engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
@@ -252,3 +252,19 @@ newComment = Comments(
 session.add(newComment)
 session.commit()
 print "comment added"
+users = session.query(User)
+usernames = []
+for user in users:
+    usernames.append(user.name)
+
+names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
+passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
+
+for x in range(0,len(names)):
+    if names[x] in usernames:
+        print names[x] + " exists already"
+    else:
+        newUser = User(name=names[x], password=passwords[x], email="joshbriand@gmail.com", notifications="no")
+        session.add(newUser)
+        session.commit()
+        print names[x] + " added"
