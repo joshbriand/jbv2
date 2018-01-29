@@ -206,6 +206,17 @@ form {
   display: flex;
 }
 
+#last {
+  background-image: url(ghosttokensop.png);
+  background-size: contain;
+  vertical-align: middle;
+  margin: auto;
+  height: 6vw;
+  width: 6vw;
+  position: relative;
+
+}
+
 #board {
   display: inline-block;
 }

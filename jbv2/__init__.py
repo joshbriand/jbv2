@@ -1098,7 +1098,7 @@ def menu():
                 return redirect(url_for('game', game_id=game_id))
     else:
         flash('Please log in')
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
 
 
@@ -1270,7 +1270,7 @@ def game(game_id):
             if moveID == str(userid):
                 for move in moveDict:
                     if game.previousPlayer == 1 or game.previousPlayer == 2:
-                        exec("game.%s = ''") % (originalLocation)
+                        exec("game.%s = 'last'") % (originalLocation)
                     exec("game.%s = move" % (moveDict[move]))
                     game.previousGhost = move
                 game.date = datetime.now()
@@ -1304,7 +1304,7 @@ def game(game_id):
                 return redirect(url_for('game', game_id=game_id))
     else:
         flash('Please log in')
-        return render_template('login.html')
+        return redirect(url_for('login'))
 
 
 
