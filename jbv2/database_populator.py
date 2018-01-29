@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-from database_setup import Base, User, Recipe, Comments, Like, Process, Ingredient
+from database_setup import Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete
 
 import psycopg2
 
@@ -257,6 +257,12 @@ usernames = []
 for user in users:
     usernames.append(user.name)
 
+users = session.query(ghostUser)
+usernames = []
+for user in users:
+    usernames.append(user.name)
+
+
 names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 
@@ -264,7 +270,7 @@ for x in range(0,len(names)):
     if names[x] in usernames:
         print names[x] + " exists already"
     else:
-        newUser = User(name=names[x], password=passwords[x], email="joshbriand@gmail.com", notifications="no")
+        newUser = ghostUser(name=names[x], password=passwords[x], email="joshbriand@gmail.com", notifications="no")
         session.add(newUser)
         session.commit()
         print names[x] + " added"

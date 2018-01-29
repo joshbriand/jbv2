@@ -81,19 +81,12 @@
 						<select name="existingGame" class="select">
 							{% for game in userGames %}
 								{% for player in users %}
-									{% if player.name != playerUsername and player.id == game.player1id %}
-										{% if game.previousPlayer == 1 %}
-											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}**Your turn**<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt1--></option>
+									{% if player.name != playerUsername and (player.id == game.player1id or player.id == game.player2id) %}
+										{% if game.previousPlayer == 1 and game.player1id == userid %}
+											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}</option>
 										{% else  %}
-											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt2--></option>
+											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}**Your turn**</option>
 										{% endif %}
-									{% elif player.name != playerUsername and player.id == game.player2id %}
-										{% if game.previousPlayer == 2 %}
-                                                                                        <option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}**Your turn**<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt3--></option>
-                                                                                {% else  %}
-                                                                                        <option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt4--></option>
-                                                                                {% endif %}
-
 									{% endif %}
 								{% endfor %}
 							{% endfor %}

@@ -3,7 +3,7 @@ from flask import session as login_session
 from flask import make_response
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import (Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete))
+from database_setup import (Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete)
 import random
 import string
 from datetime import datetime
@@ -12,6 +12,7 @@ from oauth2client.client import FlowExchangeError
 import httplib2
 import simplejson
 import json
+import ast
 import requests
 import psycopg2
 import re, hmac
@@ -68,12 +69,12 @@ def make_temp_password(password):
 
 #does user exist?
 def userExists(name):
-    q = session.query(User).filter_by(name=name)
+    q = session.query(ghostUser).filter_by(name=name)
     return session.query(q.exists()).scalar()
 
 #does game exist?
 def gameExists(name):
-    q = session.query(Game).filter_by(id=id)
+    q = session.query(ghostGame).filter_by(id=id)
     return session.query(q.exists()).scalar()
 
 def generateState():
@@ -857,7 +858,7 @@ def login():
             if login_username:
                 if login_password:
                     users = session.query(ghostUser)
-                    user = users.filter_by(name=login_username).one()
+                    user = users.filter_by(name=login_username).first()
                     login_hashed_password = make_secure_val(login_password)
                     if userExists(login_username):
                         if user.name == login_password:
@@ -983,8 +984,6 @@ def menu():
         userNotification = user.notifications
         userGames = session.query(ghostGame).filter((ghostGame.player1id==user.id) | (ghostGame.player2id==user.id))
         userGames = userGames.order_by(ghostGame.id.asc())
-        for game in userGames:
-            print game.id
         userCompleted = session.query(ghostComplete).filter((ghostComplete.player1id==user.id) | (ghostComplete.player2id==user.id)).all()
         userWins = session.query(ghostComplete).filter(ghostComplete.winnerid==user.id).all()
         blueWins = 0
@@ -1110,7 +1109,7 @@ def game(game_id):
     locationList = ['b11','b21','b31','b41','b51','b61','b12','b22','b32','b42','b52','b62','b13','b23','b33','b43','b53','b63','b14','b24','b34','b44','b54','b64','b15','b25','b35','b45','b55','b65','b16','b26','b36','b46','b56','b66']
     if 'username' in login_session:
         users = session.query(ghostUser)
-        users = users.order_by(User.name.asc())
+        users = users.order_by(ghostUser.name.asc())
         user = users.filter_by(name=login_session['username']).one()
         userid = user.id
         userNotification = user.notifications

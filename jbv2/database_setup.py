@@ -94,7 +94,7 @@ class Like(Base):
     recipe = relationship(Recipe)
 
 class ghostUser(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'ghostUser'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -103,7 +103,7 @@ class ghostUser(Base):
     notifications = Column(String(2), nullable=False)
 
 class ghostGame(Base):
-    __tablename__ = 'game'
+    __tablename__ = 'ghostGame'
 
     id = Column(Integer, primary_key=True)
     player1id = Column(Integer, ForeignKey('user.id'))
@@ -149,7 +149,7 @@ class ghostGame(Base):
     previousGhost = Column(String(4), nullable=False)
 
 class ghostComplete(Base):
-    __tablename__ = 'complete'
+    __tablename__ = 'ghostComplete'
 
     id = Column(Integer, primary_key=True)
     gameid = Column(Integer,nullable=False)
