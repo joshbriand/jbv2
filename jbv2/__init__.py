@@ -1340,7 +1340,7 @@ def game(game_id):
             if moveID == str(userid):
                 for move in moveDict:
                     if game.previousPlayer == 1 or game.previousPlayer == 2:
-                        tempDirection = originalLocation + '-' + moveDirection
+                        tempDirection = 'last-' + moveDirection
                         exec("game.%s = '%s'") % (originalLocation, tempDirection)
                     exec("game.%s = move" % (moveDict[move]))
                     game.previousGhost = move
