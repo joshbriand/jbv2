@@ -1053,37 +1053,37 @@ def menu():
                 new_game = ghostGame(player1id=user.id,
                     player2id=opponent,
                     date=date,
-                    b11 = '',
+                    b31 = '',
                     b21 = '',
                     b31 = '',
                     b41 = '',
                     b51 = '',
                     b61 = '',
-                    b12 = '',
+                    b32 = '',
                     b22 = '',
                     b32 = '',
                     b42 = '',
                     b52 = '',
                     b62 = '',
-                    b13 = '',
+                    b33 = '',
                     b23 = '',
                     b33 = '',
                     b43 = '',
                     b53 = '',
                     b63 = '',
-                    b14 = '',
+                    b34 = '',
                     b24 = '',
                     b34 = '',
                     b44 = '',
                     b54 = '',
                     b64 = '',
-                    b15 = '',
+                    b35 = '',
                     b25 = '',
                     b35 = '',
                     b45 = '',
                     b55 = '',
                     b65 = '',
-                    b16 = '',
+                    b36 = '',
                     b26 = '',
                     b36 = '',
                     b46 = '',
@@ -1104,9 +1104,9 @@ def menu():
 
 @app.route('/ghosts/game/<int:game_id>/', methods=['GET', 'POST'])
 def game(game_id):
-    ghostList = ['p1b1','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b1','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
-    deadGhosts = ['p1b1','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b1','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
-    locationList = ['b11','b21','b31','b41','b51','b61','b12','b22','b32','b42','b52','b62','b13','b23','b33','b43','b53','b63','b14','b24','b34','b44','b54','b64','b15','b25','b35','b45','b55','b65','b16','b26','b36','b46','b56','b66']
+    ghostList = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+    deadGhosts = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+    locationList = ['b31','b21','b31','b41','b51','b61','b32','b22','b32','b42','b52','b62','b33','b23','b33','b43','b53','b63','b34','b24','b34','b44','b54','b64','b35','b25','b35','b45','b55','b65','b36','b26','b36','b46','b56','b66']
     if 'username' in login_session:
         users = session.query(ghostUser)
         users = users.order_by(ghostUser.name.asc())
@@ -1131,7 +1131,7 @@ def game(game_id):
             flash('You Are Not Part Of This Game')
             return redirect(url_for('menu'))
         for ghost in ghostList:
-            if ghost == game.b11:
+            if ghost == game.b31:
                 deadGhosts.remove(ghost)
             elif ghost == game.b21:
                 deadGhosts.remove(ghost)
@@ -1143,7 +1143,7 @@ def game(game_id):
                 deadGhosts.remove(ghost)
             elif ghost == game.b61:
                 deadGhosts.remove(ghost)
-            elif ghost == game.b12:
+            elif ghost == game.b32:
                 deadGhosts.remove(ghost)
             elif ghost == game.b22:
                 deadGhosts.remove(ghost)
@@ -1155,7 +1155,7 @@ def game(game_id):
                 deadGhosts.remove(ghost)
             elif ghost == game.b62:
                 deadGhosts.remove(ghost)
-            elif ghost == game.b13:
+            elif ghost == game.b33:
                 deadGhosts.remove(ghost)
             elif ghost == game.b23:
                 deadGhosts.remove(ghost)
@@ -1167,7 +1167,7 @@ def game(game_id):
                 deadGhosts.remove(ghost)
             elif ghost == game.b63:
                 deadGhosts.remove(ghost)
-            elif ghost == game.b14:
+            elif ghost == game.b34:
                 deadGhosts.remove(ghost)
             elif ghost == game.b24:
                 deadGhosts.remove(ghost)
@@ -1179,7 +1179,7 @@ def game(game_id):
                 deadGhosts.remove(ghost)
             elif ghost == game.b64:
                 deadGhosts.remove(ghost)
-            elif ghost == game.b15:
+            elif ghost == game.b35:
                 deadGhosts.remove(ghost)
             elif ghost == game.b25:
                 deadGhosts.remove(ghost)
@@ -1191,7 +1191,7 @@ def game(game_id):
                 deadGhosts.remove(ghost)
             elif ghost == game.b65:
                 deadGhosts.remove(ghost)
-            elif ghost == game.b16:
+            elif ghost == game.b36:
                 deadGhosts.remove(ghost)
             elif ghost == game.b26:
                 deadGhosts.remove(ghost)
@@ -1235,10 +1235,10 @@ def game(game_id):
             elif userDeadBlue == 4:
                 wonBy = "blue"
                 winner = opponentPlayer
-            elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
+            elif (game.b31[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
                 wonBy = "exit"
                 winner = 1
-            elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
+            elif (game.b36[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
                 wonBy = "exit"
                 winner = 2
             else:
@@ -1267,6 +1267,78 @@ def game(game_id):
             dead = request.form['dead']
             originalLocation = request.form['originalLocation']
             moveID = request.form['playerID']
+            if game.b31 == 'last':
+                game.b31 = ''
+            elif game.b32 == 'last':
+                game.b32 = ''
+            elif game.b33 == 'last':
+                game.b33 = ''
+            elif game.b34 == 'last':
+                game.b34 = ''
+            elif game.b35 == 'last':
+                game.b35 = ''
+            elif game.b36 == 'last':
+                game.b36
+            elif game.b21 == 'last':
+                game.b21 = ''
+            elif game.b22 == 'last':
+                game.b22 = ''
+            elif game.b23 == 'last':
+                game.b23 = ''
+            elif game.b24 == 'last':
+                game.b24 = ''
+            elif game.b25 == 'last':
+                game.b25 = ''
+            elif game.b26 == 'last':
+                game.b26
+            elif game.b31 == 'last':
+                game.b31 = ''
+            elif game.b32 == 'last':
+                game.b32 = ''
+            elif game.b33 == 'last':
+                game.b33 = ''
+            elif game.b34 == 'last':
+                game.b34 = ''
+            elif game.b35 == 'last':
+                game.b35 = ''
+            elif game.b36 == 'last':
+                game.b36
+            elif game.b41 == 'last':
+                game.b41 = ''
+            elif game.b42 == 'last':
+                game.b42 = ''
+            elif game.b43 == 'last':
+                game.b43 = ''
+            elif game.b44 == 'last':
+                game.b44 = ''
+            elif game.b45 == 'last':
+                game.b45 = ''
+            elif game.b46 == 'last':
+                game.b46
+            elif game.b51 == 'last':
+                game.b51 = ''
+            elif game.b52 == 'last':
+                game.b52 = ''
+            elif game.b53 == 'last':
+                game.b53 = ''
+            elif game.b54 == 'last':
+                game.b54 = ''
+            elif game.b55 == 'last':
+                game.b55 = ''
+            elif game.b56 == 'last':
+                game.b56
+            elif game.b61 == 'last':
+                game.b61 = ''
+            elif game.b62 == 'last':
+                game.b62 = ''
+            elif game.b63 == 'last':
+                game.b63 = ''
+            elif game.b64 == 'last':
+                game.b64 = ''
+            elif game.b65 == 'last':
+                game.b65 = ''
+            elif game.b66 == 'last':
+                game.b66
             if moveID == str(userid):
                 for move in moveDict:
                     if game.previousPlayer == 1 or game.previousPlayer == 2:
