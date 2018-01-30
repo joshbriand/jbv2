@@ -228,7 +228,7 @@ $(document).ready(function(){
 	}
 
 	function moveHere(direction) {
-		MOVEDIRECTION = direction;
+		MOVEDIRECTION = direction.data;
 		console.log('move here');
 		console.log(MOVEDIRECTION);
 		for (gridX = 1; gridX <= 6; gridX++) {
