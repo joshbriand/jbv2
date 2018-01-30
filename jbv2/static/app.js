@@ -146,11 +146,11 @@ $(document).ready(function(){
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
 					temp = 'left';
-					$(left).bind('click', attackHere(temp));
+					$(left).bind('click', temp, attackHere);
 				} else {
 					$(left).css('background-color', '#00c161');
 					temp = 'left';
-					$(left).bind('click', moveHere(temp));
+					$(left).bind('click', temp, moveHere);
 				}
 			}
 		}
@@ -162,11 +162,11 @@ $(document).ready(function(){
 				if ($(right).children().attr('id') == 'opponent') {
 					$(right).css('background-color', '#c10000');
 					temp = 'right';
-					$(right).bind('click', attackHere(temp));
+					$(right).bind('click', temp, attackHere);
 				} else {
 					$(right).css('background-color', '#00c161');
 					temp = 'right';
-					$(right).bind('click', moveHere(temp));
+					$(right).bind('click', temp, moveHere);
 				}
 			}
 		}
@@ -178,11 +178,11 @@ $(document).ready(function(){
 				if ($(forward).children().attr('id') == 'opponent') {
 					$(forward).css('background-color', '#c10000');
 					temp = 'up';
-					$(forward).bind('click', attackHere(temp));
+					$(forward).bind('click',temp, attackHere);
 				} else {
 					$(forward).css('background-color', '#00c161');
 					temp = 'up';
-					$(forward).bind('click', moveHere(temp));
+					$(forward).bind('click', temp, moveHere);
 				}
 			}
 		}
@@ -194,11 +194,11 @@ $(document).ready(function(){
 				if ($(backward).children().attr('id') == 'opponent') {
 					$(backward).css('background-color', '#c10000');
 					temp = 'down';
-					$(backward).bind('click', attackHere(temp));
+					$(backward).bind('click', temp, attackHere);
 				} else {
 					$(backward).css('background-color', '#00c161');
 					temp = 'down';
-					$(backward).bind('click', moveHere(temp));
+					$(backward).bind('click', temp, moveHere);
 				}
 			}
 		}
