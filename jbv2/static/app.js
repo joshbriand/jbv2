@@ -4,6 +4,7 @@ $(document).ready(function(){
 	var ghostToMove = '';
 	var originalLocation = '';
 	var ORIGINALLOCATION = '';
+	var MOVEDIRECTION = '';
 
 
 
@@ -32,6 +33,7 @@ $(document).ready(function(){
 		$('#moves').val(moves);
 		$('#dead').val(DEAD);
 		$('#originalLocation').val(ORIGINALLOCATION);
+		$('#moveDirection').val(MOVEDIRECTION);
 	}
 
 	function init() {
@@ -140,6 +142,7 @@ $(document).ready(function(){
 			tempX = x - 1;
 			left = '#b' + tempX + y;
 			if ($(left).children().attr('class') !== 'playerGhost') {
+				MOVEDIRECTION = 'left';
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
 					$(left).bind('click', attackHere);
@@ -154,6 +157,7 @@ $(document).ready(function(){
 			tempX = x + 1;
 			right = '#b' + tempX + y;
 			if ($(right).children().attr('class') !== 'playerGhost') {
+				MOVEDIRECTION = 'right';
 				if ($(right).children().attr('id') == 'opponent') {
 					$(right).css('background-color', '#c10000');
 					$(right).bind('click', attackHere);
@@ -163,11 +167,12 @@ $(document).ready(function(){
 				}
 			}
 		}
-		//forward
+		//up
 		if (y !== 1) {
 			tempY = y - 1;
 			forward = '#b' + x + tempY;
 			if ($(forward).children().attr('class') !== 'playerGhost') {
+				MOVEDIRECTION = 'up';
 				if ($(forward).children().attr('id') == 'opponent') {
 					$(forward).css('background-color', '#c10000');
 					$(forward).bind('click', attackHere);
@@ -177,11 +182,12 @@ $(document).ready(function(){
 				}
 			}
 		}
-		//backward
+		//down
 		if (y !== 6) {
 			tempY = y + 1;
 			backward = '#b' + x + tempY;
 			if ($(backward).children().attr('class') !== 'playerGhost') {
+				MOVEDIRECTION = 'down';
 				if ($(backward).children().attr('id') == 'opponent') {
 					$(backward).css('background-color', '#c10000');
 					$(backward).bind('click', attackHere);

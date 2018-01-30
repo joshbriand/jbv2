@@ -206,15 +206,44 @@ form {
   display: flex;
 }
 
-#last {
-  background-image: url(ghosttokensopac.png);
+#last-up {
+  background-image: url(ghosttokensup.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
   height: 6vw;
   width: 6vw;
   position: relative;
+}
 
+#last-down {
+  background-image: url(ghosttokensdown.png);
+  background-size: contain;
+  vertical-align: middle;
+  margin: auto;
+  height: 6vw;
+  width: 6vw;
+  position: relative;
+}
+
+#last-right {
+  background-image: url(ghosttokensright.png);
+  background-size: contain;
+  vertical-align: middle;
+  margin: auto;
+  height: 6vw;
+  width: 6vw;
+  position: relative;
+}
+
+#last-left {
+  background-image: url(ghosttokensleft.png);
+  background-size: contain;
+  vertical-align: middle;
+  margin: auto;
+  height: 6vw;
+  width: 6vw;
+  position: relative;
 }
 
 #board {
