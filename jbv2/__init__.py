@@ -1265,11 +1265,11 @@ def game(game_id):
             originalLocation = request.form['originalLocation']
             moveID = request.form['playerID']
             moveDirection = request.form['moveDirection']
-            if game.b11[0] == 'l':
+            if str(game.b11).startswith('l'):
                 game.b11 = ''
             elif game.b12[0] == 'l':
                 game.b12 = ''
-            elif game.b13[0] == 'l':
+            elif str(game.b13).startswith('l'):
                 game.b13 = ''
             elif game.b14[0] == 'l':
                 game.b14 = ''
