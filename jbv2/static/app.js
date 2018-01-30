@@ -145,11 +145,9 @@ $(document).ready(function(){
 			if ($(left).children().attr('class') !== 'playerGhost') {
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
-					temp = 'left';
 					$(left).bind('click', 'left', attackHere);
 				} else {
 					$(left).css('background-color', '#00c161');
-					temp = 'left';
 					$(left).bind('click', 'left', moveHere);
 				}
 			}
@@ -161,12 +159,10 @@ $(document).ready(function(){
 			if ($(right).children().attr('class') !== 'playerGhost') {
 				if ($(right).children().attr('id') == 'opponent') {
 					$(right).css('background-color', '#c10000');
-					temp = 'right';
-					$(right).bind('click', temp, attackHere);
+					$(right).bind('click', 'right', attackHere);
 				} else {
 					$(right).css('background-color', '#00c161');
-					temp = 'right';
-					$(right).bind('click', temp, moveHere);
+					$(right).bind('click', 'right', moveHere);
 				}
 			}
 		}
@@ -177,12 +173,10 @@ $(document).ready(function(){
 			if ($(forward).children().attr('class') !== 'playerGhost') {
 				if ($(forward).children().attr('id') == 'opponent') {
 					$(forward).css('background-color', '#c10000');
-					temp = 'up';
-					$(forward).bind('click',temp, attackHere);
+					$(forward).bind('click','up', attackHere);
 				} else {
 					$(forward).css('background-color', '#00c161');
-					temp = 'up';
-					$(forward).bind('click', temp, moveHere);
+					$(forward).bind('click', 'up', moveHere);
 				}
 			}
 		}
@@ -193,12 +187,10 @@ $(document).ready(function(){
 			if ($(backward).children().attr('class') !== 'playerGhost') {
 				if ($(backward).children().attr('id') == 'opponent') {
 					$(backward).css('background-color', '#c10000');
-					temp = 'down';
-					$(backward).bind('click', temp, attackHere);
+					$(backward).bind('click', 'down', attackHere);
 				} else {
 					$(backward).css('background-color', '#00c161');
-					temp = 'down';
-					$(backward).bind('click', temp, moveHere);
+					$(backward).bind('click', 'down', moveHere);
 				}
 			}
 		}
