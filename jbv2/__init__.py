@@ -1267,75 +1267,75 @@ def game(game_id):
             moveDirection = request.form['moveDirection']
             if str(game.b11).startswith('l'):
                 game.b11 = ''
-            elif game.b12[0] == 'l':
+            elif str(game.b12).startswith('l'):
                 game.b12 = ''
             elif str(game.b13).startswith('l'):
                 game.b13 = ''
-            elif game.b14[0] == 'l':
+            elif str(game.b14).startswith('l'):
                 game.b14 = ''
-            elif game.b15[0] == 'l':
+            elif str(game.b15).startswith('l'):
                 game.b15 = ''
-            elif game.b16[0] == 'l':
+            elif str(game.b16).startswith('l'):
                 game.b16 = ''
-            elif game.b21[0] == 'l':
+            elif str(game.b21).startswith('l'):
                 game.b21 = ''
-            elif game.b22[0] == 'l':
+            elif str(game.b22).startswith('l'):
                 game.b22 = ''
-            elif game.b23[0] == 'l':
+            elif str(game.b23).startswith('l'):
                 game.b23 = ''
-            elif game.b24[0] == 'l':
+            elif str(game.b24).startswith('l'):
                 game.b24 = ''
-            elif game.b25[0] == 'l':
+            elif str(game.b25).startswith('l'):
                 game.b25 = ''
-            elif game.b26[0] == 'l':
+            elif str(game.b26).startswith('l'):
                 game.b26 = ''
-            elif game.b31[0] == 'l':
+            elif str(game.b31).startswith('l'):
                 game.b31 = ''
-            elif game.b32[0] == 'l':
+            elif str(game.b32).startswith('l'):
                 game.b32 = ''
-            elif game.b33[0] == 'l':
+            elif str(game.b33).startswith('l'):
                 game.b33 = ''
-            elif game.b34[0] == 'l':
+            elif str(game.b34).startswith('l'):
                 game.b34 = ''
-            elif game.b35[0] == 'l':
+            elif str(game.b35).startswith('l'):
                 game.b35 = ''
-            elif game.b36[0] == 'l':
+            elif str(game.b36).startswith('l'):
                 game.b36 = ''
-            elif game.b41[0] == 'l':
+            elif str(game.b41).startswith('l'):
                 game.b41 = ''
-            elif game.b42[0] == 'l':
+            elif str(game.b42).startswith('l'):
                 game.b42 = ''
-            elif game.b43[0] == 'l':
+            elif str(game.b43).startswith('l'):
                 game.b43 = ''
-            elif game.b44[0] == 'l':
+            elif str(game.b44).startswith('l'):
                 game.b44 = ''
-            elif game.b45[0] == 'l':
+            elif str(game.b45).startswith('l'):
                 game.b45 = ''
-            elif game.b46[0] == 'l':
+            elif str(game.b46).startswith('l'):
                 game.b46 = ''
-            elif game.b51[0] == 'l':
+            elif str(game.b51).startswith('l'):
                 game.b51 = ''
-            elif game.b52[0] == 'l':
+            elif str(game.b52).startswith('l'):
                 game.b52 = ''
-            elif game.b53[0] == 'l':
+            elif str(game.b53).startswith('l'):
                 game.b53 = ''
-            elif game.b54[0] == 'l':
+            elif str(game.b54).startswith('l'):
                 game.b54 = ''
-            elif game.b55[0] == 'l':
+            elif str(game.b55).startswith('l'):
                 game.b55 = ''
-            elif game.b56[0] == 'l':
+            elif str(game.b56).startswith('l'):
                 game.b56 = ''
-            elif game.b61[0] == 'l':
+            elif str(game.b61).startswith('l'):
                 game.b61 = ''
-            elif game.b62[0] == 'l':
+            elif str(game.b62).startswith('l'):
                 game.b62 = ''
-            elif game.b63[0] == 'l':
+            elif str(game.b63).startswith('l'):
                 game.b63 = ''
-            elif game.b64[0] == 'l':
+            elif str(game.b64).startswith('l'):
                 game.b64 = ''
-            elif game.b65[0] == 'l':
+            elif str(game.b65).startswith('l'):
                 game.b65 = ''
-            elif game.b66[0] == 'l':
+            elif str(game.b66).startswith('l'):
                 game.b66 = ''
             if moveID == str(userid):
                 for move in moveDict:
