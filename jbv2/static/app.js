@@ -146,11 +146,11 @@ $(document).ready(function(){
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
 					temp = 'left';
-					$(left).bind('click', temp, attackHere);
+					$(left).bind('click', 'left', attackHere);
 				} else {
 					$(left).css('background-color', '#00c161');
 					temp = 'left';
-					$(left).bind('click', temp, moveHere);
+					$(left).bind('click', 'left', moveHere);
 				}
 			}
 		}
