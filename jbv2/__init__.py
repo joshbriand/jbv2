@@ -1104,9 +1104,6 @@ def menu():
 
 @app.route('/ghosts/game/<int:game_id>/', methods=['GET', 'POST'])
 def game(game_id):
-    ghostList = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
-    deadGhosts = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
-    locationList = ['b11','b21','b31','b41','b51','b61','b22','b22','b32','b42','b52','b62','b13','b23','b33','b43','b53','b63','b14','b24','b34','b44','b54','b64','b15','b25','b35','b45','b55','b65','b16','b26','b36','b46','b56','b66']
     if 'username' in login_session:
         users = session.query(ghostUser)
         users = users.order_by(ghostUser.name.asc())
@@ -1130,118 +1127,121 @@ def game(game_id):
         else:
             flash('You Are Not Part Of This Game')
             return redirect(url_for('menu'))
-        for ghost in ghostList:
-            if ghost == game.b11:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b21:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b31:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b41:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b51:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b61:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b12:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b22:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b32:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b42:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b52:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b62:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b13:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b23:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b33:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b43:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b53:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b63:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b14:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b24:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b34:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b44:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b54:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b64:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b15:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b25:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b35:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b45:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b55:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b65:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b16:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b26:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b36:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b46:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b56:
-                deadGhosts.remove(ghost)
-            elif ghost == game.b66:
-                deadGhosts.remove(ghost)
-        userDeadBlue = 0
-        userDeadYellow = 0
-        opponentDeadBlue = 0
-        opponentDeadYellow = 0
-        for ghost in deadGhosts:
-            if ghost[1] == str(userPlayer) and ghost[2] == 'b':
-                userDeadBlue +=1
-            elif ghost[1] == str(userPlayer) and ghost[2] == 'y':
-                userDeadYellow +=1
-            elif ghost[1] == str(opponentPlayer) and ghost[2] == 'b':
-                opponentDeadBlue +=1
-            elif ghost[1] == str(opponentPlayer) and ghost[2] == 'y':
-                opponentDeadYellow +=1
-        if game.previousPlayer == 0 or game.previousPlayer > 2:
-            winner = ''
-            wonBy = ''
-        else:
-            if userDeadYellow == 4:
-                wonBy = "yellow"
-                winner = userPlayer
-            elif userDeadBlue == 4:
-                wonBy = "blue"
-                winner = opponentPlayer
-            elif opponentDeadYellow == 4:
-                wonBy = "yellow"
-                winner = opponentPlayer
-            elif userDeadBlue == 4:
-                wonBy = "blue"
-                winner = opponentPlayer
-            elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
-                wonBy = "exit"
-                winner = 1
-            elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
-                wonBy = "exit"
-                winner = 2
-            else:
+        if request.method == 'GET':
+            ghostList = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+            deadGhosts = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+            locationList = ['b11','b21','b31','b41','b51','b61','b22','b22','b32','b42','b52','b62','b13','b23','b33','b43','b53','b63','b14','b24','b34','b44','b54','b64','b15','b25','b35','b45','b55','b65','b16','b26','b36','b46','b56','b66']
+            for ghost in ghostList:
+                if ghost == game.b11:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b21:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b31:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b41:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b51:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b61:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b12:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b22:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b32:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b42:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b52:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b62:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b13:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b23:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b33:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b43:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b53:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b63:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b14:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b24:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b34:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b44:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b54:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b64:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b15:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b25:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b35:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b45:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b55:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b65:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b16:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b26:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b36:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b46:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b56:
+                    deadGhosts.remove(ghost)
+                elif ghost == game.b66:
+                    deadGhosts.remove(ghost)
+            userDeadBlue = 0
+            userDeadYellow = 0
+            opponentDeadBlue = 0
+            opponentDeadYellow = 0
+            for ghost in deadGhosts:
+                if ghost[1] == str(userPlayer) and ghost[2] == 'b':
+                    userDeadBlue +=1
+                elif ghost[1] == str(userPlayer) and ghost[2] == 'y':
+                    userDeadYellow +=1
+                elif ghost[1] == str(opponentPlayer) and ghost[2] == 'b':
+                    opponentDeadBlue +=1
+                elif ghost[1] == str(opponentPlayer) and ghost[2] == 'y':
+                    opponentDeadYellow +=1
+            if game.previousPlayer == 0 or game.previousPlayer > 2:
                 winner = ''
                 wonBy = ''
-        if request.method == 'GET':
+            else:
+                if userDeadYellow == 4:
+                    wonBy = "yellow"
+                    winner = userPlayer
+                elif userDeadBlue == 4:
+                    wonBy = "blue"
+                    winner = opponentPlayer
+                elif opponentDeadYellow == 4:
+                    wonBy = "yellow"
+                    winner = opponentPlayer
+                elif userDeadBlue == 4:
+                    wonBy = "blue"
+                    winner = opponentPlayer
+                elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
+                    wonBy = "exit"
+                    winner = 1
+                elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
+                    wonBy = "exit"
+                    winner = 2
+                else:
+                    winner = ''
+                    wonBy = ''
             if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                 flash("Waiting for Opponent's Move, Please Check Back Later")
             return render_template('board.html',
@@ -1356,6 +1356,120 @@ def game(game_id):
                 session.add(game)
                 session.commit()
                 game = session.query(ghostGame).filter(ghostGame.id==game_id).one()
+                ghostList = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+                deadGhosts = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
+                locationList = ['b11','b21','b31','b41','b51','b61','b22','b22','b32','b42','b52','b62','b13','b23','b33','b43','b53','b63','b14','b24','b34','b44','b54','b64','b15','b25','b35','b45','b55','b65','b16','b26','b36','b46','b56','b66']
+                for ghost in ghostList:
+                    if ghost == game.b11:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b21:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b31:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b41:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b51:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b61:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b12:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b22:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b32:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b42:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b52:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b62:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b13:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b23:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b33:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b43:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b53:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b63:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b14:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b24:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b34:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b44:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b54:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b64:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b15:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b25:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b35:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b45:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b55:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b65:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b16:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b26:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b36:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b46:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b56:
+                        deadGhosts.remove(ghost)
+                    elif ghost == game.b66:
+                        deadGhosts.remove(ghost)
+                userDeadBlue = 0
+                userDeadYellow = 0
+                opponentDeadBlue = 0
+                opponentDeadYellow = 0
+                for ghost in deadGhosts:
+                    if ghost[1] == str(userPlayer) and ghost[2] == 'b':
+                        userDeadBlue +=1
+                    elif ghost[1] == str(userPlayer) and ghost[2] == 'y':
+                        userDeadYellow +=1
+                    elif ghost[1] == str(opponentPlayer) and ghost[2] == 'b':
+                        opponentDeadBlue +=1
+                    elif ghost[1] == str(opponentPlayer) and ghost[2] == 'y':
+                        opponentDeadYellow +=1
+                if game.previousPlayer == 0 or game.previousPlayer > 2:
+                    winner = ''
+                    wonBy = ''
+                else:
+                    if userDeadYellow == 4:
+                        wonBy = "yellow"
+                        winner = userPlayer
+                    elif userDeadBlue == 4:
+                        wonBy = "blue"
+                        winner = opponentPlayer
+                    elif opponentDeadYellow == 4:
+                        wonBy = "yellow"
+                        winner = opponentPlayer
+                    elif userDeadBlue == 4:
+                        wonBy = "blue"
+                        winner = opponentPlayer
+                    elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
+                        wonBy = "exit"
+                        winner = 1
+                    elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
+                        wonBy = "exit"
+                        winner = 2
+                    else:
+                        winner = ''
+                        wonBy = ''
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
                 return render_template('board.html',
