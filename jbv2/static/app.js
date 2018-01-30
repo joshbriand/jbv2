@@ -114,7 +114,6 @@ $(document).ready(function(){
 	}
 
 	function showOptions (clickLocation) {
-		MOVEDIRECTION = '';
 		console.log('show options');
 		var left = '';
 		var right = '';
@@ -138,6 +137,10 @@ $(document).ready(function(){
 		$('#p2y2').off('click');
 		$('#p2y3').off('click');
 		$('#p2y4').off('click');
+		$('#last-up').css('display','none');
+		$('#last-down').css('display','none');
+		$('#last-left').css('display','none');
+		$('#last-right').css('display','none');
 		$(ghostToMove).bind('click', moveReset);
 		if (x !== 1) {
 			tempX = x - 1;
@@ -318,6 +321,10 @@ $(document).ready(function(){
 
 	function moveReset() {
 		console.log('move reset');
+		$('#last-up').css('display','block');
+		$('#last-down').css('display','block');
+		$('#last-left').css('display','block');
+		$('#last-right').css('display','block');
 		$(ghostToMove).off('click');
 		$(ghostToMove).bind('click', move);
 		for (gridX = 1; gridX <= 6; gridX++) {
