@@ -249,8 +249,9 @@ $(document).ready(function(){
 	}
 
 	function attackHere(direction) {
-		MOVEDIRECTION = direction;
+		MOVEDIRECTION = direction.data;
 		console.log('attack here');
+		console.log(MOVEDIRECTION);
 		for (gridX = 1; gridX <= 6; gridX++) {
 			for (gridY = 1; gridY <= 6; gridY++) {
 				$('#b' + gridX + gridY).css('background-color','#00c1c1');
