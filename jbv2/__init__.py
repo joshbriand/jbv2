@@ -1355,6 +1355,7 @@ def game(game_id):
                         game.previousPlayer = 2
                 session.add(game)
                 session.commit()
+                game = session.query(ghostGame).filter(ghostGame.id==game_id).one()
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
                 return render_template('board.html',
