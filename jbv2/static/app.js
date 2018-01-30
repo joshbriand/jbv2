@@ -114,6 +114,7 @@ $(document).ready(function(){
 	}
 
 	function showOptions (clickLocation) {
+		MOVEDIRECTION = '';
 		console.log('show options');
 		var left = '';
 		var right = '';
