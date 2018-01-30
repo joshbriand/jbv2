@@ -143,13 +143,12 @@ $(document).ready(function(){
 			tempX = x - 1;
 			left = '#b' + tempX + y;
 			if ($(left).children().attr('class') !== 'playerGhost') {
-				MOVEDIRECTION = 'left';
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
-					$(left).bind('click', attackHere);
+					$(left).bind('click', attackHere('left'));
 				} else {
 					$(left).css('background-color', '#00c161');
-					$(left).bind('click', moveHere);
+					$(left).bind('click', moveHere('left'));
 				}
 			}
 		}
@@ -158,13 +157,12 @@ $(document).ready(function(){
 			tempX = x + 1;
 			right = '#b' + tempX + y;
 			if ($(right).children().attr('class') !== 'playerGhost') {
-				MOVEDIRECTION = 'right';
 				if ($(right).children().attr('id') == 'opponent') {
 					$(right).css('background-color', '#c10000');
-					$(right).bind('click', attackHere);
+					$(right).bind('click', attackHere('right'));
 				} else {
 					$(right).css('background-color', '#00c161');
-					$(right).bind('click', moveHere);
+					$(right).bind('click', moveHere('right'));
 				}
 			}
 		}
@@ -173,13 +171,12 @@ $(document).ready(function(){
 			tempY = y - 1;
 			forward = '#b' + x + tempY;
 			if ($(forward).children().attr('class') !== 'playerGhost') {
-				MOVEDIRECTION = 'up';
 				if ($(forward).children().attr('id') == 'opponent') {
 					$(forward).css('background-color', '#c10000');
-					$(forward).bind('click', attackHere);
+					$(forward).bind('click', attackHere('up'));
 				} else {
 					$(forward).css('background-color', '#00c161');
-					$(forward).bind('click', moveHere);
+					$(forward).bind('click', moveHere('up'));
 				}
 			}
 		}
@@ -188,13 +185,12 @@ $(document).ready(function(){
 			tempY = y + 1;
 			backward = '#b' + x + tempY;
 			if ($(backward).children().attr('class') !== 'playerGhost') {
-				MOVEDIRECTION = 'down';
 				if ($(backward).children().attr('id') == 'opponent') {
 					$(backward).css('background-color', '#c10000');
-					$(backward).bind('click', attackHere);
+					$(backward).bind('click', attackHere('down'));
 				} else {
 					$(backward).css('background-color', '#00c161');
-					$(backward).bind('click', moveHere);
+					$(backward).bind('click', moveHere('down'));
 				}
 			}
 		}
@@ -223,7 +219,8 @@ $(document).ready(function(){
 		startingTurnComplete();
 	}
 
-	function moveHere() {
+	function moveHere(direction) {
+		MOVEDIRECTION = direction;
 		console.log('move here');
 		for (gridX = 1; gridX <= 6; gridX++) {
 			for (gridY = 1; gridY <= 6; gridY++) {
@@ -247,7 +244,8 @@ $(document).ready(function(){
 		}
 	}
 
-	function attackHere() {
+	function attackHere(direction) {
+		MOVEDIRECTION = direction;
 		console.log('attack here');
 		for (gridX = 1; gridX <= 6; gridX++) {
 			for (gridY = 1; gridY <= 6; gridY++) {
