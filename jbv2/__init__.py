@@ -1265,77 +1265,77 @@ def game(game_id):
             originalLocation = request.form['originalLocation']
             moveID = request.form['playerID']
             moveDirection = request.form['moveDirection']
-            if game.b11[0:5] == 'last':
+            if game.b11[0] == 'l':
                 game.b11 = ''
-            elif game.b12[0:5] == 'last':
+            elif game.b12[0] == 'l':
                 game.b12 = ''
-            elif game.b13[0:5] == 'last':
+            elif game.b13[0] == 'l':
                 game.b13 = ''
-            elif game.b14[0:5] == 'last':
+            elif game.b14[0] == 'l':
                 game.b14 = ''
-            elif game.b15[0:5] == 'last':
+            elif game.b15[0] == 'l':
                 game.b15 = ''
-            elif game.b16[0:5] == 'last':
+            elif game.b16[0] == 'l':
                 game.b16
-            elif game.b21[0:5] == 'last':
+            elif game.b21[0] == 'l':
                 game.b21 = ''
-            elif game.b22[0:5] == 'last':
+            elif game.b22[0] == 'l':
                 game.b22 = ''
-            elif game.b23[0:5] == 'last':
+            elif game.b23[0] == 'l':
                 game.b23 = ''
-            elif game.b24[0:5] == 'last':
+            elif game.b24[0] == 'l':
                 game.b24 = ''
-            elif game.b25[0:5] == 'last':
+            elif game.b25[0] == 'l':
                 game.b25 = ''
-            elif game.b26[0:5] == 'last':
+            elif game.b26[0] == 'l':
                 game.b26
-            elif game.b31[0:5] == 'last':
+            elif game.b31[0] == 'l':
                 game.b31 = ''
-            elif game.b32[0:5] == 'last':
+            elif game.b32[0] == 'l':
                 game.b32 = ''
-            elif game.b33[0:5] == 'last':
+            elif game.b33[0] == 'l':
                 game.b33 = ''
-            elif game.b34[0:5] == 'last':
+            elif game.b34[0] == 'l':
                 game.b34 = ''
-            elif game.b35[0:5] == 'last':
+            elif game.b35[0] == 'l':
                 game.b35 = ''
-            elif game.b36[0:5] == 'last':
+            elif game.b36[0] == 'l':
                 game.b36
-            elif game.b41[0:5] == 'last':
+            elif game.b41[0] == 'l':
                 game.b41 = ''
-            elif game.b42[0:5] == 'last':
+            elif game.b42[0] == 'l':
                 game.b42 = ''
-            elif game.b43[0:5] == 'last':
+            elif game.b43[0] == 'l':
                 game.b43 = ''
-            elif game.b44[0:5] == 'last':
+            elif game.b44[0] == 'l':
                 game.b44 = ''
-            elif game.b45[0:5] == 'last':
+            elif game.b45[0] == 'l':
                 game.b45 = ''
-            elif game.b46[0:5] == 'last':
+            elif game.b46[0] == 'l':
                 game.b46
-            elif game.b51[0:5] == 'last':
+            elif game.b51[0] == 'l':
                 game.b51 = ''
-            elif game.b52[0:5] == 'last':
+            elif game.b52[0] == 'l':
                 game.b52 = ''
-            elif game.b53[0:5] == 'last':
+            elif game.b53[0] == 'l':
                 game.b53 = ''
-            elif game.b54[0:5] == 'last':
+            elif game.b54[0] == 'l':
                 game.b54 = ''
-            elif game.b55[0:5] == 'last':
+            elif game.b55[0] == 'l':
                 game.b55 = ''
-            elif game.b56[0:5] == 'last':
+            elif game.b56[0] == 'l':
                 game.b56
-            elif game.b61[0:5] == 'last':
+            elif game.b61[0] == 'l':
                 game.b61 = ''
-            elif game.b62[0:5] == 'last':
+            elif game.b62[0] == 'l':
                 game.b62 = ''
-            elif game.b63[0:5] == 'last':
+            elif game.b63[0] == 'l':
                 game.b63 = ''
-            elif game.b64[0:5] == 'last':
+            elif game.b64[0] == 'l':
                 game.b64 = ''
-            elif game.b65[0:5] == 'last':
+            elif game.b65[0] == 'l':
                 game.b65 = ''
-            elif game.b66[0:5] == 'last':
+            elif game.b66[0] == 'l':
                 game.b66
             if moveID == str(userid):
                 for move in moveDict:
