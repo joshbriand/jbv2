@@ -145,10 +145,12 @@ $(document).ready(function(){
 			if ($(left).children().attr('class') !== 'playerGhost') {
 				if ($(left).children().attr('id') == 'opponent') {
 					$(left).css('background-color', '#c10000');
-					$(left).bind('click', attackHere('left'));
+					temp = 'left';
+					$(left).bind('click', attackHere(temp));
 				} else {
 					$(left).css('background-color', '#00c161');
-					$(left).bind('click', moveHere('left'));
+					temp = 'left';
+					$(left).bind('click', moveHere(temp));
 				}
 			}
 		}
@@ -159,10 +161,12 @@ $(document).ready(function(){
 			if ($(right).children().attr('class') !== 'playerGhost') {
 				if ($(right).children().attr('id') == 'opponent') {
 					$(right).css('background-color', '#c10000');
-					$(right).bind('click', attackHere('right'));
+					temp = 'right';
+					$(right).bind('click', attackHere(temp));
 				} else {
 					$(right).css('background-color', '#00c161');
-					$(right).bind('click', moveHere('right'));
+					temp = 'right';
+					$(right).bind('click', moveHere(temp));
 				}
 			}
 		}
@@ -173,10 +177,12 @@ $(document).ready(function(){
 			if ($(forward).children().attr('class') !== 'playerGhost') {
 				if ($(forward).children().attr('id') == 'opponent') {
 					$(forward).css('background-color', '#c10000');
-					$(forward).bind('click', attackHere('up'));
+					temp = 'up';
+					$(forward).bind('click', attackHere(temp));
 				} else {
 					$(forward).css('background-color', '#00c161');
-					$(forward).bind('click', moveHere('up'));
+					temp = 'up';
+					$(forward).bind('click', moveHere(temp));
 				}
 			}
 		}
@@ -187,10 +193,12 @@ $(document).ready(function(){
 			if ($(backward).children().attr('class') !== 'playerGhost') {
 				if ($(backward).children().attr('id') == 'opponent') {
 					$(backward).css('background-color', '#c10000');
-					$(backward).bind('click', attackHere('down'));
+					temp = 'down';
+					$(backward).bind('click', attackHere(temp));
 				} else {
 					$(backward).css('background-color', '#00c161');
-					$(backward).bind('click', moveHere('down'));
+					temp = 'down';
+					$(backward).bind('click', moveHere(temp));
 				}
 			}
 		}
