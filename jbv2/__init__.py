@@ -1276,7 +1276,7 @@ def game(game_id):
             elif game.b15[0] == 'l':
                 game.b15 = ''
             elif game.b16[0] == 'l':
-                game.b16
+                game.b16 = ''
             elif game.b21[0] == 'l':
                 game.b21 = ''
             elif game.b22[0] == 'l':
@@ -1288,7 +1288,7 @@ def game(game_id):
             elif game.b25[0] == 'l':
                 game.b25 = ''
             elif game.b26[0] == 'l':
-                game.b26
+                game.b26 = ''
             elif game.b31[0] == 'l':
                 game.b31 = ''
             elif game.b32[0] == 'l':
@@ -1300,7 +1300,7 @@ def game(game_id):
             elif game.b35[0] == 'l':
                 game.b35 = ''
             elif game.b36[0] == 'l':
-                game.b36
+                game.b36 = ''
             elif game.b41[0] == 'l':
                 game.b41 = ''
             elif game.b42[0] == 'l':
@@ -1312,7 +1312,7 @@ def game(game_id):
             elif game.b45[0] == 'l':
                 game.b45 = ''
             elif game.b46[0] == 'l':
-                game.b46
+                game.b46 = ''
             elif game.b51[0] == 'l':
                 game.b51 = ''
             elif game.b52[0] == 'l':
@@ -1324,7 +1324,7 @@ def game(game_id):
             elif game.b55[0] == 'l':
                 game.b55 = ''
             elif game.b56[0] == 'l':
-                game.b56
+                game.b56 = ''
             elif game.b61[0] == 'l':
                 game.b61 = ''
             elif game.b62[0] == 'l':
@@ -1336,7 +1336,7 @@ def game(game_id):
             elif game.b65[0] == 'l':
                 game.b65 = ''
             elif game.b66[0] == 'l':
-                game.b66
+                game.b66 = ''
             if moveID == str(userid):
                 for move in moveDict:
                     if game.previousPlayer == 1 or game.previousPlayer == 2:
