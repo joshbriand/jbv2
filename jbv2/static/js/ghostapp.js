@@ -6,8 +6,6 @@ $(document).ready(function(){
 	var ORIGINALLOCATION = '';
 	var MOVEDIRECTION = '';
 
-
-
 	function escapeOn(fn) {
 		$(document).on('keyup', function(evt) {
 			if (evt.keyCode == 27) {
@@ -115,7 +113,7 @@ $(document).ready(function(){
 
 	function showOptions (clickLocation) {
 		console.log('show options');
-		var left = '';
+		var  = '';
 		var right = '';
 		var forward = '';
 		var backward = '';

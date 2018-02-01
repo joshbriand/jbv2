@@ -1225,7 +1225,7 @@ def game(game_id):
                     opponentDeadBlue +=1
                 elif ghost[1] == str(opponentPlayer) and ghost[2] == 'y':
                     opponentDeadYellow +=1
-            if game.previousPlayer == 0 or game.previousPlayer > 2:
+            if game.previousPlayer != 9 and (game.previousPlayer == 0 or game.previousPlayer > 2):
                 winner = ''
                 wonBy = ''
             else:
