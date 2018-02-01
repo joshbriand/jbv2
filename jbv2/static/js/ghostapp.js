@@ -113,7 +113,7 @@ $(document).ready(function(){
 
 	function showOptions (clickLocation) {
 		console.log('show options');
-		var  = '';
+		var left = '';
 		var right = '';
 		var forward = '';
 		var backward = '';
