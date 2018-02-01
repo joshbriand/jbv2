@@ -1258,7 +1258,7 @@ def game(game_id):
                     wonBy = ''
                 if winner != '':
                     date = datetime.now()
-                    new_game = ghostGame(
+                    new_game = ghostComplete(
                         gameid=game.id,
                         player1id=game.player1id,
                         player2id=game.player2id,
