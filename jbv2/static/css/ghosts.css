@@ -76,7 +76,7 @@
 }
 
 #p1b1, #p1b2, #p1b3, #p1b4, #p1y1, #p1y2, #p1y3, #p1y4, #p2b1, #p2b2, #p2b3, #p2b4, #p2y1, #p2y2, #p2y3, #p2y4 {
-  background-image: url(ghosttokensback.png);
+  background-image: url(../img/ghosttokensback.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
@@ -86,7 +86,7 @@
 }
 
 #opponent {
-  background-image: url(ghosttokensface.png);
+  background-image: url(../img/ghosttokensface.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
@@ -207,7 +207,7 @@ form {
 }
 
 #last-up {
-  background-image: url(ghosttokensup.png);
+  background-image: url(../img/ghosttokensup.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
@@ -217,7 +217,7 @@ form {
 }
 
 #last-down {
-  background-image: url(ghosttokensdown.png);
+  background-image: url(../img/ghosttokensdown.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
@@ -227,7 +227,7 @@ form {
 }
 
 #last-right {
-  background-image: url(ghosttokensright.png);
+  background-image: url(../img/ghosttokensright.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;
@@ -237,7 +237,7 @@ form {
 }
 
 #last-left {
-  background-image: url(ghosttokensleft.png);
+  background-image: url(../img/ghosttokensleft.png);
   background-size: contain;
   vertical-align: middle;
   margin: auto;

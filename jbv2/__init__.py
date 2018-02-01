@@ -97,6 +97,12 @@ def showIndexPage():
     if request.method == 'GET':
         return render_template('index.html')
 
+@app.route('/vikinghill', methods=['GET'])
+def showVikingHillPage():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('viking.html')
+
 @app.route('/breweries', methods=['GET'])
 def showBreweriesPage():
     '''Handler for brewery web app.'''

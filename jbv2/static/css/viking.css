@@ -1,0 +1,305 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.row {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.side {
+  width: 4.16vw;
+}
+
+.contactSide {
+  width: 0;
+}
+
+.between {
+  width: 8.33vw;
+}
+
+.subheader {
+  width: 12.495vw;
+}
+
+.words-rest {
+  width: 12.515vw;
+}
+
+.yoga-rest {
+  width: 20.835vw;
+}
+
+.bumper {
+  width: 6vw;
+}
+
+.photo-spacer {
+  width: 3.5vw;
+}
+
+.photo-container {
+  max-width: 27vw;
+  max-height: 62vh;
+}
+
+.photo {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.half {
+  width: 4.16vw;
+}
+
+.col-1 {
+  width: 8.33vw;
+}
+
+.col-2 {
+  width: 16.67vw;
+}
+
+.col-3 {
+  width: 25vw;
+}
+
+.col-4 {
+  width: 33.33vw;
+}
+
+.col-5 {
+  width: 41.67vw;
+}
+
+.col-6 {
+  width: 50vw;
+}
+
+.col-7 {
+  width: 58.33vw;
+}
+
+.col-8 {
+  width: 66.67vw;
+}
+
+.col-9 {
+  width: 75vw;
+}
+
+.col-10 {
+  width: 83.33vw;
+}
+
+.col-11 {
+  width: 91.67vw;
+}
+
+.col-12 {
+  width: 100vw;
+}
+
+body {
+  margin: 0px;
+  margin: 0px;
+  font-family: Helvetica;
+  background-image: url(../img/background.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow-y: hidden;
+ }
+
+ h1, h2 {
+   margin: 0;
+ }
+
+#reallyBlank {
+ height: 4vh;
+}
+
+#topHeader {
+  height: 19vh;
+  display: table;
+  background: rgba(255,255,255,1);
+}
+
+#vikingHill, #blank, #circles {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#bottomHeader {
+  height: 6vh;
+  display: table;
+  background: rgba(255,255,255,.6);
+}
+
+#spacerHeader {
+ height: 4vh;
+ display: table;
+}
+
+#artHeader, #wordsHeader, #yogaHeader {
+  display: none;
+  height: 5vh;
+}
+
+#art-photos, #art-tangible, #words-blog, #words-thoughts, #words-stories, #yoga-schedule {
+  display: table-cell;
+  height: 4vh;
+  vertical-align: middle;
+  text-align: left;
+  background: rgba(255,255,255,.6);
+  font-family: 'Libre Baskerville', serif;
+  font-weight: bold;
+}
+
+#photosSubHeader {
+  position: fixed;
+  top:29;
+  left:0;
+  display: none;
+}
+
+#art-photos-all, #art-photos-ir, #art-photos-normal {
+  display: table-cell;
+  height: 4vh;
+  vertical-align: middle;
+  text-align: left;
+  color: white;
+  background: rgba(0,0,0,.6);
+  font-family: 'Libre Baskerville', serif;
+  font-weight: bold;
+}
+
+#art, #words, #yoga, #contact {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+  font-weight: bold;
+  font-family: 'Libre Baskerville', serif;
+}
+
+#slider {
+  height: 10vh;
+  display: table;
+  background: rgba(255,255,255,.7);
+}
+
+#welcome {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 3.5vw;
+  font-weight: 100;
+}
+
+#siteContent {
+  height: 55vh;
+  display: flex;
+}
+
+#art-photos-all-content, #art-tangible-content {
+  display: none;
+  margin: auto;
+  max-width: 88vw;
+  height: 62vh;
+  border-style: solid;
+  border-width: 2px;
+  border-color: yellow;
+}
+
+#words-blog-content, #words-stories-content, #words-thoughts-content {
+  display: none;
+  margin: auto;
+  max-width: 88vw;
+  height: 62vh;
+  border-style: solid;
+  border-width: 2px;
+  border-color: yellow;
+  background: rgba(255,255,255,.6);
+}
+
+
+
+#slogan {
+	height: 81vh;
+	display: table;
+	position: absolute;
+}
+
+#actualSlogan {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-size: 11vh;
+  font-family: Brush Script MT;
+  text-shadow: 2px 2px black;
+}
+
+
+
+
+
+
+#contactLink, #merchLink, #webDevLink, #portfolioLink {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  background: rgba(255,255,255,.75);
+}
+#joshbriand, #navSpacer {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+  font-family: Brush Script MT;
+  font-size: 3.5vh;
+  padding-left: 25px;
+  background: rgba(255,255,255,.75);
+}
+
+#slideTitles {
+  display: table;
+}
+
+#content {
+  text-align: center;
+  font-size: 2.25vh;
+  background: rgba(255,255,255,.85);
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+  flex-wrap: wrap;
+  max-height: 65vh;
+  min-height: 20px;
+  overflow-y: hidden;
+}
+
+#mobileBottom {
+  height: 0vh;
+}
+
+#desktopTop {
+  height: 8vh;
+}
+
+#spacer {
+  height: 8vh;
+}
+
+#mobileSpacer {
+  display: none;
+}
