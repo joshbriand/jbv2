@@ -1120,12 +1120,14 @@ def game(game_id):
         print "previous player " + str(game.previousPlayer)
         if user.id == game.player1id:
             opponent = users.filter_by(id=game.player2id).one()
+            opponentid = opponent.id
             opponentPlayer = 2
             startingVal = 20
             opponentStartingVal = 10
             userPlayer = 1
         elif user.id == game.player2id:
             opponent = users.filter_by(id=game.player1id).one()
+            opponentid = opponent.id
             opponentPlayer = 1
             startingVal = 10
             opponentStartingVal = 20
@@ -1230,24 +1232,46 @@ def game(game_id):
                 if userDeadYellow == 4:
                     wonBy = "yellow"
                     winner = userPlayer
+                    winnerid = userid
                 elif userDeadBlue == 4:
                     wonBy = "blue"
                     winner = opponentPlayer
+                    winnerid = opponentid
                 elif opponentDeadYellow == 4:
                     wonBy = "yellow"
                     winner = opponentPlayer
-                elif userDeadBlue == 4:
+                    winnerid = opponentid
+                elif opponentDeadBlue == 4:
                     wonBy = "blue"
-                    winner = opponentPlayer
+                    winner = userPlayer
+                    winnerid = userid
                 elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
                     wonBy = "exit"
                     winner = 1
+                    winnerid = game.player1id
                 elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
                     wonBy = "exit"
                     winner = 2
+                    winnerid = game.player2id
                 else:
                     winner = ''
                     wonBy = ''
+                if winnier !== '':
+                    date = datetime.now()
+                    new_game = ghostGame(
+                        gameid=game.id,
+                        player1id=game.player1id,
+                        player2id=game.player2id,
+                        winnerid=winnerid,
+                        completed=date,
+                        date=date,
+                        won=wonBy)
+                    session.add(complete_game)
+                    session.commit()
+
+
+
+
             if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                 flash("Waiting for Opponent's Move, Please Check Back Later")
             return render_template('board.html',
