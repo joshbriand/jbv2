@@ -84,6 +84,8 @@
 									{% if player.name != playerUsername and player.id == game.player1id %}
 										{% if game.previousPlayer == 1 %}
 											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}**Your turn**<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt1--></option>
+										{% elif game.previousPlayer == 9 %}
+											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}**Game ended**<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt1--></option>	
 										{% else  %}
 											<option value="{{ game.id }}">Game #{{ game.id }} vs {{ player.name }}<!-- prev:{{game.previousPlayer}} player1: {{game.player1id}} user: {{userid}} opt2--></option>
 										{% endif %}
