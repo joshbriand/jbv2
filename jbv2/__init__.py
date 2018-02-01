@@ -1256,7 +1256,7 @@ def game(game_id):
                 else:
                     winner = ''
                     wonBy = ''
-                if winnier !== '':
+                if winner != '':
                     date = datetime.now()
                     new_game = ghostGame(
                         gameid=game.id,
