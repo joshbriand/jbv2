@@ -57,7 +57,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2b1"><div class="blue"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2b1" in deadGhosts %}
 									<div class="playerGhost" id="p2b1"><div class="blue"></div></div>
@@ -76,7 +76,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2b2"><div class="blue"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2b2" in deadGhosts %}
 									<div class="playerGhost" id="p2b2"><div class="blue"></div></div>
@@ -97,7 +97,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2b3"><div class="blue"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2b3" in deadGhosts %}
 									<div class="playerGhost" id="p2b3"><div class="blue"></div></div>
@@ -116,7 +116,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2b4"><div class="blue"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2b4" in deadGhosts %}
 									<div class="playerGhost" id="p2b4"><div class="blue"></div></div>
@@ -137,7 +137,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2y1"><div class="yellow"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2y1" in deadGhosts %}
 									<div class="playerGhost" id="p2y1"><div class="yellow"></div></div>
@@ -156,7 +156,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2y2"><div class="yellow"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2y2" in deadGhosts %}
 									<div class="playerGhost" id="p2y2"><div class="yellow"></div></div>
@@ -177,7 +177,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2y3"><div class="yellow"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2y3" in deadGhosts %}
 									<div class="playerGhost" id="p2y3"><div class="yellow"></div></div>
@@ -196,7 +196,7 @@
 							{% else %}
 								<div class="playerGhost" id="p2y4"><div class="yellow"></div></div>
 							{% endif %}
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p2y4" in deadGhosts %}
 									<div class="playerGhost" id="p2y4"><div class="yellow"></div></div>
@@ -1106,7 +1106,7 @@
 					<td class="col-1" id="s-1-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1b1" in deadGhosts %}
 									<div class="playerGhost" id="p1b1"><div class="blue"></div></div>
@@ -1121,7 +1121,7 @@
 					<td class="col-1" id="s-2-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1b2" in deadGhosts %}
 									<div class="playerGhost" id="p1b2"><div class="blue"></div></div>
@@ -1138,7 +1138,7 @@
 					<td class="col-1" id="s-3-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1b3" in deadGhosts %}
 									<div class="playerGhost" id="p1b3"><div class="blue"></div></div>
@@ -1153,7 +1153,7 @@
 					<td class="col-1" id="s-4-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1b4" in deadGhosts %}
 									<div class="playerGhost" id="p1b4"><div class="blue"></div></div>
@@ -1170,7 +1170,7 @@
 					<td class="col-1" id="s-5-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1y1" in deadGhosts %}
 									<div class="playerGhost" id="p1y1"><div class="yellow"></div></div>
@@ -1185,7 +1185,7 @@
 					<td class="col-1" id="s-6-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1y2" in deadGhosts %}
 									<div class="playerGhost" id="p1y2"><div class="yellow"></div></div>
@@ -1202,7 +1202,7 @@
 					<td class="col-1" id="s-7-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1y3" in deadGhosts %}
 									<div class="playerGhost" id="p1y3"><div class="yellow"></div></div>
@@ -1217,7 +1217,7 @@
 					<td class="col-1" id="s-8-opponent">
 						{% if game.previousPlayer == 0 or game.previousPlayer == opponentStartingVal %}
 							<div id="opponent"></div>
-						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 %}
+						{% elif game.previousPlayer == 1 or game.previousPlayer == 2 or game.previousPlayer == 9 %}
 							{% if userPlayer == 1 %}
 								{% if "p1y4" in deadGhosts %}
 									<div class="playerGhost" id="p1y4"><div class="yellow"></div></div>
