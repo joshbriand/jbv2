@@ -1256,21 +1256,20 @@ def game(game_id):
                 else:
                     winner = ''
                     wonBy = ''
-                if winner != '':
+                if winner != '' and game.previousPlayer != 9:
                     date = datetime.now()
-                    new_game = ghostComplete(
+                    complete_game = ghostComplete(
                         gameid=game.id,
                         player1id=game.player1id,
                         player2id=game.player2id,
                         winnerid=winnerid,
                         completed=date,
-                        date=date,
                         won=wonBy)
                     session.add(complete_game)
                     session.commit()
-
-
-
+                    game.previousPlayer = 9
+                    session.add(game)
+                    session.commit()
 
             if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                 flash("Waiting for Opponent's Move, Please Check Back Later")
