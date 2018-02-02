@@ -1525,7 +1525,7 @@ def game(game_id):
                 print opponent.notifications
                 print game.previousPlayer
                 print opponentPlayer
-                if game.previousPlayer == opponentPlayer and opponent.notifications == 'on' and opponent.email != 'none':
+                if game.previousPlayer == userPlayer and opponent.notifications == 'on' and opponent.email != 'none':
                     print "email attempted"
                     me = 'joshbriand@gmail.com'
                     you = opponent.email
