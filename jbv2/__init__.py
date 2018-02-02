@@ -16,7 +16,9 @@ import ast
 import requests
 import psycopg2
 import re, hmac
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
@@ -1481,24 +1483,57 @@ def game(game_id):
                     if userDeadYellow == 4:
                         wonBy = "yellow"
                         winner = userPlayer
+                        winnerid = userid
                     elif userDeadBlue == 4:
                         wonBy = "blue"
                         winner = opponentPlayer
+                        winnerid = opponentid
                     elif opponentDeadYellow == 4:
                         wonBy = "yellow"
                         winner = opponentPlayer
+                        winnerid = opponentid
                     elif userDeadBlue == 4:
                         wonBy = "blue"
-                        winner = opponentPlayer
+                        winner = userplayer
+                        winnerid = userid
                     elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
                         wonBy = "exit"
                         winner = 1
+                        winnerid = game.player1id
                     elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
                         wonBy = "exit"
                         winner = 2
+                        winnerid = game.player2id
                     else:
                         winner = ''
                         wonBy = ''
+                if winner != '' and game.previousPlayer != 9:
+                    date = datetime.now()
+                    complete_game = ghostComplete(
+                        gameid=game.id,
+                        player1id=game.player1id,
+                        player2id=game.player2id,
+                        winnerid=winnerid,
+                        completed=date,
+                        won=wonBy)
+                    session.add(complete_game)
+                    session.commit()
+                    game.previousPlayer = 9
+                    session.add(game)
+                    session.commit()
+                if game.previousPlayer == opponentPlayer and opponent.notifications == 'on' and opponent.email != 'none':
+                    me = 'joshbriand@gmail.com'
+                    you = opponent.email
+                    msg = MIMEMultipart('alternative')
+                    msg['Subject'] = "Ghosts Turn Update"
+                    msg['From'] = me
+                    msg['To'] = you
+                    text = "Hi %s!\nIt's your turn in Ghosts game #%s against %s" %(opponent.name,game.id,user.name)
+                    part1 = MIMEText(text, 'plain')
+                    msg.attach(part1)
+                    s = smtplib.SMTP('localhost')
+                    s.sendmail(me, you, msg.as_string())
+                    s.quit()
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
                 return render_template('board.html',
