@@ -1522,6 +1522,9 @@ def game(game_id):
                     session.add(game)
                     session.commit()
                 print opponent.email
+                print opponent.notifications
+                print game.previousPlayer
+                print opponentPlayer
                 if game.previousPlayer == opponentPlayer and opponent.notifications == 'on' and opponent.email != 'none':
                     print "email attempted"
                     me = 'joshbriand@gmail.com'
