@@ -1536,9 +1536,9 @@ def game(game_id):
                     text = "Hi %s!\nIt's your turn in Ghosts game #%s against %s" %(opponent.name,game.id,user.name)
                     part1 = MIMEText(text, 'plain')
                     msg.attach(part1)
-                    s = smtplib.SMTP('localhost')
-                    s.sendmail(me, you, msg.as_string())
-                    s.quit()
+                    #s = smtplib.SMTP('localhost')
+                    #s.sendmail(me, you, msg.as_string())
+                    #s.quit()
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
                 return render_template('board.html',
