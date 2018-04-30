@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Show Settlement</title>
+	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+</head>
+
+<body>
+	<div>
+		Gross Sales
+		<input id="gross" type="text"></input>
+	</div>
+	<div>
+		Artist has GST number?
+		<input id="artist-gst-number" type="checkbox"></input>
+	</div>
+	<div>
+		<input id="submit" value="go" type="submit"></input>
+	</div>
+	<div>
+		GST - 5% <span id="gst"></span>
+	</div>
+	<div>
+		PST - 7% <span id="pst"></span>
+	</div>
+	<div>
+		Adjusted Gross <span id="adjusted"></span>
+	</div>
+	<div>
+		Artist - 80% <span id="artist"></span>
+	</div>
+	<div>
+	 	Venue- 20% <span id="venue"></span>
+	</div>
+
+	<br>
+	<div>
+		<b><u>Artist Take</u></b>
+		<br>
+		GST <span id="artist-gst"></span>
+		<br>
+		PST <span id="artist-pst"></span>
+		<br>
+		Artist - 80% <span id="artist-80"></span>
+		<br>
+		<b>Net to Artist <span id="artist-net"></span></b>
+	</div>
+	<br>
+	<div>
+		<b><u>Venue Take</u></b>
+		<br>
+		GST <span id="venue-gst"></span>
+		<br>
+		PST <span id="venue-pst"></span>
+		<br>
+		Venue - 20% <span id="venue-20"></span>
+		<br>
+		<b>Net to venue <span id="venue-net"></span></b>
+	</div>
+<!--
+	<script type="text/javascript" src="../static/js/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/settlement.js"></script>
+-->
+<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/settlement.js') }}"></script>
+
+</body>
+
+</html>
