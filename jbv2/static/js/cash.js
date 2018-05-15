@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 	function calculate() {
 		console.log('calculate');
-		if $('#gross').val() {
+		if ($('#gross').val()) {
 			hundreds = parseFloat($('#gross').val());
 		}
 		else {
