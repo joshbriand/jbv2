@@ -16,7 +16,7 @@ $(document).ready(function(){
 		hundreds_num = parseFloat(hundreds);
 		hundreds_value = hundreds_num * 100;
 		console.log(hundreds_value);
-		hundreds_float_value_2 = (hundreds_num * 100).toFixed(2);
+		hundreds_float_value_2 = parseFloat(hundreds * 100).toFixed(2);
 		console.log(hundreds_float_value_2);
 		$('#artist-net').text('$' + artist_net.toFixed(2));
 	}
