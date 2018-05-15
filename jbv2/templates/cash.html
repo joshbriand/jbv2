@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Show Settlement</title>
+	<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>Denomination</td>
+			<td>Quantity</td>
+			<td>Dollar Value</td>
+		</tr>
+		<tr>
+			<td>$100</td>
+			<td><input id="hundreds" type="text"></input></td>
+			<td id="hundreds-value"></td>
+		</tr>
+		<tr>
+			<td>$50</td>
+			<td><input id="fifties" type="text"></input></td>
+			<td id="fifties-value"></td>
+		</tr>
+		<tr>
+			<td>$20</td>
+			<td><input id="twenties" type="text"></input></td>
+			<td id="twenties-value"></td>
+		</tr>
+		<tr>
+			<td>$10</td>
+			<td><input id="tens" type="text"></input></td>
+			<td id="tens-value"></td>
+		</tr>
+		<tr>
+			<td>$5</td>
+			<td><input id="fives" type="text"></input></td>
+			<td id="fives-value"></td>
+		</tr>
+		<tr>
+			<td>$2</td>
+			<td><input id="twoonies" type="text"></input></td>
+			<td id="twoonies-value"></td>
+		</tr>
+		<tr>
+			<td>$1</td>
+			<td><input id="loonies" type="text"></input></td>
+			<td id="loonies-value"></td>
+		</tr>
+		<tr>
+			<td>$0.25</td>
+			<td><input id="quarters" type="text"></input></td>
+			<td id="quarters-value"></td>
+		</tr>
+		<tr>
+			<td>$0.10</td>
+			<td><input id="dimes" type="text"></input></td>
+			<td id="dimes-value"></td>
+		</tr>
+		<tr>
+			<td>$0.05</td>
+			<td><input id="nickels" type="text"></input></td>
+			<td id="nickels-value"></td>
+		</tr>
+		<tr>
+			<td>$0.01</td>
+			<td><input id="pennies" type="text"></input></td>
+			<td id="pennies-value"></td>
+		</tr>
+		<tr>
+			<th>Total</th>
+			<th></th>
+			<td id="total-value"></td>
+		</tr>
+	</table>
+	<div>
+		<input id="submit" value="go" type="submit"></input>
+	</div>
+
+<!--
+	<script type="text/javascript" src="../static/js/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/settlement.js"></script>
+-->
+	<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/cash.js') }}"></script>
+
+</body>
+
+</html>

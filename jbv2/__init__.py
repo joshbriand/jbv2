@@ -111,6 +111,12 @@ def showMerchandiseSettlement():
     if request.method == 'GET':
         return render_template('settlement.html')
 
+@app.route('/cash', methods=['GET'])
+def showCashCounter():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('cash.html')
+
 @app.route('/breweries', methods=['GET'])
 def showBreweriesPage():
     '''Handler for brewery web app.'''
