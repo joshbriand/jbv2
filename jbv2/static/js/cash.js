@@ -12,13 +12,122 @@ $(document).ready(function(){
 		else {
 			hundreds = 0;
 		}
-		console.log(hundreds);
-		hundreds_num = parseFloat(hundreds);
-		hundreds_value = hundreds_num * 100;
-		console.log(hundreds_value);
-		hundreds_float_value_2 = parseFloat(hundreds * 100).toFixed(2);
-		console.log(hundreds_float_value_2);
-		$('#artist-net').text('$' + artist_net.toFixed(2));
+		hundreds_value = parseFloat(hundreds * 100).toFixed(2);
+		$('#hundreds-value').text('$' + hundreds_value);
+
+		//hundreds
+		if ($('#hundreds').val()) {
+			hundreds = $('#hundreds').val();
+		}
+		else {
+			hundreds = 0;
+		}
+		hundreds_value = parseFloat(hundreds * 100).toFixed(2);
+		$('#hundreds-value').text('$' + hundreds_value);
+
+		//fifties
+		if ($('#fifties').val()) {
+			fifties = $('#fifties').val();
+		}
+		else {
+			fifties = 0;
+		}
+		fifties_value = parseFloat(fifties * 100).toFixed(2);
+		$('#fifties-value').text('$' + fifties_value);
+
+		//twenties
+		if ($('#twenties').val()) {
+			twenties = $('#twenties').val();
+		}
+		else {
+			twenties = 0;
+		}
+		twenties_value = parseFloat(twenties * 100).toFixed(2);
+		$('#twenties-value').text('$' + twenties_value);
+
+		//tens
+		if ($('#tens').val()) {
+			tens = $('#tens').val();
+		}
+		else {
+			tens = 0;
+		}
+		tens_value = parseFloat(tens * 100).toFixed(2);
+		$('#tens-value').text('$' + tens_value);
+
+		//fives
+		if ($('#fives').val()) {
+			fives = $('#fives').val();
+		}
+		else {
+			fives = 0;
+		}
+		fives_value = parseFloat(fives * 100).toFixed(2);
+		$('#fives-value').text('$' + fives_value);
+
+		//twoonies
+		if ($('#twoonies').val()) {
+			twoonies = $('#twoonies').val();
+		}
+		else {
+			twoonies = 0;
+		}
+		twoonies_value = parseFloat(twoonies * 100).toFixed(2);
+		$('#twoonies-value').text('$' + twoonies_value);
+
+		//loonies
+		if ($('#loonies').val()) {
+			loonies = $('#loonies').val();
+		}
+		else {
+			loonies = 0;
+		}
+		loonies_value = parseFloat(loonies * 100).toFixed(2);
+		$('#loonies-value').text('$' + loonies_value);
+
+		//quarters
+		if ($('#quarters').val()) {
+			quarters = $('#quarters').val();
+		}
+		else {
+			quarters = 0;
+		}
+		quarters_value = parseFloat(quarters * 100).toFixed(2);
+		$('#quarters-value').text('$' + quarters_value);
+
+		//dimes
+		if ($('#dimes').val()) {
+			dimes = $('#dimes').val();
+		}
+		else {
+			dimes = 0;
+		}
+		dimes_value = parseFloat(dimes * 100).toFixed(2);
+		$('#dimes-value').text('$' + dimes_value);
+
+		//nickels
+		if ($('#nickels').val()) {
+			nickels = $('#nickels').val();
+		}
+		else {
+			nickels = 0;
+		}
+		nickels_value = parseFloat(nickels * 100).toFixed(2);
+		$('#nickels-value').text('$' + nickels_value);
+
+		//pennies
+		if ($('#pennies').val()) {
+			pennies = $('#pennies').val();
+		}
+		else {
+			pennies = 0;
+		}
+		pennies_value = parseFloat(pennies * 100).toFixed(2);
+		$('#pennies-value').text('$' + pennies_value);
+
+		total_value = hundreds_value + fifties_value + twenties_value + tens_value + fives_value + twoonies_value + loonies_value + quarters_value + dimes_value + nickels_value + pennies_value;
+		$('#total-value').text('$' + total_value);
+
 	}
 
 	init ()
