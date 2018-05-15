@@ -12,8 +12,8 @@ $(document).ready(function(){
 		else {
 			hundreds = 0;
 		}
-		hundreds_value = parseFloat(hundreds * 100).toFixed(2);
-		$('#hundreds-value').text('$' + hundreds_value);
+		hundreds_value = parseFloat(hundreds * 100);
+		$('#hundreds-value').text('$' + hundreds_value.toFixed(2));
 
 		//hundreds
 		if ($('#hundreds').val()) {
@@ -22,8 +22,8 @@ $(document).ready(function(){
 		else {
 			hundreds = 0;
 		}
-		hundreds_value = parseFloat(hundreds * 100).toFixed(2);
-		$('#hundreds-value').text('$' + hundreds_value);
+		hundreds_value = parseFloat(hundreds * 100);
+		$('#hundreds-value').text('$' + hundreds_value.toFixed(2));
 
 		//fifties
 		if ($('#fifties').val()) {
@@ -32,8 +32,8 @@ $(document).ready(function(){
 		else {
 			fifties = 0;
 		}
-		fifties_value = parseFloat(fifties * 100).toFixed(2);
-		$('#fifties-value').text('$' + fifties_value);
+		fifties_value = parseFloat(fifties * 50);
+		$('#fifties-value').text('$' + fifties_value.toFixed(2));
 
 		//twenties
 		if ($('#twenties').val()) {
@@ -42,8 +42,8 @@ $(document).ready(function(){
 		else {
 			twenties = 0;
 		}
-		twenties_value = parseFloat(twenties * 100).toFixed(2);
-		$('#twenties-value').text('$' + twenties_value);
+		twenties_value = parseFloat(twenties * 20);
+		$('#twenties-value').text('$' + twenties_value.toFixed(2));
 
 		//tens
 		if ($('#tens').val()) {
@@ -52,8 +52,8 @@ $(document).ready(function(){
 		else {
 			tens = 0;
 		}
-		tens_value = parseFloat(tens * 100).toFixed(2);
-		$('#tens-value').text('$' + tens_value);
+		tens_value = parseFloat(tens * 10);
+		$('#tens-value').text('$' + tens_value.toFixed(2));
 
 		//fives
 		if ($('#fives').val()) {
@@ -62,8 +62,8 @@ $(document).ready(function(){
 		else {
 			fives = 0;
 		}
-		fives_value = parseFloat(fives * 100).toFixed(2);
-		$('#fives-value').text('$' + fives_value);
+		fives_value = parseFloat(fives * 5);
+		$('#fives-value').text('$' + fives_value.toFixed(2));
 
 		//twoonies
 		if ($('#twoonies').val()) {
@@ -72,8 +72,8 @@ $(document).ready(function(){
 		else {
 			twoonies = 0;
 		}
-		twoonies_value = parseFloat(twoonies * 100).toFixed(2);
-		$('#twoonies-value').text('$' + twoonies_value);
+		twoonies_value = parseFloat(twoonies * 2);
+		$('#twoonies-value').text('$' + twoonies_value.toFixed(2));
 
 		//loonies
 		if ($('#loonies').val()) {
@@ -82,8 +82,8 @@ $(document).ready(function(){
 		else {
 			loonies = 0;
 		}
-		loonies_value = parseFloat(loonies * 100).toFixed(2);
-		$('#loonies-value').text('$' + loonies_value);
+		loonies_value = parseFloat(loonies * 1);
+		$('#loonies-value').text('$' + loonies_value.toFixed(2));
 
 		//quarters
 		if ($('#quarters').val()) {
@@ -92,8 +92,8 @@ $(document).ready(function(){
 		else {
 			quarters = 0;
 		}
-		quarters_value = parseFloat(quarters * 100).toFixed(2);
-		$('#quarters-value').text('$' + quarters_value);
+		quarters_value = parseFloat(quarters * .25);
+		$('#quarters-value').text('$' + quarters_value.toFixed(2));
 
 		//dimes
 		if ($('#dimes').val()) {
@@ -102,8 +102,8 @@ $(document).ready(function(){
 		else {
 			dimes = 0;
 		}
-		dimes_value = parseFloat(dimes * 100).toFixed(2);
-		$('#dimes-value').text('$' + dimes_value);
+		dimes_value = parseFloat(dimes * .10);
+		$('#dimes-value').text('$' + dimes_value.toFixed(2));
 
 		//nickels
 		if ($('#nickels').val()) {
@@ -112,8 +112,8 @@ $(document).ready(function(){
 		else {
 			nickels = 0;
 		}
-		nickels_value = parseFloat(nickels * 100).toFixed(2);
-		$('#nickels-value').text('$' + nickels_value);
+		nickels_value = parseFloat(nickels * .05);
+		$('#nickels-value').text('$' + nickels_value.toFixed(2));
 
 		//pennies
 		if ($('#pennies').val()) {
@@ -122,8 +122,8 @@ $(document).ready(function(){
 		else {
 			pennies = 0;
 		}
-		pennies_value = parseFloat(pennies * 100).toFixed(2);
-		$('#pennies-value').text('$' + pennies_value);
+		pennies_value = parseFloat(pennies * .01);
+		$('#pennies-value').text('$' + pennies_value.toFixed(2));
 
 		total_value = hundreds_value + fifties_value + twenties_value + tens_value + fives_value + twoonies_value + loonies_value + quarters_value + dimes_value + nickels_value + pennies_value;
 		$('#total-value').text('$' + total_value);
