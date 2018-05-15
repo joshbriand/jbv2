@@ -1,7 +1,7 @@
 table, td {
   border: 1px solid black;
   text-align: center;
-  font-size: 5vh;
+  font-size: 4vh;
   vertical-align: middle;
 }
 
@@ -9,13 +9,13 @@ th {
   border: 1px solid black;
   font-weight: bold;
   text-align: center;
-  font-size: 5vh;
+  font-size: 4vh;
   vertical-align: middle;
 }
 
 input {
-  font-size: 5vh;
-  height: 6vh;
+  font-size: 4vh;
+  height: 5vh;
   vertical-align: middle;
 }
 
