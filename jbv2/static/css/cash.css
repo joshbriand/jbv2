@@ -2,6 +2,7 @@ table, td {
   border: 1px solid black;
   text-align: center;
   font-size: 5vh;
+  vertical-align: middle;
 }
 
 th {
@@ -9,6 +10,7 @@ th {
   font-weight: bold;
   text-align: center;
   font-size: 5vh;
+  vertical-align: middle;
 }
 
 @media screen and (max-width: 500px) {
