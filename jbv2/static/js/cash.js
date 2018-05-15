@@ -126,7 +126,7 @@ $(document).ready(function(){
 		$('#pennies-value').text('$' + pennies_value.toFixed(2));
 
 		total_value = hundreds_value + fifties_value + twenties_value + tens_value + fives_value + twoonies_value + loonies_value + quarters_value + dimes_value + nickels_value + pennies_value;
-		$('#total-value').text('$' + total_value);
+		$('#total-value').text('$' + total_value.toFixed(2));
 
 	}
 

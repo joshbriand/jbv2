@@ -22,8 +22,10 @@ input {
 
 @media screen and (max-width: 500px) {
   table {
-    width: 100vw;
+    width: 90vw;
+    table-layout: fixed;
   }
+
   td, th, input {
     width: 30vw;
   }
