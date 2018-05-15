@@ -9,14 +9,18 @@ $(document).ready(function(){
 		gross = $('#gross').val();
 		cc_gross = $('#cc-gross').val();
 		cc_percentage = $('#cc-percentage').val();
+		console.log(cc_gross);
+		console.log(cc_percentage)
 		temp_after_tax = ((gross / 1.12));
-		console.log(temp_after_tax);
 		after_tax = parseFloat(temp_after_tax);
-		console.log(after_tax);
 		gst = (after_tax * .05);
 		pst = (after_tax * .07);
 		temp_cc_fee = cc_gross * cc_percentage / 100
 		cc_fee = parseFloat(temp_cc_fee);
+		console.log('temp cc fee');
+		console.log(temp_cc_fee);
+		console.log('cc fee');
+		console.log(cc_fee);
 		adjusted = after_tax - cc_fee;
 		artist = (adjusted * .8);
 		venue = (adjusted * .2);
