@@ -1,0 +1,16 @@
+table, td {
+  border: 1px solid black;
+  text-align: center;
+  font-size: 5 vh;
+}
+
+th {
+  border: 1px solid black;
+  font-weight: bold;
+  text-align: center;
+  font-size: 5 vh;
+}
+
+@media screen and (max-width: 500px) {
+
+}
