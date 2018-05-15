@@ -73,18 +73,19 @@ body {
 
   #bold {
     font-weight: normal;
+    border: 1px solid black;
   }
 
   input {
     height: 5.5vh;
-    width: 30vw;
+    width: 32vw;
     vertical-align: middle;
     font-size: 5vh;
   }
 
   .col-1 {
     vertical-align: bottom;
-    width: 30vw;
+    width: 32vw;
     height: 6.5vh
     padding-left: 2vw;
     padding-right: 2vw;
