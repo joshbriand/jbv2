@@ -32,8 +32,8 @@ $(document).ready(function(){
 			artist_gst = (0);
 			venue_gst = gst;
 		}
-		artist_net = artist_gst + artist_pst + artist_80;
-		venue_net = venue_gst + venue_pst + venue_20;
+		artist_net = artist_gst + artist_pst + artist_take;
+		venue_net = venue_gst + venue_pst + venue_take;
 		$('#gst').text('$' + gst.toFixed(2));
 		$('#pst').text('$' + pst.toFixed(2));
 		$('#after-tax').text('$' + after_tax.toFixed(2));
