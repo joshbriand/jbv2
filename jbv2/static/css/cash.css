@@ -13,6 +13,12 @@ th {
   vertical-align: middle;
 }
 
+input {
+  font-size: 5vh;
+  height: 6vh;
+  vertical-align: middle;
+}
+
 @media screen and (max-width: 500px) {
 
 }
