@@ -67,26 +67,25 @@ body {
 
 @media screen and (orientation: portrait) {
   .row {
-    height: 6.5vh;
-    font-size: 5.5vh;
+    height: 6vh;
+    font-size: 5vh;
   }
 
   #bold {
     font-weight: normal;
-    border: 1px solid black;
   }
 
   input {
-    height: 5.5vh;
+    height: 5vh;
     width: 32vw;
     vertical-align: middle;
-    font-size: 5vh;
+    font-size: 4.5vh;
   }
 
   .col-1 {
     vertical-align: bottom;
     width: 32vw;
-    height: 6.5vh
+    height: 6vh
     padding-left: 2vw;
     padding-right: 2vw;
   }
