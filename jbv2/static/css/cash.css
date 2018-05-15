@@ -64,8 +64,7 @@ body {
 #bold {
   font-weight: bold;
 }
-
-@media screen and (max-width: 812px) {
+@media screen and (min-width: 736px) and (orientation: landscape) {
   .row {
     height: 6.5vh;
     font-size: 5.5vh;
@@ -85,5 +84,26 @@ body {
     padding-left: 2vw;
     padding-right: 2vw;
   }
+}
 
+@media screen and (orientation: portrait) {
+  .row {
+    height: 6.5vh;
+    font-size: 5.5vh;
+  }
+
+  input {
+    height: 5.5vh;
+    width: 30vw;
+    vertical-align: middle;
+    font-size: 5vh;
+  }
+
+  .col-1 {
+    vertical-align: bottom;
+    width: 30vw;
+    height: 6.5vh
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
 }
