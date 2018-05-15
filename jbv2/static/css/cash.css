@@ -78,8 +78,7 @@ body {
   input {
     height: 5vh;
     width: 32vw;
-    vertical-align: middle;
-    font-size: 4.5vh;
+    font-size: 4vh;
   }
 
   .col-1 {
