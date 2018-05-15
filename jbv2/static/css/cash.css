@@ -17,8 +17,14 @@ input {
   font-size: 4vh;
   height: 5vh;
   vertical-align: middle;
+  text-align: center;
 }
 
 @media screen and (max-width: 500px) {
-
+  table {
+    width: 100vw;
+  }
+  td, th, input {
+    width: 30vw;
+  }
 }
