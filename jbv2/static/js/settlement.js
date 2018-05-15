@@ -41,6 +41,7 @@ $(document).ready(function(){
 		$('#gst').text('$' + gst.toFixed(2));
 		$('#pst').text('$' + pst.toFixed(2));
 		$('#after-tax').text('$' + after_tax.toFixed(2));
+		$('#adjusted').text('$' + adjusted.toFixed(2));
 		$('#artist').text('$' + artist.toFixed(2));
 		$('#venue').text('$' + venue.toFixed(2));
 		$('#venue-gst').text('$' + venue_gst.toFixed(2));
