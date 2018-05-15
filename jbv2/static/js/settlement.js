@@ -9,7 +9,7 @@ $(document).ready(function(){
 		gross = $('#gross').val();
 		cc_gross = $('#cc-gross').val();
 		cc_percentage = $('#cc-percentage').val();
-		venue_percentage = $('$venue-percentage').val() / 100;
+		venue_percentage = $('#venue-percentage').val() / 100;
 		artist_percentage = 1 - venue_percentage;
 		temp_after_tax = ((gross / 1.12));
 		after_tax = parseFloat(temp_after_tax);
