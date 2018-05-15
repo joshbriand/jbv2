@@ -7,7 +7,7 @@ $(document).ready(function(){
 	function calculate() {
 		console.log('calculate');
 		if ($('#hundreds').val()) {
-			hundreds = $('#gross').val();
+			hundreds = $('#hundreds').val();
 		}
 		else {
 			hundreds = 0;
