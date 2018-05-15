@@ -65,11 +65,14 @@ body {
   font-weight: bold;
 }
 
-
 @media screen and (orientation: portrait) {
   .row {
     height: 6.5vh;
     font-size: 5.5vh;
+  }
+
+  #bold {
+    font-weight: normal;
   }
 
   input {
