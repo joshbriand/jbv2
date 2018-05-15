@@ -65,7 +65,7 @@ body {
   font-weight: bold;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 812px) {
   .row {
     height: 6.5vh;
     font-size: 5.5vh;
