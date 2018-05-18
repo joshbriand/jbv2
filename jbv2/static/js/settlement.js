@@ -7,48 +7,66 @@ $(document).ready(function(){
 	function calculate() {
 		console.log('calculate');
 		gross = $('#gross').val();
+
+		tax_1_name = $('#tax-1-name').val();
+		tax_1_rate = $('#tax-1-rate').val() / 100;
+		tax_1_venue_percentage = $('#tax-1-retained').val() / 100;
+		tax_1_artist_percentage = 1 - tax_1_venue_percentage;
+		console.log(tax_1_artist_percentage);
+
+		tax_2_name = $('#tax-2-name').val();
+		tax_2_rate = $('#tax-2-rate').val() / 100;
+		tax_2_venue_percentage = $('#tax-2-retained').val() / 100;
+		tax_2_artist_percentage = 1 - tax_2_venue_percentage;
+
+		total_tax = tax_1_rate + tax_2_rate;
+
 		cc_gross = $('#cc-gross').val();
 		cc_percentage = $('#cc-percentage').val();
+
 		venue_percentage = $('#venue-percentage').val() / 100;
 		artist_percentage = 1 - venue_percentage;
-		temp_after_tax = ((gross / 1.12));
-		after_tax = parseFloat(temp_after_tax);
-		gst = (after_tax * .05);
-		pst = (after_tax * .07);
-		temp_cc_fee = cc_gross * cc_percentage / 100
-		cc_fee = parseFloat(temp_cc_fee);
-		adjusted = after_tax - cc_fee;
-		artist = (adjusted * artist_percentage);
-		venue = (adjusted * venue_percentage);
-		venue_pst = pst;
-		artist_pst = (0);
-		venue_take = venue;
-		artist_take = artist;
-		artist_has_gst = $('#artist-gst-number').is(":checked");
-		if (artist_has_gst) {
-			artist_gst = (gst * artist_percentage);
-			venue_gst = (gst * venue_percentage);
-		} else {
-			artist_gst = (0);
-			venue_gst = gst;
-		}
-		artist_net = artist_gst + artist_pst + artist_take;
-		venue_net = venue_gst + venue_pst + venue_take;
-		$('#gst').text('$' + gst.toFixed(2));
-		$('#pst').text('$' + pst.toFixed(2));
-		$('#after-tax').text('$' + after_tax.toFixed(2));
-		$('#adjusted').text('$' + adjusted.toFixed(2));
-		$('#artist').text('$' + artist.toFixed(2));
-		$('#venue').text('$' + venue.toFixed(2));
-		$('#venue-gst').text('$' + venue_gst.toFixed(2));
-		$('#venue-pst').text('$' + venue_pst.toFixed(2));
-		$('#cc-fee').text('$' + cc_fee.toFixed(2));
-		$('#venue-take').text('$' + venue_take.toFixed(2));
-		$('#venue-net').text('$' + venue_net.toFixed(2))
-		$('#artist-gst').text('$' + artist_gst.toFixed(2));
-		$('#artist-pst').text('$' + artist_pst.toFixed(2));
-		$('#artist-take').text('$' + artist_take.toFixed(2));
-		$('#artist-net').text('$' + artist_net.toFixed(2));
+
+		after_tax = ((gross / (1 + total_tax))).toFixed(2);
+
+		tax_1 = (after_tax * tax_1_rate).toFixed(2);
+		tax_2 = (after_tax * tax_2_rate).toFixed(2);
+
+		cc_fee = (cc_gross * cc_percentage / 100).toFixed(2);
+
+		adjusted = (after_tax - cc_fee).toFixed(2);
+
+		tax_1_artist = parseFloat((tax_1 * tax_1_artist_percentage).toFixed(2));
+		tax_2_artist = parseFloat((tax_2 * tax_2_artist_percentage).toFixed(2));
+		artist = parseFloat((adjusted * artist_percentage).toFixed(2));
+		artist_net = (artist + tax_1_artist + tax_2_artist);
+
+		tax_1_venue = parseFloat((tax_1 * tax_1_venue_percentage).toFixed(2));
+		tax_2_venue = parseFloat((tax_2 * tax_2_venue_percentage).toFixed(2));
+		venue = parseFloat((adjusted * venue_percentage).toFixed(2));
+		venue_net = (venue + tax_1_venue + tax_2_venue);
+
+		$('.tax-1-name').text(tax_1_name)
+		$('.tax-2-name').text(tax_2_name)
+
+		$('#tax-1-total').text('$' + tax_1);
+		$('#tax-2-total').text('$' + tax_2);
+		$('#after-tax').text('$' + after_tax);
+		$('#cc-fee').text('$' + cc_fee);
+		$('#adjusted').text('$' + adjusted);
+		$('#artist').text('$' + artist);
+		$('#venue').text('$' + venue);
+
+		$('#artist-tax-1').text('$' + tax_1_artist);
+		$('#artist-tax-2').text('$' + tax_2_artist);
+		$('#artist-take').text('$' + artist);
+		$('#artist-net').text('$' + artist_net);
+
+		$('#venue-tax-1').text('$' + tax_1_venue);
+		$('#venue-tax-2').text('$' + tax_2_venue);
+		$('#venue-take').text('$' + venue);
+		$('#venue-net').text('$' + venue_net)
+
 	}
 
 	init ()
