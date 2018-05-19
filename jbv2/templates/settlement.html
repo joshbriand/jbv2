@@ -4,80 +4,74 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Show Settlement</title>
-	<link href="{{ url_for('static',filename='css/settlement.css') }}" rel="stylesheet" type="text/css">
+	<link href="../static/css/settlement.css" rel="stylesheet" type="text/css">
 
 	<!--
-	<link href="../static/css/settlement.css" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static',filename='css/settlement.css') }}" rel="stylesheet" type="text/css">
+
 	-->
 </head>
 <body>
-	<div>
-		<div>
-			<b><u>Gross Sales</u></b>
-		</div>
-		<div>
-			<input id="gross" type="text"></input>
-		</div>
+	<div class="mobile-row">
+		<div id="bold">Gross Sales</div>
+		<input class="mobile-space" id="gross" type="text"></input>
 	</div>
 	<br>
 	<div class="row">
 		<div class="col-3">
-			<div>
-				<b><u>Tax 1</u></b>
+			<div class="mobile-row">
+				<div id="bold">Tax 1</div>
 			</div>
-			<div>
+			<div class="mobile-row">
 				Name
-				<input id="tax-1-name" type="text" value="GST"></input>
+				<input class="mobile-space" id="tax-1-name" type="text" value="GST"></input>
 			</div>
-			<div>
+			<div class="mobile-row">
 				Rate
-				<input id="tax-1-rate" type="text" value="5"></input>
+				<input class="mobile-space" id="tax-1-rate" type="text" value="5"></input>
 			</div>
-			<div>
+			<div class="mobile-row">
 				% Retained by venue
-				<input id="tax-1-retained" type="text" value="20"></input>
+				<input class="mobile-space" id="tax-1-retained" type="text" value="20"></input>
 			</div>
 		</div>
+		<br>
 		<div class="col-3">
-			<div>
-				<b><u>Tax 2</u></b>
+			<div class="mobile-row">
+				<div id="bold">Tax 2</div>
 			</div>
-			<div>
+			<div class="mobile-row">
 				Name
-				<input id="tax-2-name" type="text" value="PST"></input>
+				<input class="mobile-space" id="tax-2-name" type="text" value="PST"></input>
 			</div>
-			<div>
+			<div class="mobile-row">
 				Rate
-				<input id="tax-2-rate" type="text" value="7"></input>
+				<input class="mobile-space" id="tax-2-rate" type="text" value="7"></input>
 			</div>
-			<div>
+			<div class="mobile-row">
 				% Retained by venue
-				<input id="tax-2-retained" type="text" value="100"></input>
+				<input class="mobile-space" id="tax-2-retained" type="text" value="100"></input>
 			</div>
 		</div>
 	</div>
 	<br>
 	<div>
-		<div>
-			<b><u>Credit Card</u></b>
+		<div class="mobile-row">
+			<div id="bold">Credit Card</div>
 		</div>
-		<div>
+		<div class="mobile-row">
 			Gross
-			<input id="cc-gross" type="text" value="0"></input>
+			<input class="mobile-space" id="cc-gross" type="text" value="0"></input>
 		</div>
-		<div>
+		<div class="mobile-row">
 			Credit Card Percentage
-			<input id="cc-percentage" type="text" value="0"></input>
+			<input class="mobile-space" id="cc-percentage" type="text" value="0"></input>
 		</div>
 	</div>
 	<br>
-	<div>
-		<div>
-			<b><u>Venue Percentage</u></b>
-		</div>
-		<div>
-			<input id="venue-percentage" type="text" value="20"></input>
-		</div>
+	<div class="mobile-row">
+		<div id="bold">Venue Percentage</div>
+		<input class="mobile-space" id="venue-percentage" type="text" value="20"></input>
 	</div>
 	<br>
 	<div>
@@ -85,61 +79,68 @@
 	</div>
 	<br>
 	<div class="row">
-		<div class="col-2">
-			<div>
-				<b><u>Summary</u></b>
+		<div class="col-3">
+			<div class="mobile-row">
+				<div id="bold">Summary</div>
 			</div>
-			<div>
-				<span class="tax-1-name"></span> <span id="tax-1-total"></span>
+			<div class="mobile-row">
+				<span class="tax-1-name"></span> <span class="mobile-space"  id="tax-1-total"></span>
 			</div>
-			<div>
-				<span class="tax-2-name"></span> <span id="tax-2-total"></span>
+			<div class="mobile-row">
+				<span class="tax-2-name"></span> <span class="mobile-space"  id="tax-2-total"></span>
 			</div>
-			<div>
-				After Tax Gross <span id="after-tax"></span>
+			<div class="mobile-row">
+				After Tax Gross <span class="mobile-space"  id="after-tax"></span>
 			</div>
-			<div>
-				Credit Card Fee <span id="cc-fee"></span>
+			<div class="mobile-row">
+				Credit Card Fee <span class="mobile-space"  id="cc-fee"></span>
 			</div>
-			<div>
-				Adjusted Gross <span id="adjusted"></span>
+			<div class="mobile-row">
+				Adjusted Gross <span class="mobile-space"  id="adjusted"></span>
 			</div>
-			<div>
-				Artist Split <span id="artist"></span>
+			<div class="mobile-row">
+				Artist Split <span class="mobile-space"  id="artist"></span>
 			</div>
-			<div>
-			 	Venue Split <span id="venue"></span>
+			<div class="mobile-row">
+			 	Venue Split <span class="mobile-space"  id="venue"></span>
 			</div>
 		</div>
-		<div class="col-2">
-			<b><u>Artist Take</u></b>
-			<br>
-			<span class="tax-1-name"></span> <span id="artist-tax-1"></span>
-			<br>
-			<span class="tax-2-name"></span> <span id="artist-tax-2"></span>
-			<br>
-			Artist Split <span id="artist-take"></span>
-			<br>
-			<b><u>Net to Artist <span id="artist-net"></span></u></b>
+		<br>
+		<div class="col-3">
+			<div class="mobile-row" id="bold">Artist Take</div>
+			<div class="mobile-row">
+				<span class="tax-1-name"></span> <span class="mobile-space"  id="artist-tax-1"></span>
+			</div>
+			<div class="mobile-row">
+				<span class="tax-2-name"></span> <span class="mobile-space"  id="artist-tax-2"></span>
+			</div>
+			<div class="mobile-row">
+				Artist Split <span class="mobile-space"  id="artist-take"></span>
+			</div>
+			<div class="mobile-row" id="bold">Net to Artist <span class="mobile-space"  id="artist-net"></span></div>
 		</div>
-		<div class="col-2">
-			<b><u>Venue Take</u></b>
-			<br>
-			<span class="tax-1-name"></span> <span id="venue-tax-1"></span>
-			<br>
-			<span class="tax-2-name"></span> <span id="venue-tax-2"></span>
-			<br>
-			Venue Split <span id="venue-take"></span>
-			<br>
-			<b><u>Net to venue <span id="venue-net"></span></u></b>
+		<br>
+		<div class="col-3">
+			<div class="mobile-row" id="bold">Venue Take</div>
+			<div class="mobile-row">
+				<span class="tax-1-name"></span> <span class="mobile-space" id="venue-tax-1"></span>
+			</div>
+			<div class="mobile-row">
+				<span class="tax-2-name"></span> <span class="mobile-space"  id="venue-tax-2"></span>
+			</div>
+			<div class="mobile-row">
+				Venue Split <span class="mobile-space"  id="venue-take"></span>
+			</div>
+			<div class="mobile-row" id="bold">Net to venue <span class="mobile-space" id="venue-net"></span></div>
 		</div>
 	</div>
 <!--
-	<script type="text/javascript" src="../static/js/libs/jquery.min.js"></script>
-	<script type="text/javascript" src="../static/js/settlement.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/settlement.js') }}"></script>
+
 -->
-<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/settlement.js') }}"></script>
+<script type="text/javascript" src="../static/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/settlement.js"></script>
 
 
 </body>
