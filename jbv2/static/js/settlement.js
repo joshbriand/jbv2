@@ -44,7 +44,7 @@ $(document).ready(function(){
 		tax_1_venue = parseFloat((tax_1 * tax_1_venue_percentage).toFixed(2));
 		tax_2_venue = parseFloat((tax_2 * tax_2_venue_percentage).toFixed(2));
 		venue = parseFloat((adjusted * venue_percentage).toFixed(2));
-		venue_net = (venue + tax_1_venue + tax_2_venue).toFixed(2);
+		venue_net = parseFloat((venue + tax_1_venue + tax_2_venue).toFixed(2));
 
 		$('.tax-1-name').text(tax_1_name)
 		$('.tax-2-name').text(tax_2_name)
