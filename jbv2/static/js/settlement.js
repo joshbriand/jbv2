@@ -39,7 +39,7 @@ $(document).ready(function(){
 		tax_1_artist = parseFloat((tax_1 * tax_1_artist_percentage).toFixed(2));
 		tax_2_artist = parseFloat((tax_2 * tax_2_artist_percentage).toFixed(2));
 		artist = parseFloat((adjusted * artist_percentage).toFixed(2));
-		artist_net = (artist + tax_1_artist + tax_2_artist).toFixed(2);
+		artist_net = parseFloat((artist + tax_1_artist + tax_2_artist).toFixed(2));
 
 		tax_1_venue = parseFloat((tax_1 * tax_1_venue_percentage).toFixed(2));
 		tax_2_venue = parseFloat((tax_2 * tax_2_venue_percentage).toFixed(2));
