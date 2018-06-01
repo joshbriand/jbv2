@@ -24,18 +24,11 @@ $(document).ready(function(){
 		if (isNaN(parseFloat($(destination).val())) == true) {
 			total = total + destination_value;
 		} else {
-			console.log(total);
-			console.log(destination_value);
-			console.log('here');
-			console.log(parseFloat($(destination).val()));
 			total = total - parseFloat($(destination).val()) + destination_value;
-			console.log(total);
 		}
 		$(destination).text('$' + destination_value.toFixed(2));
 		$('#total-value').text('$' + total.toFixed(2));
 	}
-
-
 
 	init ()
 });
