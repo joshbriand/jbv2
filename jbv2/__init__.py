@@ -106,19 +106,19 @@ def showVikingHillPage():
         return render_template('home.html')
 
 @app.route('/vikinghill/art', methods=['GET'])
-def showVikingHillPage():
+def showVikingHillArt():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
         return render_template('art.html')
 
 @app.route('/vikinghill/words', methods=['GET'])
-def showVikingHillPage():
+def showVikingHillWords():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
         return render_template('words.html')
 
 @app.route('/vikinghill/yoga', methods=['GET'])
-def showVikingHillPage():
+def showVikingHillYoga():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
         return render_template('yoga.html')
