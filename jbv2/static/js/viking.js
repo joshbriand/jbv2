@@ -31,7 +31,7 @@ $(document).ready(function(){
 	}
 
 	function redirect() {
-		destination = 'vikinghill/' + $(this).attr('id');
+		destination = '/vikinghill/' + $(this).attr('id');
 		window.location.href = destination;
 	}
 
