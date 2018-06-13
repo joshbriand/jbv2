@@ -103,7 +103,7 @@ def showIndexPage():
 def showVikingHillPage():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
-        return render_template('viking.html')
+        return render_template('home.html')
 
 @app.route('/merch', methods=['GET'])
 def showMerchandiseSettlement():
