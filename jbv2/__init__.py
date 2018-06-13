@@ -100,6 +100,7 @@ def showIndexPage():
         return render_template('index.html')
 
 @app.route('/vikinghill', methods=['GET'])
+@app.route('/vikinghill/', methods=['GET'])
 def showVikingHillPage():
     '''Handler for landing page of website.'''
     if request.method == 'GET':

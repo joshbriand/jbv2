@@ -12,6 +12,7 @@ $(document).ready(function(){
 		$('#art').click(redirect);
 		$('#words').click(redirect);
 		$('#yoga').click(redirect);
+		$('#vikingHill').click(home);
 		$('#contact').click(mail);
 	}
 
@@ -32,6 +33,11 @@ $(document).ready(function(){
 
 	function redirect() {
 		destination = '/vikinghill/' + $(this).attr('id');
+		window.location.href = destination;
+	}
+
+	function home() {
+		destination = '/vikinghill/';
 		window.location.href = destination;
 	}
 
