@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Viking Hill Productions</title>
+	<!--<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet">
+	-->
+	<link href="{{ url_for('static',filename='css/viking.css') }}" rel="stylesheet" type="text/css">
+	<link href="css/viking.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+	<header class="row" id="topHeader">
+		<div class="col-5" id="vikingHill">
+			<img src="{{ url_for('static', filename='img/title.png') }}">
+		</div>
+		<div class="col-5" id="blank">
+		</div>
+		<div class="col-2" id="circles">
+			<img src="{{ url_for('static', filename='img/dots.png') }}">
+		</div>
+	</header>
+	<header class="row" id="bottomHeader">
+		<div class="col-4" id="blankBottomHeader">
+		</div>
+		<div class="col-2 inactive" id="art">
+			Art
+		</div>
+		<div class="col-2 inactive" id="words">
+			Words
+		</div>
+		<div class="col-2 active" id="yoga">
+			Yoga
+		</div>
+		<div class="col-2 inactive" id="contact">
+			Contact
+		</div>
+	</header>
+	<div id="contactContent">
+		<div class="contact-container">
+			<a href="mailto:vikinghillproductions@gmail.com">Email</a>
+			<br>
+			<a href="https://www.facebook.com/VikingHill">Facebook</a>
+			<br>
+			<a href="https://www.instagram.com/vikinghill/">Instagram</a>
+		</div>
+	</div>
+	<!--
+	<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+	<script type="text/javascript" src="js/viking.js"></script>
+	-->
+	<script type="text/javascript" src="{{ url_for('static',filename='js/libs/jquery.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/viking.js') }}"></script>
+</body>
+</html>
+	<!--
+	<header class="row" id="artHeader">
+		<div class="col-4" id="reallyBlank">
+		</div>
+		<div class="subheader" id="artPhotos">
+			Photography
+		</div>
+		<div class="subheader" id="artTangible">
+			Tangible
+		</div>
+		<div class="col-5" id="reallyBlank">
+		</div>
+	</header>
+
+	<header id="photosSubHeader">
+		<div class="row">
+			<div class="col-4" id="reallyBlank">
+			</div>
+			<div class="subheader" id="artPhotosAll">
+				All
+			</div>
+			<div class="col-3" id="reallyBlank">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4" id="reallyBlank">
+			</div>
+			<div class="subheader" id="artPhotosIR">
+				Infrared
+			</div>
+			<div class="col-3" id="reallyBlank">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-4" id="reallyBlank">
+			</div>
+			<div class="col-2" id="artPhotosNormal">
+				More Towards Normal
+			</div>
+			<div class="col-3" id="reallyBlank">
+			</div>
+		</div>
+	</header>
+
+	<header class="row" id="wordsHeader">
+		<div class="col-6" id="reallyBlank">
+		</div>
+		<div class="subheader" id="wordsBlog">
+			Blog
+		</div>
+		<div class="subheader" id="wordsThoughts">
+			Thoughts
+		</div>
+		<div class="subheader" id="wordsStories">
+			Stories
+		</div>
+		<div class="wordsRest">
+		</div>
+	</header>
+
+	<header class="row" id="yogaHeader">
+		<div class="col-8" id="reallyBlank">
+		</div>
+		<div class="subheader" id="yogaSchedule">
+			Schedule
+		</div>
+		<div class="yogaRest">
+		</div>
+	</header>
+
+	<header class="row" id="spacerHeader">
+	</header>
+
+	<div id="siteContent">
+		<div id="artPhotosAllContent">
+			<div class="photoContainer">
+				<img src="img/gallery/ir/linvillefantasy.jpg" class="photo">
+			</div>
+			<div class="photoSpacer"></div>
+			<div class="photoContainer">
+				<img src="img/gallery/ir/myhutfin.jpg" class="photo">
+			</div>
+			<div class="photoSpacer"></div>
+			<div class="photoContainer">
+				<img src="img/gallery/ir/onemoreTVset.jpg" class="photo">
+			</div>
+		</div>
+		<div id="wordsBlogContent">
+			blog
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="wordsStoriesContent">
+			stories
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+		<div id="wordsThoughtsContent">
+			thoughts
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		</div>
+	</div>
+-->

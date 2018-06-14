@@ -12,8 +12,8 @@ $(document).ready(function(){
 		$('#art').click(redirect);
 		$('#words').click(redirect);
 		$('#yoga').click(redirect);
+		$('#contact').click(redirect);
 		$('#vikingHill').click(home);
-		$('#contact').click(mail);
 	}
 
 	function focus() {
@@ -39,10 +39,6 @@ $(document).ready(function(){
 	function home() {
 		destination = '/vikinghill/';
 		window.location.href = destination;
-	}
-
-	function mail() {
-		window.location.href = "mailto:vikinghillproductions@gmail.com";
 	}
 
 	init();
