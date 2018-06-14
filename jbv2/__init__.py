@@ -124,6 +124,12 @@ def showVikingHillYoga():
     if request.method == 'GET':
         return render_template('yoga.html')
 
+@app.route('/vikinghill/contact', methods=['GET'])
+def showVikingHillYoga():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('contact.html')
+
 @app.route('/merch', methods=['GET'])
 def showMerchandiseSettlement():
     '''Handler for landing page of website.'''
