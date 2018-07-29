@@ -110,7 +110,7 @@
 								}); } }
 							</script>
 						{% else %}
-							Logged in as {{ user.name }}
+							Logged in as {{ session['username'] }}
 							<br>
 							<a href="{{ url_for('disconnect') }}">Log Out</a>
 						{% endif %}
