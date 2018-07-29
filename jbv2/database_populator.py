@@ -207,14 +207,14 @@ session.commit()
 newIngredient = Ingredient(ingredient="1/8 tsp cumin", recipe_id=recipe_id)
 session.add(newIngredient)
 session.commit()
-newProcess = Process(process='''Preheat oven to 180C fan assisted (200C
+newProcess = Process(process=***Preheat oven to 180C fan assisted (200C
 conventional). Line two baking sheets with grease proof paper. Put the sweet
 potato, 2 tablespoons of oil and half a teaspoon of salt in a bowl and mix with
 your hands to coat. Spread it out on a baking sheet (the pieces need to have
 room, no crowding!). Do the same with the beetroot, the other 2 tbs oil and half
  teaspoon salt. Put both sheets in the oven to roast the veggies. The beetroot
  should need about 25 minutes till softened and the sweet potato about 30 till
- softened and starting to brown.''', recipe_id=recipe_id)
+ softened and starting to brown.***, recipe_id=recipe_id)
 session.add(newProcess)
 session.commit()
 newProcess = Process(
@@ -227,11 +227,11 @@ newProcess = Process(
     recipe_id=recipe_id)
 session.add(newProcess)
 session.commit()
-newProcess = Process(process='''Assemble the bowls with a little of each
+newProcess = Process(process=***Assemble the bowls with a little of each
 vegetable, some rice, a small handful of spinach and rocket, a sprinkling of
 cranberries and sunflower seeds, and a drizzle of dressing. Start modestly with
 the dressing as it's strong tasting, and add more if desired. Serve warm or at
-room temperature.''', recipe_id=recipe_id)
+room temperature.***, recipe_id=recipe_id)
 session.add(newProcess)
 session.commit()
 print "recipes added"
