@@ -185,7 +185,7 @@ class SurveyResults(Base):
     id = Column(Integer, primary_key=True)
     choice = Column(String(1000), nullable=False)
     question_id = Column(Integer, ForeignKey('SurveyQuestions.id'))
-    question = relationship(Recipe)
+    question = relationship(SurveyQuestions)
     user_id = Column(Integer, ForeignKey('SurveyUsers.id'))
     user = relationship(SurveyUsers)
 
