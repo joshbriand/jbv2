@@ -1632,7 +1632,7 @@ def surveyLogin():
                             return redirect(url_for('changesurveypassword'))
                         elif survey_user.password == login_hashed_password:
                             login_session['username'] = login_username
-                            return redirect(url_for('surveyresults'))
+                            return redirect(url_for('surveyResults'))
                         else:
                             flash('Incorrect Password')
                             return render_template('survey/login.html')
