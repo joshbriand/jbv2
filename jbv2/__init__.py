@@ -318,6 +318,7 @@ def showRecipes(user_id=""):
     else:
         state = generateState()
         login_session['state'] = state
+        print login_session.name
         if user_id == "":
             # render if user selects All Recipes or goes to '/recipes'
             # query all recipes to display on webpage
