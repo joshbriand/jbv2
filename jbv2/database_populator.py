@@ -21,6 +21,7 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
+'''
 newUser = User(name="Josh Briand", email="joshbriand@gmail.com")
 session.add(newUser)
 session.commit()
@@ -274,7 +275,7 @@ for x in range(0,len(names)):
         session.add(newUser)
         session.commit()
         print names[x] + " added"
-
+'''
 newUser = SurveyUsers(username="admin", password="59545")
 session.add(newUser)
 session.commit()
