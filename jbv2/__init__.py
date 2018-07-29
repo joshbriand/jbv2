@@ -1632,7 +1632,10 @@ def surveyLogin():
                             return redirect(url_for('changesurveypassword'))
                         elif survey_user.password == login_hashed_password:
                             login_session['username'] = login_username
-                            return redirect(url_for('surveyResults'))
+                            if login_username == 'admin':
+                                return redirect(url_for('survey/admin.html'))
+                            else:
+                                return redirect(url_for('surveyResults'))
                         else:
                             flash('Incorrect Password')
                             return render_template('survey/login.html')
@@ -1719,8 +1722,8 @@ def changeSurveyPassword():
 
 @app.route('/survey/results/', methods=['GET', 'PASS'])
 def surveyResults():
-    if requst.method == 'GET':
-        pass
+    if request.method == 'GET':
+        return render_template('survey/results.html')
 
 
 
