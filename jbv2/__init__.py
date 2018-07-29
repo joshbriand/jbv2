@@ -235,6 +235,7 @@ def gconnect():
     if user_id is None:
         createUser(login_session)
     login_session['user_id'] = user_id
+    print login_session['username']
 
     output = ''
     output += '<h1>Welcome, '
