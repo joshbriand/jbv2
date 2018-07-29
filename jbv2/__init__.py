@@ -1624,7 +1624,7 @@ def surveyLogin():
                     survey_user = survey_users.filter_by(username=login_username).first()
                     login_hashed_password = make_secure_val(login_password)
                     if surveyUserExists(login_username):
-                        if survey_user.name == login_password:
+                        if survey_user.username == login_password:
                             login_session['username'] = login_username
                             return redirect(url_for('changesurveypassword'))
                         elif user.password == login_hashed_password:
