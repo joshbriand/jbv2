@@ -74,6 +74,11 @@ def userExists(name):
     q = session.query(ghostUser).filter_by(name=name)
     return session.query(q.exists()).scalar()
 
+def surveyUserExists(name):
+    q = session.query(SurveyUser).filter_by(username=name)
+    return session.query(q.exists()).scalar()
+
+
 #does game exist?
 def gameExists(name):
     q = session.query(ghostGame).filter_by(id=id)
@@ -98,6 +103,14 @@ def showIndexPage():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
         return render_template('index.html')
+
+@app.route('/survey', methods=['GET'])
+@app.route('/survey/', methods=['GET'])
+def showSurvey():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('surveyusers.html')
+
 
 @app.route('/vikinghill', methods=['GET'])
 @app.route('/vikinghill/', methods=['GET'])
@@ -909,6 +922,7 @@ def login():
                         if user.name == login_password:
                             login_session['username'] = login_username
                             return redirect(url_for('changepassword'))
+
                         elif user.password == login_hashed_password:
                             login_session['username'] = login_username
                             return redirect(url_for('menu'))
@@ -1019,7 +1033,7 @@ def changepassword():
         return render_template('login.html')
 
 
-
+'''joshjosh'''
 @app.route('/ghosts/menu/', methods=['GET', 'POST'])
 def menu():
     if 'username' in login_session:
@@ -1599,26 +1613,171 @@ def game(game_id):
         return redirect(url_for('login'))
 
 
+@app.route('/survey', methods=['GET', 'POST'])
+@app.route('/survey/', methods=['GET', 'POST'])
+@app.route('/survey/login', methods=['GET', 'POST'])
+@app.route('/survey/login/', methods=['GET', 'POST'])
+def surveyLogin():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/login.html')
+    elif request.method == 'POST':
+        if request.form['login'] == "Log In":
+            login_username = request.form['username']
+            login_password = request.form['password']
+            if login_username:
+                if login_password:
+                    survey_users = session.query(SurveyUser)
+                    survey_user = survey_users.filter_by(username=login_username).first()
+                    login_hashed_password = make_secure_val(login_password)
+                    if surveyUserExists(login_username):
+                        if survey_user.name == login_password:
+                            login_session['username'] = login_username
+                            return redirect(url_for('changesurveypassword'))
+                        elif user.password == login_hashed_password:
+                            login_session['username'] = login_username
+                            return redirect(url_for('surveyresults'))
+                        else:
+                            flash('Incorrect Password')
+                            return render_template('survey/login.html')
+                    else:
+                        flash('Username Not Found')
+                        return render_template('survey/login.html')
+                else:
+                    flash('No Password Entered')
+                    return render_template('survey/login.html')
+            elif login_password:
+                flash('No Username Entered')
+                return render_template('survey/login.html')
+        elif request.form['login'] == "Create User":
+            new_username = request.form['newUsername']
+            new_password = request.form['newPassword']
+            confirm_password = request.form['confirmPassword']
+            new_hashed_password = make_secure_val(new_password)
+            if new_username:
+                if surveyUserExists(new_username):
+                    flash('Username Already Exists')
+                    return render_template('survey/login.html')
+                elif validate(new_username, USER_RE) is None:
+                    flash('That is Not a Valid Username')
+                    return render_template('survey/login.html')
+                else:
+                    if new_password == confirm_password:
+                        if validate(new_password, PASSWORD_RE) is None:
+                            flash('That is Not a Valid Password')
+                            return render_template('survey/login.html')
+                        else:
+                            newUser = SurveyUser(username=new_username,
+                                            password=new_hashed_password)
+                            session.add(newUser)
+                            session.commit()
+                            login_session['username'] = new_username
+                            return redirect(url_for('surveyResults'))
+                    else:
+                        flash('Passwords Do Not Match')
+                        return render_template('survey/login.html')
+            else:
+                flash('No Username Entered')
+                return render_template('survey/login.html')
 
-'''
-@app.route('/survey/logout/')
+@app.route('/survey/logout/', methods=['GET'])
+def surveyLogout():
+    login_session.pop('username', None)
+    return redirect(url_for('surveyLogin'))
 
-@app.route('/survey/')
+'''joshjosh'''
+@app.route('/survey/changepassword/', methods=['GET', 'POST'])
+def changeSurveyPassword():
+    if 'username' in login_session:
+        users = session.query(SurveyUser)
+        users = users.order_by(SurveyUser.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        if user.username == 'admin':
+            admin = True
+        else:
+            admin = False
+        if request.method == 'GET':
+            flash('Please Change Your Password')
+            return render_template('survey/changepassword.html',
+                                    admin = admin,
+                                    user = user.username)
+        elif request.method == 'POST':
+            current_password = user.password
+            new_password = request.form['password']
+            confirm_password = request.form['verify']
+            new_secure_password = make_secure_val(new_password)
+            if new_secure_password != current_password:
+                if new_password == confirm_password:
+                    user.password = new_secure_password
+                    flash('Password Succesfully Changed!')
+                    return redirect(url_for('surveyResults'))
+                else:
+                    flash('Password Do Not Match!')
+                    return render_template(url_for('showSurveyChangePassword'))
+            else:
+                flash('New Password Must Be Different Than Current Password')
+                return render_template(url_for('showSurveyChangePassword'))
+    else:
+        flash('Please Log In')
+        return render_template(url_for('surveyLogin'))
 
-@app.route('/survey/takepoll/')
+@app.route('/survey/results/', methods=['GET', 'PASS'])
+def surveyResults():
+    if requst.method == 'GET':
+        pass
 
-@app.route('/survery/edit/')
 
-@app.route('/survery/addquestion/')
 
-@app.route('/survery/deletequestion/')
+@app.route('/survey/takepoll', methods=['GET'])
+@app.route('/survey/takepoll/', methods=['GET'])
+def showSurveyPoll():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/takepoll.html')
 
-@app.route('/survery/adduser/')
+@app.route('/survey/edit', methods=['GET'])
+@app.route('/survey/edit/', methods=['GET'])
+def showSurveyEditResults():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/editresults.html')
 
-@app.route('/survery/deleteuser/')
+@app.route('/survey/addquestion', methods=['GET'])
+@app.route('/survey/addquestion/', methods=['GET'])
+def showSurveyAddQuestion():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/addquestion.html')
 
-@app.route('/survey/changepassword/')
-'''
+@app.route('/survey/deletequestion', methods=['GET'])
+@app.route('/survey/deletequestion/', methods=['GET'])
+def showSurveyDeleteQuestion():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/deletequestion.html')
+
+@app.route('/survey/adduser', methods=['GET'])
+@app.route('/survey/adduser/', methods=['GET'])
+def showSurveyAddUser():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/adduser.html')
+
+@app.route('/survey/deleteuser', methods=['GET'])
+@app.route('/survey/deleteuser/', methods=['GET'])
+def showSurveyDeleteUser():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/deleteuser.html')
+
+@app.route('/survey/changepassword', methods=['GET'])
+@app.route('/survey/changepassword/', methods=['GET'])
+def showSurveyChangePassword():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('survey/changepassword.html')
+
+
 
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''
