@@ -159,6 +159,36 @@ class ghostComplete(Base):
     completed = Column(DateTime)
     won = Column(String(6))
 
+class SurveyUsers(Base):
+    __tablename__ = 'SurveyUsers'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
+
+
+class SurveyQuestions(Base):
+    __tablename__ = 'SurveyQuestions'
+
+    id = Column(Integer, primary_key=True)
+    question = Column(String(1000), nullable=False)
+    option1 = Column(String(1000), nullable=True)
+    option2 = Column(String(1000), nullable=True)
+    option3 = Column(String(1000), nullable=True)
+    option4 = Column(String(1000), nullable=True)
+    option5 = Column(String(1000), nullable=True)
+
+
+class SurveyResults(Base):
+    __tablename__ = 'SurveyResults'
+
+    id = Column(Integer, primary_key=True)
+    choice = Column(String(1000), nullable=False)
+    question_id = Column(Integer, ForeignKey('questions.id'))
+    question = relationship(Recipe)
+    user_id = Column(Integer, ForeignKey('SurveyUsers.id'))
+    user = relationship(SurveyUsers)
+
 
 engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
 

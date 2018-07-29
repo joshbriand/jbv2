@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-from database_setup import Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete
+from database_setup import Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions
 
 import psycopg2
 
@@ -274,3 +274,8 @@ for x in range(0,len(names)):
         session.add(newUser)
         session.commit()
         print names[x] + " added"
+
+newUser = SurveyUsers(username="admin", password="59545")
+session.add(newUser)
+session.commit()
+print "Added admin user"

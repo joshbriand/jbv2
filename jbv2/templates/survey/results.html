@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% for result in results %}
+		<div class = "col-12 question">
+			{{ result [0] }}
+		</div>
+		<table border="1" id="results">
+			<tr class = "headers">
+				<td>
+					Option
+				</td>
+				<td>
+					# of votes
+				</td>
+				<td>
+					% of Votes
+				</td>
+				<td>
+					GMs
+				</td>
+			</tr>
+				{% for item in result[1] %}
+				<tr>
+					<td>
+						{{ item [0] | safe }}
+					</td>
+					<td>
+						{{ item [1] | length }}
+					</td>
+					<td>
+						{{ (item [1] | length / result [2] * 100) | round(1) }}%
+					</td>
+					<td>
+						{% for user in item [1] %}
+							{{ user }}
+						{% endfor %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+		<br><br>
+	{% endfor %}
+{% endblock %}
