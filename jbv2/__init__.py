@@ -75,7 +75,7 @@ def userExists(name):
     return session.query(q.exists()).scalar()
 
 def surveyUserExists(name):
-    q = session.query(SurveyUser).filter_by(username=name)
+    q = session.query(SurveyUsers).filter_by(username=name)
     return session.query(q.exists()).scalar()
 
 
@@ -1620,7 +1620,7 @@ def surveyLogin():
             login_password = request.form['password']
             if login_username:
                 if login_password:
-                    survey_users = session.query(SurveyUser)
+                    survey_users = session.query(SurveyUsers)
                     survey_user = survey_users.filter_by(username=login_username).first()
                     login_hashed_password = make_secure_val(login_password)
                     if surveyUserExists(login_username):
@@ -1660,7 +1660,7 @@ def surveyLogin():
                             flash('That is Not a Valid Password')
                             return render_template('survey/login.html')
                         else:
-                            newUser = SurveyUser(username=new_username,
+                            newUser = SurveyUsers(username=new_username,
                                             password=new_hashed_password)
                             session.add(newUser)
                             session.commit()
@@ -1682,8 +1682,8 @@ def surveyLogout():
 @app.route('/survey/changepassword/', methods=['GET', 'POST'])
 def changeSurveyPassword():
     if 'username' in login_session:
-        users = session.query(SurveyUser)
-        users = users.order_by(SurveyUser.username.asc())
+        users = session.query(SurveyUsers)
+        users = users.order_by(SurveyUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
         if user.username == 'admin':
             admin = True
