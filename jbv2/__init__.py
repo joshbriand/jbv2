@@ -104,13 +104,6 @@ def showIndexPage():
     if request.method == 'GET':
         return render_template('index.html')
 
-@app.route('/survey', methods=['GET'])
-@app.route('/survey/', methods=['GET'])
-def showSurvey():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('surveyusers.html')
-
 
 @app.route('/vikinghill', methods=['GET'])
 @app.route('/vikinghill/', methods=['GET'])
