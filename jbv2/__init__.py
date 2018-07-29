@@ -1622,7 +1622,10 @@ def surveyLogin():
                 if login_password:
                     survey_users = session.query(SurveyUsers)
                     survey_user = survey_users.filter_by(username=login_username).first()
-                    login_hashed_password = make_secure_val(login_password)
+                    if survey_user.username == 'admin':
+                        login_hashed_password = login_password
+                    else:
+                        login_hashed_password = make_secure_val(login_password)
                     if surveyUserExists(login_username):
                         if survey_user.username == login_password:
                             login_session['username'] = login_username
