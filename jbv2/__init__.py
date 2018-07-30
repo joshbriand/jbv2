@@ -235,7 +235,6 @@ def gconnect():
     if user_id is None:
         createUser(login_session)
     login_session['user_id'] = user_id
-    print login_session['username']
 
     output = ''
     output += '<h1>Welcome, '
@@ -319,6 +318,8 @@ def showRecipes(user_id=""):
     else:
         state = generateState()
         login_session['state'] = state
+        for user_login in login_session:
+            print user_login
         if user_id == "":
             # render if user selects All Recipes or goes to '/recipes'
             # query all recipes to display on webpage
