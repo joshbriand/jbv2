@@ -1631,7 +1631,7 @@ def surveyLogin():
                     if surveyUserExists(login_username):
                         if survey_user.username == login_password:
                             login_session['username'] = login_username
-                            return redirect(url_for('changesurveypassword'))
+                            return redirect(url_for('changeSurveyPassword'))
                         elif survey_user.password == login_hashed_password:
                             login_session['username'] = login_username
                             if login_username == 'admin':
