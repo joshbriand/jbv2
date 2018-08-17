@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	var total = 0;
+	var summary = [0,0,0,0,0,0,0,0,0,0,0];
+	var summaryCodec = [100, 50, 20, 10, 5, 2, 1, .25, .1, .05, .01]
 	function init() {
 		console.log('init');
 		$('#hundreds').bind('change', {value: 100, destination: '#hundreds-value', source: '#hundreds'}, calculateRow);
@@ -21,12 +23,14 @@ $(document).ready(function(){
 		destination = info.data.destination;
 		source = info.data.source;
 		destination_value = parseFloat(value * $(source).val());
-		if (isNaN(parseFloat($(destination).val())) == true) {
-			total = total + destination_value;
-		} else {
-			total = total - parseFloat($(destination).val()) + destination_value;
-		}
 		$(destination).text('$' + destination_value.toFixed(2));
+		total = 0;
+		for (var x=0; x<summaryCodec.length; x++) {
+			if (value == summaryCodec[x]) {
+				summary[x] = destination_value;
+			}
+			total = total + summary[x];
+		}
 		$('#total-value').text('$' + total.toFixed(2));
 	}
 
