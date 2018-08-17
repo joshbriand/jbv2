@@ -326,6 +326,7 @@ def showRecipes(user_id=""):
         if user_id == "":
             # render if user selects All Recipes or goes to '/recipes'
             # query all recipes to display on webpage
+            session = DBSession()
             recipes = session.query(Recipe).order_by(Recipe.date.desc())
             return render_template(
                 'recipes.html',
