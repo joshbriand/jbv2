@@ -25,7 +25,7 @@ app = Flask(__name__)
 APPLICATION_NAME = "Josh Briand's website"
 
 CLIENT_ID = json.loads(
-    open('google_client_secrets.json', 'r').read())['web']['client_id']
+    open('var/www/jbv2/jbv2/google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
 
 engine = create_engine('sqlite:///jb.db')
