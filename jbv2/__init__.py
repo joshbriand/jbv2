@@ -273,6 +273,7 @@ def showRecipes(user_id=""):
     cuisines[0] = "All"
     meals[0] = "All"
     likeOrder = ""
+    session = DBSession()
     users = session.query(User).order_by(User.id)
     if request.method == 'POST':
         # query all recipes
