@@ -1754,10 +1754,8 @@ def surveyAdmin():
             admin = True
         else:
             flash('Access Restricted to Admin User Only')
-
             return redirect(url_for('surveyLogin'))
         if request.method == 'GET':
-
             return render_template('survey/admin.html',
                                     admin = admin,
                                     user = user)
