@@ -28,9 +28,9 @@ CLIENT_ID = json.loads(
     open('var/www/jbv2/jbv2/google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
 
-engine = create_engine('sqlite:///jb.db')
-'''engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
-'''
+'''engine = create_engine('sqlite:///jb.db')'''
+engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
+
 Base.metadata.bind = engine
 
 DBSession = scoped_session(sessionmaker(bind=engine))
