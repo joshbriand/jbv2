@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "survey/base.html" %}
 
 {% block content %}
 	{% for result in results %}
 		<div class = "col-12 question">
-			{{ result [0] }}
+			{{ result[0].question }}
 		</div>
 		<table border="1" id="results">
 			<tr class = "headers">
@@ -14,30 +14,64 @@
 					# of votes
 				</td>
 				<td>
-					% of Votes
-				</td>
-				<td>
 					GMs
 				</td>
 			</tr>
-				{% for item in result[1] %}
 				<tr>
-					<td>
-						{{ item [0] | safe }}
-					</td>
-					<td>
-						{{ item [1] | length }}
-					</td>
-					<td>
-						{{ (item [1] | length / result [2] * 100) | round(1) }}%
-					</td>
-					<td>
-						{% for user in item [1] %}
-							{{ user }}
-						{% endfor %}
-					</td>
+					{% if result[0].option1 %}
+						<td>{{ result[0].option1 }}</td>
+						<td>{{ result[1] | length }}</td>
+						<td>
+							{% for gm in result[1] %}
+								{{ gm }}
+							{% endfor %}
+						</td>
+					{% endif %}
 				</tr>
-			{% endfor %}
+				<tr>
+					{% if result[0].option2 %}
+						<td>{{ result[0].option2 }}</td>
+						<td>{{ result[2] | length }}</td>
+						<td>
+							{% for gm in result[2] %}
+								{{ gm }}
+							{% endfor %}
+						</td>
+					{% endif %}
+				</tr>
+				<tr>
+					{% if result[0].option3 %}
+						<td>{{ result[0].option3 }}</td>
+						<td>{{ result[3] | length }}</td>
+						<td>
+							{% for gm in result[3] %}
+								{{ gm }}
+							{% endfor %}
+						</td>
+					{% endif %}
+				</tr>
+				<tr>
+					{% if result[0].option4 %}
+						<td>{{ result[0].option4 }}</td>
+						<td>{{ result[4] | length }}</td>
+						<td>
+							{% for gm in result[4] %}
+								{{ gm }}
+							{% endfor %}
+						</td>
+					{% endif %}
+				</tr>
+				<tr>
+					{% if result[0].option5 %}
+						<td>{{ result[0].option5 }}</td>
+						<td>{{ result[5] | length }}</td>
+						<td>
+							{% for gm in result[5] %}
+								{{ gm }}
+							{% endfor %}
+						</td>
+					{% endif %}
+				</tr>
 		</table>
 		<br><br>
 	{% endfor %}

@@ -1,17 +1,82 @@
-{% extends "base.html" %}
+{% extends "survey/base.html" %}
 
 {% block content %}
 <form method="post">
 	{% for question in questions %}
 		<label>
-			<div class="question ">
+			<div class="question">
 				{{ question.question }}
 			</div>
-			{% for option in question.options %}
-				<input type="radio" name="{{ question.question }}" value="{{ option }}">
-				{{ option|safe }}
+			{% if question.option1 %}
+				{% for result in results %}
+					{% if question.id == result.question.id and question.option1 == result.choice %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option1 }}" checked="checked">
+					{% elif question.id == result.question.id %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option1 }}">
+					{% endif %}
+				{% endfor %}
+				{% if first == none %}
+					<input type="radio" name="{{ question.id }}" value="{{ question.option1 }}">
+				{% endif %}
+				{{ question.option1|safe }}
 				<br>
-			{% endfor %}
+			{% endif %}
+			{% if question.option2 %}
+				{% for result in results %}
+					{% if question.id == result.question.id and question.option2 == result.choice %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option2 }}" checked="checked">
+					{% elif question.id == result.question.id %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option2 }}">
+					{% endif %}
+				{% endfor %}
+				{% if first == none %}
+					<input type="radio" name="{{ question.id }}" value="{{ question.option2 }}">
+				{% endif %}
+				{{ question.option2|safe }}
+				<br>
+			{% endif %}
+			{% if question.option3 %}
+				{% for result in results %}
+					{% if question.id == result.question.id and question.option3 == result.choice %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option3 }}" checked="checked">
+					{% elif question.id == result.question.id %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option3 }}">
+					{% endif %}
+				{% endfor %}
+				{% if first == none %}
+					<input type="radio" name="{{ question.id }}" value="{{ question.option3 }}">
+				{% endif %}
+				{{ question.option3|safe }}
+				<br>
+			{% endif %}
+			{% if question.option4 %}
+				{% for result in results %}
+					{% if question.id == result.question.id and question.option4 == result.choice %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option4 }}" checked="checked">
+					{% elif question.id == result.question.id %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option4 }}">
+					{% endif %}
+				{% endfor %}
+				{% if first == none %}
+					<input type="radio" name="{{ question.id }}" value="{{ question.option4 }}">
+				{% endif %}
+				{{ question.option4|safe }}
+				<br>
+			{% endif %}
+			{% if question.option5 %}
+				{% for result in results %}
+					{% if question.id == result.question.id and question.option5 == result.choice %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option5 }}" checked="checked">
+					{% elif question.id == result.question.id %}
+						<input type="radio" name="{{ question.id }}" value="{{ question.option5 }}">
+					{% endif %}
+				{% endfor %}
+				{% if first == none %}
+					<input type="radio" name="{{ question.id }}" value="{{ question.option5	 }}">
+				{% endif %}
+				{{ question.option5|safe }}
+				<br>
+			{% endif %}
 		</label>
 		<br>
 		<br>

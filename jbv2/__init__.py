@@ -3,6 +3,7 @@ from flask import session as login_session
 from flask import make_response
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
 from database_setup import (Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions)
 import random
 import string
@@ -14,7 +15,6 @@ import simplejson
 import json
 import ast
 import requests
-import psycopg2
 import re, hmac
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -25,14 +25,15 @@ app = Flask(__name__)
 APPLICATION_NAME = "Josh Briand's website"
 
 CLIENT_ID = json.loads(
-    open('/home/ubuntu/google_client_secrets.json', 'r').read())['web']['client_id']
+    open('google_client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Recipe Application"
 
-engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
-
+engine = create_engine('sqlite:///jb.db')
+'''engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
+'''
 Base.metadata.bind = engine
 
-DBSession = sessionmaker(bind=engine)
+DBSession = scoped_session(sessionmaker(bind=engine))
 session = DBSession()
 
 # list of cuisines and meals used in app
@@ -75,8 +76,10 @@ def userExists(name):
     return session.query(q.exists()).scalar()
 
 def surveyUserExists(name):
-    q = session.query(SurveyUsers).filter_by(username=name)
-    return session.query(q.exists()).scalar()
+    session = DBSession()
+    z = session.query(SurveyUsers).filter_by(username=name)
+    print session.query(z.exists()).scalar()
+    return session.query(z.exists()).scalar()
 
 
 #does game exist?
@@ -982,6 +985,7 @@ def login():
 @app.route('/ghosts/logout/')
 def logout():
     login_session.pop('username', None)
+    session.remove()
     return redirect(url_for('login'))
 
 @app.route('/ghosts/changepassword/', methods=['GET', 'POST'])
@@ -1028,7 +1032,6 @@ def changepassword():
         return render_template('login.html')
 
 
-'''joshjosh'''
 @app.route('/ghosts/menu/', methods=['GET', 'POST'])
 def menu():
     if 'username' in login_session:
@@ -1622,8 +1625,13 @@ def surveyLogin():
             login_password = request.form['password']
             if login_username:
                 if login_password:
-                    survey_users = session.query(SurveyUsers)
-                    survey_user = survey_users.filter_by(username=login_username).first()
+                    session = DBSession()
+                    survey_users = session.query(SurveyUsers).all()
+                    for user in survey_users:
+                        if user.username == login_username:
+                            survey_user = user
+                            print "success"
+                            break
                     if surveyUserExists(login_username):
                         if survey_user.username == 'admin':
                             login_hashed_password = login_password
@@ -1635,8 +1643,10 @@ def surveyLogin():
                         elif survey_user.password == login_hashed_password:
                             login_session['username'] = login_username
                             if login_username == 'admin':
+                                print "successful admin log in"
                                 return redirect(url_for('surveyAdmin'))
                             else:
+                                print "successful log in"
                                 return redirect(url_for('surveyResults'))
                         else:
                             flash('Incorrect Password')
@@ -1651,6 +1661,7 @@ def surveyLogin():
                 flash('No Username Entered')
                 return render_template('survey/login.html')
         elif request.form['login'] == "Create User":
+            session = DBSession()
             new_username = request.form['newUsername']
             new_password = request.form['newPassword']
             confirm_password = request.form['confirmPassword']
@@ -1672,6 +1683,7 @@ def surveyLogin():
                                             password=new_hashed_password)
                             session.add(newUser)
                             session.commit()
+                            print "new user added"
                             login_session['username'] = new_username
                             return redirect(url_for('surveyResults'))
                     else:
@@ -1684,12 +1696,14 @@ def surveyLogin():
 @app.route('/survey/logout/', methods=['GET'])
 def surveyLogout():
     login_session.pop('username', None)
+
     return redirect(url_for('surveyLogin'))
 
-'''joshjosh'''
 @app.route('/survey/changepassword/', methods=['GET', 'POST'])
 def changeSurveyPassword():
     if 'username' in login_session:
+        print login_session['username']
+        session = DBSession()
         users = session.query(SurveyUsers)
         users = users.order_by(SurveyUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
@@ -1699,6 +1713,7 @@ def changeSurveyPassword():
             admin = False
         if request.method == 'GET':
             flash('Please Change Your Password')
+
             return render_template('survey/changepassword.html',
                                     admin = admin,
                                     user = user.username)
@@ -1710,89 +1725,391 @@ def changeSurveyPassword():
             if new_secure_password != current_password:
                 if new_password == confirm_password:
                     user.password = new_secure_password
+                    session.add(user)
+                    session.commit()
                     flash('Password Succesfully Changed!')
                     return redirect(url_for('surveyResults'))
                 else:
                     flash('Password Do Not Match!')
+
                     return render_template(url_for('showSurveyChangePassword'))
             else:
                 flash('New Password Must Be Different Than Current Password')
+
                 return render_template(url_for('showSurveyChangePassword'))
     else:
         flash('Please Log In')
+
         return render_template(url_for('surveyLogin'))
 
-@app.route('/survey/admin/', methods=['GET', 'PASS'])
+@app.route('/survey/addquestion/', methods=['GET', 'POST'])
+@app.route('/survey/addquestion', methods=['GET', 'POST'])
 def surveyAdmin():
     if 'username' in login_session:
+        session = DBSession()
         users = session.query(SurveyUsers)
         users = users.order_by(SurveyUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
         if user.username == 'admin':
             admin = True
         else:
-            admin = False
+            flash('Access Restricted to Admin User Only')
+
+            return redirect(url_for('surveyLogin'))
         if request.method == 'GET':
+
             return render_template('survey/admin.html',
                                     admin = admin,
                                     user = user)
+        elif request.method == 'POST':
+            new_question = request.form['question']
+            new_answer_1 = request.form['answer1']
+            new_answer_2 = request.form['answer2']
+            new_answer_3 = request.form['answer3']
+            new_answer_4 = request.form['answer4']
+            new_answer_5 = request.form['answer5']
+            if new_question:
+                if new_answer_1 or new_answer_2 or new_answer_3 or new_answer_4 or new_answer_5:
+                    newQuestion = SurveyQuestions(question=new_question,
+                                                    option1=new_answer_1,
+                                                    option2=new_answer_2,
+                                                    option3=new_answer_3,
+                                                    option4=new_answer_4,
+                                                    option5=new_answer_5)
+                    session.add(newQuestion)
+                    session.commit()
+                    print "new question added"
+                    flash('Question Added Seccessfully!')
 
+                    return render_template('survey/admin.html',
+                                            admin = admin,
+                                            user = user)
+                else:
+                    flash('You Must Enter An Answer')
 
-@app.route('/survey/results/', methods=['GET', 'PASS'])
-def surveyResults():
-    if request.method == 'GET':
-        return render_template('survey/results.html')
+                    return render_template('survey/admin.html',
+                                            admin = admin,
+                                            user = user)
+            else:
+                flash('You Must Enter A Question')
 
+                return render_template('survey/admin.html',
+                                        admin = admin,
+                                        user = user)
+    else:
+        flash('You Must Be Logged In To Access This Page')
 
+        return redirect(url_for('surveyLogin'))
 
-@app.route('/survey/takepoll', methods=['GET'])
-@app.route('/survey/takepoll/', methods=['GET'])
+@app.route('/survey/deletequestion', methods=['GET', 'POST'])
+@app.route('/survey/deletequestion/', methods=['GET', 'POST'])
+def showSurveyDeleteQuestion():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(SurveyUsers)
+        users = users.order_by(SurveyUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        questions = session.query(SurveyQuestions)
+        questions = questions.order_by(SurveyQuestions.id.asc())
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+
+            return redirect(url_for('surveyLogin'))
+        if request.method == 'GET':
+
+            return render_template('survey/deletequestion.html',
+                                    admin=admin,
+                                    user=user,
+                                    questions=questions)
+        elif request.method == 'POST':
+            delete_question = request.form['deletequestion']
+            delete_question = int(delete_question)
+            if delete_question:
+                questionToDelete = session.query(
+                    SurveyQuestions).filter_by(id=delete_question).all()
+                print delete_question
+                if questionToDelete:
+                    for question in questionToDelete:
+                        session.delete(question)
+                        session.commit()
+                        print "question deleted!"
+                    flash ('Question Deleted Successfully!')
+                    questions = session.query(SurveyQuestions)
+                    questions = questions.order_by(SurveyQuestions.id.asc())
+
+                    return render_template('survey/deletequestion.html',
+                                            admin=admin,
+                                            user=user,
+                                            questions=questions)
+                else:
+                    flash('Question Not Found In Database')
+
+                    return render_template('survey/deletequestion.html',
+                                            admin=admin,
+                                            user=user,
+                                            questions=questions)
+            else:
+                flash('You Must Select A Question To Delete')
+
+                return render_template('survey/deletequestion.html',
+                                        admin=admin,
+                                        user=user,
+                                        questions=questions)
+
+    else:
+        flash('You Must Be Logged In To Access This Page')
+
+        return redirect(url_for('surveyLogin'))
+
+@app.route('/survey/adduser', methods=['GET', 'POST'])
+@app.route('/survey/adduser/', methods=['GET', 'POST'])
+def showSurveyAddUser():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(SurveyUsers)
+        users = users.order_by(SurveyUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+
+            return redirect(url_for('surveyLogin'))
+        if request.method == 'GET':
+
+            return render_template('survey/adduser.html',
+                                    admin = admin,
+                                    user = user)
+        elif request.method == 'POST':
+            new_username = request.form['username']
+            new_password = request.form['password']
+            confirm_password = request.form['verify']
+            new_hashed_password = make_secure_val(new_password)
+            session = DBSession()
+            if new_username:
+                if surveyUserExists(new_username):
+                    flash('Username Already Exists')
+
+                    return render_template('survey/adduser.html',
+                                            admin=admin,
+                                            user=user)
+                elif validate(new_username, USER_RE) is None:
+                    flash('That is Not a Valid Username')
+
+                    return render_template('survey/adduser.html',
+                                            admin=admin,
+                                            user=user)
+                else:
+                    if new_password == confirm_password:
+                        if validate(new_password, PASSWORD_RE) is None:
+                            flash('That is Not a Valid Password')
+
+                            return render_template('survey/adduser.html',
+                                                    admin=admin,
+                                                    user=user)
+                        else:
+                            newUser = SurveyUsers(username=new_username,
+                                            password=new_hashed_password)
+                            session.add(newUser)
+                            session.commit()
+                            print "user added!!!"
+                            flash('User Added Succesfully!')
+                            return render_template('survey/adduser.html',
+                                                    admin=admin,
+                                                    user=user)
+                    else:
+                        flash('Passwords Do Not Match')
+
+                        return render_template('survey/adduser.html',
+                                                admin=admin,
+                                                user=user)
+            else:
+                flash('No Username Entered')
+
+                return render_template('survey/adduser.html',
+                                        admin=admin,
+                                        user=user)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+
+        return redirect(url_for('surveyLogin'))
+
+@app.route('/survey/deleteuser', methods=['GET', 'POST'])
+@app.route('/survey/deleteuser/', methods=['GET', 'POST'])
+def showSurveyDeleteUser():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(SurveyUsers)
+        users = users.order_by(SurveyUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        if user.username == 'admin':
+            admin = True
+        else:
+
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('surveyLogin'))
+        if request.method == 'GET':
+
+            return render_template('survey/deleteuser.html',
+                                    admin=admin,
+                                    user=user,
+                                    users=users)
+        elif request.method == 'POST':
+            delete_user = request.form['deleteuser']
+            delete_user = int(delete_user)
+            session = DBSession()
+            if delete_user:
+                resultsToDelete = session.query(
+                    SurveyResults).filter_by(user_id=delete_user).all()
+                if resultsToDelete:
+                    for delResult in resultsToDelete:
+                        session.delete(delResult)
+                        session.commit()
+                        print "result deleted!"
+                userToDelete = session.query(
+                    SurveyUsers).filter_by(id=delete_user).all()
+                if userToDelete:
+                    for delUser in userToDelete:
+                        session.delete(delUser)
+                        session.commit()
+                        print "user deleted!"
+                    flash ('User Deleted Successfully!')
+                    users = session.query(SurveyUsers)
+                    users = users.order_by(SurveyUsers.id.asc())
+
+                    return render_template('survey/deleteuser.html',
+                                            admin=admin,
+                                            user=user,
+                                            users=users)
+                else:
+                    flash('User Not Found In Database')
+
+                    return render_template('survey/deleteuser.html',
+                                            admin=admin,
+                                            user=user,
+                                            users=users)
+            else:
+                flash('You Must Select A Question To Delete')
+
+                return render_template('survey/deleteuser.html',
+                                        admin=admin,
+                                        user=user,
+                                        users=users)
+
+    else:
+        flash('You Must Be Logged In To Access This Page')
+
+        return redirect(url_for('surveyLogin'))
+
+@app.route('/survey/takepoll', methods=['GET', 'POST'])
+@app.route('/survey/takepoll/', methods=['GET', 'POST'])
 def showSurveyPoll():
     '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/takepoll.html')
+    if 'username' in login_session:
+        if login_session['username'] == 'admin':
+            flash('You Must Be Logged In As A User')
+            return redirect(url_for('surveyLogin'))
+        else:
+            if request.method == 'GET':
+                session = DBSession()
+                users = session.query(SurveyUsers)
+                users = users.order_by(SurveyUsers.username.asc())
+                user = users.filter_by(username=login_session['username']).one()
+                questions = session.query(SurveyQuestions)
+                questions = questions.order_by(SurveyQuestions.id.asc())
+                results = session.query(SurveyResults)
+                print "all results"
+                print results
+                user_results = results.filter_by(user_id=user.id)
+                print "user results"
+                print user_results
+                first = user_results.first()
+                print "first?"
+                print first
+                return render_template('survey/takepoll.html',
+                                        user=user.username,
+                                        questions=questions,
+                                        results=user_results,
+                                        first=first)
+            elif request.method == 'POST':
+                session = DBSession()
+                users = session.query(SurveyUsers)
+                users = users.order_by(SurveyUsers.username.asc())
+                user  = users.filter_by(username=login_session['username']).one()
+                questions = session.query(SurveyQuestions)
+                for question in questions:
+                    option_selected = request.form.get(str(question.id))
+                    if option_selected:
+                        results = session.query(SurveyResults)
+                        user_results = results.filter_by(user_id=user.id)
+                        for user_result in user_results:
+                            if user_result.question.id == question.id:
+                                session.delete(user_result)
+                                session.commit()
+                                print "result deleted!"
+                        newResult = SurveyResults(choice = option_selected,
+                                                question_id = question.id,
+                                                user_id = user.id)
+                        session.add(newResult)
+                        session.commit()
+                        print "result added!"
+                flash('Thanks For Taking The Survey!')
+                return redirect(url_for('surveyResults'))
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('surveyLogin'))
 
-@app.route('/survey/edit', methods=['GET'])
-@app.route('/survey/edit/', methods=['GET'])
+
+@app.route('/survey/results/', methods=['GET', 'POST'])
+def surveyResults():
+    if request.method == 'GET':
+        session = DBSession()
+        users = session.query(SurveyUsers)
+        users = users.order_by(SurveyUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        results = session.query(SurveyResults)
+        results = results.order_by(SurveyResults.question_id.asc())
+        questions = session.query(SurveyQuestions)
+        questions = questions.order_by(SurveyQuestions.id.asc())
+        resultsToHTML = []
+        for question in questions:
+            voters = [question,[],[],[],[],[]]
+            for result in results:
+                if result.question.id == question.id:
+                    if result.choice == question.option1:
+                        voters[1].append(result.user.username)
+                    elif result.choice == question.option2:
+                        voters[2].append(result.user.username)
+                    elif result.choice == question.option3:
+                        voters[3].append(result.user.username)
+                    elif result.choice == question.option4:
+                        voters[4].append(result.user.username)
+                    elif result.choice == question.option5:
+                        voters[5].append(result.user.username)
+            resultsToHTML.append(voters)
+        print resultsToHTML
+        return render_template('survey/results.html',
+                                user=user.username,
+                                results=resultsToHTML)
+
+
+
+
+
+@app.route('/survey/edit', methods=['GET', 'POST'])
+@app.route('/survey/edit/', methods=['GET', 'POST'])
 def showSurveyEditResults():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
         return render_template('survey/editresults.html')
 
-@app.route('/survey/addquestion', methods=['GET'])
-@app.route('/survey/addquestion/', methods=['GET'])
-def showSurveyAddQuestion():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/addquestion.html')
 
-@app.route('/survey/deletequestion', methods=['GET'])
-@app.route('/survey/deletequestion/', methods=['GET'])
-def showSurveyDeleteQuestion():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/deletequestion.html')
 
-@app.route('/survey/adduser', methods=['GET'])
-@app.route('/survey/adduser/', methods=['GET'])
-def showSurveyAddUser():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/adduser.html')
-
-@app.route('/survey/deleteuser', methods=['GET'])
-@app.route('/survey/deleteuser/', methods=['GET'])
-def showSurveyDeleteUser():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/deleteuser.html')
-
-@app.route('/survey/changepassword', methods=['GET'])
-@app.route('/survey/changepassword/', methods=['GET'])
-def showSurveyChangePassword():
-    '''Handler for landing page of website.'''
-    if request.method == 'GET':
-        return render_template('survey/changepassword.html')
 
 
 
@@ -1855,4 +2172,5 @@ def getUserID(email):
 if __name__ == '__main__':
     app.secret_key = "Don't panic!"
     app.debug = True
-    app.run()
+    '''app.run()'''
+    app.run("0.0.0.0", debug=True)

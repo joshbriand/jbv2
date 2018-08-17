@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "survey/base.html" %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
 			{% if user.username == "admin" %}
 			{% else %}
 				{{ user.username }}
-				<input type="radio" name="deleteuser" value="{{ user.username }}">
+				<input type="radio" name="deleteuser" value="{{ user.id }}">
 				<br>
 			{% endif %}
 		{% endfor %}
