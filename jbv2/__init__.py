@@ -2045,8 +2045,8 @@ def showSurveyPoll():
                                                 user_id = user.id)
                         session.add(newResult)
                         session.commit()
-                        DBSession.remove()
                         print "result added!"
+                DBSession.remove()
                 flash('Thanks For Taking The Survey!')
                 return redirect(url_for('surveyResults'))
     else:
