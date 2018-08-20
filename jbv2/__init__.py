@@ -79,6 +79,7 @@ def surveyUserExists(name):
     session = DBSession()
     z = session.query(SurveyUsers).filter_by(username=name)
     print session.query(z.exists()).scalar()
+    session.remove()
     return session.query(z.exists()).scalar()
 
 
@@ -1629,6 +1630,7 @@ def surveyLogin():
                 if login_password:
                     session = DBSession()
                     survey_users = session.query(SurveyUsers).all()
+                    session.remove()
                     for user in survey_users:
                         if user.username == login_username:
                             survey_user = user
@@ -1685,6 +1687,7 @@ def surveyLogin():
                                             password=new_hashed_password)
                             session.add(newUser)
                             session.commit()
+                            session.remove()
                             print "new user added"
                             login_session['username'] = new_username
                             return redirect(url_for('surveyResults'))
