@@ -34,7 +34,7 @@ engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
 Base.metadata.bind = engine
 
 DBSession = scoped_session(sessionmaker(bind=engine))
-session = DBSession()
+#session = DBSession()
 
 # list of cuisines and meals used in app
 cuisines = [
