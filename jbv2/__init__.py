@@ -158,10 +158,6 @@ def showBreweriesPage():
     if request.method == 'GET':
         return render_template('breweries.html')
 
-
-
-
-
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     '''Google Plus Oauth login'''
@@ -276,8 +272,10 @@ def showRecipes(user_id=""):
     likeOrder = ""
     session = DBSession()
     users = session.query(User).order_by(User.id)
+    DBSession.remove()
     if request.method == 'POST':
         # query all recipes
+        session = DBSession()
         recipes = session.query(Recipe)
         # get cuisine type for filtering
         cuisine = request.form['cuisine']
@@ -309,6 +307,7 @@ def showRecipes(user_id=""):
         elif order == "Popular":
             # sort by most popular recipe first
             likeOrder = getOrderedLikes()
+        DBSession.remove()
         return render_template(
             'recipes.html',
             recipes=recipes,
@@ -330,6 +329,7 @@ def showRecipes(user_id=""):
             # query all recipes to display on webpage
             session = DBSession()
             recipes = session.query(Recipe).order_by(Recipe.date.desc())
+            DBSession.remove()
             return render_template(
                 'recipes.html',
                 recipes=recipes,
@@ -340,9 +340,11 @@ def showRecipes(user_id=""):
                 likeOrder=likeOrder)
         else:
             # webpage if user selects My Recipes
+            session = DBSession()
             recipes = session.query(Recipe).filter_by(
                 user_id=user_id).order_by(
                 Recipe.date.desc())
+            DBSession.remove()
             return render_template(
                 'recipes.html',
                 recipes=recipes,
@@ -400,6 +402,7 @@ def addRecipe():
                 meals=meals,
                 cuisines=cuisines)
         # commit new recipe to database
+        session = DBSession()
         newRecipe = Recipe(
             name=name,
             cuisine=cuisine,
@@ -423,6 +426,7 @@ def addRecipe():
             session.commit()
         # redirect user to newly created recipe webpage and success message
         flash('New Recipe %s Successfully Created' % newRecipe.name)
+        DBSession.remove()
         return redirect(url_for('showRecipe', recipe_id=recipe_id))
         # return to recipe (no s!)
     else:
@@ -443,6 +447,7 @@ def showRecipe(recipe_id):
     if recipeExists(recipe_id):
         # check to see if recipe id exists
         # query recipe, method, ingredients, likes and comments
+        sessioon = DBSession()
         recipe = session.query(Recipe).filter_by(id=recipe_id).one()
         ingredients = session.query(Ingredient).filter_by(
             recipe_id=recipe_id).all()
@@ -462,6 +467,7 @@ def showRecipe(recipe_id):
                 liked = userLiked(likes)
         state = generateState()
         login_session['state'] = state
+        DBSession.remove()
         return render_template(
             'recipe.html',
             recipe=recipe,
@@ -488,6 +494,7 @@ def editRecipe(recipe_id):
     if recipeExists(recipe_id):
         # if recipe if exists in database
         # query author, ingredients and process recipe from database
+        session = DBSession()
         author = session.query(Recipe).filter_by(id=recipe_id).one().user
         recipeToEdit = session.query(Recipe).filter_by(id=recipe_id).one()
         oldIngredients = session.query(
@@ -519,6 +526,7 @@ def editRecipe(recipe_id):
                     date = datetime.now()
                     if error != "":
                         flash(error)
+                        DBSession.remove()
                         return render_template(
                             'editrecipe.html',
                             name=name,
@@ -560,6 +568,7 @@ def editRecipe(recipe_id):
                     flash(
                         'New Recipe %s Successfully Editted' %
                         recipeToEdit.name)
+                    DBSession.remove()
                     return redirect(url_for('showRecipe', recipe_id=recipe_id))
                 else:
                     ingredientString = ""
@@ -568,6 +577,7 @@ def editRecipe(recipe_id):
                     processString = ""
                     for process in oldProcesses:
                         processString += process.process + "\n"
+                    DBSession.remove()
                     return render_template(
                         'editrecipe.html',
                         recipe=recipeToEdit,
@@ -596,6 +606,7 @@ def deleteRecipe(recipe_id):
         # if recipe if exists in database
         '''query author, ingredients, process, comments, likes and recipe from
         database'''
+        session = DBSession()
         author = session.query(Recipe).filter_by(id=recipe_id).one().user
         recipeToDelete = session.query(Recipe).filter_by(id=recipe_id).one()
         likesToDelete = session.query(Like).filter_by(recipe_id=recipe_id)
@@ -623,8 +634,9 @@ def deleteRecipe(recipe_id):
                         for ingredientToDelete in ingredientsToDelete:
                             session.delete(ingredientToDelete)
                             session.commit()
-			session.delete(recipeToDelete)
+			                session.delete(recipeToDelete)
                         session.commit()
+                        DBSession.remove()
                         flash('Recipe Successfully Deleted')
                         return redirect('/recipes/')
                     else:
@@ -655,6 +667,7 @@ def likeRecipe(recipe_id):
         if 'username' in login_session:
             # if user is logged in
             # query likes in database
+            session = DBSession()
             likes = session.query(Like).filter_by(recipe_id=recipe_id).all()
             if likes:
                 # if likes exists
@@ -662,6 +675,7 @@ def likeRecipe(recipe_id):
                     # if user liked this recipe already
                     # redirect and error message
                     flash('User has already liked this recipe')
+                    DBSession.remove()
                     return redirect(url_for('showRecipe', recipe_id=recipe_id))
             # if user has not liked this recipe already
             # add like to database
@@ -672,6 +686,7 @@ def likeRecipe(recipe_id):
             session.commit()
             # redirect and success message
             flash('Recipe liked')
+            DBSession.remove()
             return redirect(url_for('showRecipe', recipe_id=recipe_id))
         else:
             # redirect and error message if user not logged in
@@ -691,6 +706,7 @@ def unlikeRecipe(recipe_id):
         if 'username' in login_session:
             # if user is logged in
             # query likes from database
+            session = DBSession()
             likes = session.query(Like).filter_by(recipe_id=recipe_id).all()
             if likes:
                 # if likes exist
@@ -703,10 +719,12 @@ def unlikeRecipe(recipe_id):
                     session.commit()
                     # redirect and success message
                     flash('Recipe unliked')
+                    DBSession.remove()
                     return redirect(url_for('showRecipe', recipe_id=recipe_id))
                 else:
                     # redirect and error message if user has not already liked
                     flash('User does not like this recipe')
+                    DBSession.remove()
                     return redirect(url_for('showRecipe', recipe_id=recipe_id))
         else:
             # redirect and error message if user not logged in
@@ -727,7 +745,6 @@ def addComment(recipe_id):
             if 'username' in login_session:
                 # if user if logged in
                 # get comment from form
-
                 comment = request.form['comment']
                 if comment == "":
                         # error and redirect if no comment is entered
@@ -736,6 +753,7 @@ def addComment(recipe_id):
                 else:
                     # commit comment to database
                     date = datetime.now()
+                    session = DBSession()
                     newComment = Comments(
                         comment=comment,
                         recipe_id=recipe_id,
@@ -745,6 +763,7 @@ def addComment(recipe_id):
                     session.commit()
                     # redirect and success message
                     flash('Comment has been added')
+                    DBSession.remove()
                     return redirect(url_for('showRecipe', recipe_id=recipe_id))
             else:
                 # redirect and error message if user not logged in
@@ -760,9 +779,7 @@ def addComment(recipe_id):
 
 @app.route(
     '/recipe/<int:recipe_id>/editcomment/<int:comment_id>/',
-    methods=[
-        'GET',
-        'POST'])
+    methods=['GET','POST'])
 def editComment(recipe_id, comment_id):
     '''handler to edit comment'''
     if recipeExists(recipe_id):
@@ -770,10 +787,13 @@ def editComment(recipe_id, comment_id):
         if commentExists(comment_id):
             # comment exists in database
             # query comment
+            session = DBSession()
             commentToEdit = session.query(
                 Comments).filter_by(id=comment_id).one()
+            DBSession.remove()
             if request.method == 'POST':
                 # query author id
+                session = DBSession()
                 author = session.query(Comments).filter_by(
                     id=comment_id).one().user
                 if 'username' in login_session:
@@ -784,6 +804,7 @@ def editComment(recipe_id, comment_id):
                         if editComment == "":
                             # redirect and error message if comment is empty
                             flash('You must enter a comment in order to submit one')
+                            DBSession.remove()
                             return render_template(
                                 'editcomment.html', comment=commentToEdit)
                         else:
@@ -795,6 +816,7 @@ def editComment(recipe_id, comment_id):
                             session.commit()
                             # redirect and success message
                             flash('Comment has been editted')
+                            DBSession.remove()
                             return redirect(
                                 url_for(
                                     'showRecipe',
@@ -835,10 +857,12 @@ def deleteComment(recipe_id, comment_id):
         if commentExists(comment_id):
             # comment exists in database
             # query author and comment
+            session = DBSession()
             author = session.query(Comments).filter_by(
                 id=comment_id).one().user
             commentToDelete = session.query(
                 Comments).filter_by(id=comment_id).one()
+            DBSession.remove()
             if 'username' in login_session:
                 # user is logged in
                 if author.id == login_session['user_id']:
@@ -847,10 +871,12 @@ def deleteComment(recipe_id, comment_id):
                         if request.form['delete'] == "Yes":
                             # user confirm deletion
                             # delete comment from database
+                            session = DBSession()
                             session.delete(commentToDelete)
                             session.commit()
                             # redirect and success message
                             flash('Comment Successfully Deleted')
+                            DBSession.remove()
                             return redirect(
                                 url_for(
                                     'showRecipe',
@@ -885,24 +911,11 @@ def deleteComment(recipe_id, comment_id):
 @app.route('/recipes/json/')
 def recipesJSON():
     '''JSON API to view overview of all recipes'''
+    session = DBSession()
     recipes = session.query(Recipe).all()
+    DBSession.remove()
     return jsonify(recipes=[i.serialize for i in recipes])
 
-
-# JSON APIs to view Restaurant Information
-@app.route('/recipe/<int:recipe_id>/JSON/')
-@app.route('/recipe/<int:recipe_id>/json/')
-def recipeJSON(recipe_id):
-    '''JSON API to view detail of a recipe'''
-    recipe = session.query(Recipe).filter_by(id=recipe_id).all()
-    ingredients = session.query(Ingredient).filter_by(
-        recipe_id=recipe_id).all()
-    processes = session.query(Process).filter_by(recipe_id=recipe_id).all()
-    return jsonify(
-        recipe=[
-            i.serialize for i in recipe], ingredients=[
-            i.serialize for i in ingredients], processes=[
-                i.serialize for i in processes])
 
 
 @app.route('/ghosts/', methods=['GET', 'POST'])
