@@ -634,7 +634,7 @@ def deleteRecipe(recipe_id):
                         for ingredientToDelete in ingredientsToDelete:
                             session.delete(ingredientToDelete)
                             session.commit()
-			                session.delete(recipeToDelete)
+			            session.delete(recipeToDelete)
                         session.commit()
                         DBSession.remove()
                         flash('Recipe Successfully Deleted')
