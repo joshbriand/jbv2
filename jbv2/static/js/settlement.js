@@ -82,7 +82,7 @@ $(document).ready(function(){
 		$('#comm-venue').text('$' + venue);
 		$('#comm-venue-net').text('$' + venue_net);
 
-
+		console.log('yeah?');
 	}
 
 	init ()
