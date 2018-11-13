@@ -2100,6 +2100,7 @@ def surveyResults():
                                 user=user.username,
                                 results=resultsToHTML)
 
+
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''
     q = session.query(Recipe).filter_by(id=recipe_id)

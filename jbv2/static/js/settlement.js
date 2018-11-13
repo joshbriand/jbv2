@@ -32,6 +32,8 @@ $(document).ready(function(){
 		tax_1 = (after_tax * tax_1_rate).toFixed(2);
 		tax_2 = (after_tax * tax_2_rate).toFixed(2);
 
+		total_tax = tax_1 + tax_2;
+
 		cc_fee = (cc_gross * cc_percentage / 100).toFixed(2);
 
 		adjusted = (after_tax - cc_fee).toFixed(2);
@@ -65,8 +67,9 @@ $(document).ready(function(){
 		$('#venue-tax-1').text('$' + tax_1_venue);
 		$('#venue-tax-2').text('$' + tax_2_venue);
 		$('#venue-take').text('$' + venue);
-		$('#venue-net').text('$' + venue_net)
+		$('#venue-net').text('$' + venue_net);
 
+		$('#total-tax').text('$' + total_tax);
 	}
 
 	init ()
