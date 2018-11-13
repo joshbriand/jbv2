@@ -32,7 +32,7 @@ $(document).ready(function(){
 		tax_1 = (after_tax * tax_1_rate).toFixed(2);
 		tax_2 = (after_tax * tax_2_rate).toFixed(2);
 
-		total_tax = tax_1 + tax_2;
+		total_tax = (after_tax * tax_1_rate + after_tax * tax_2_rate).toFixed(2);
 
 		cc_fee = (cc_gross * cc_percentage / 100).toFixed(2);
 
