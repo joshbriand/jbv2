@@ -48,8 +48,8 @@ $(document).ready(function(){
 		venue = parseFloat((adjusted * venue_percentage).toFixed(2));
 		venue_net = parseFloat((venue + tax_1_venue + tax_2_venue).toFixed(2));
 
-		$('.tax-1-name').text(tax_1_name)
-		$('.tax-2-name').text(tax_2_name)
+		$('.tax-1-name').text(tax_1_name);
+		$('.tax-2-name').text(tax_2_name);
 
 		$('#tax-1-total').text('$' + tax_1);
 		$('#tax-2-total').text('$' + tax_2);
@@ -70,6 +70,19 @@ $(document).ready(function(){
 		$('#venue-net').text('$' + venue_net);
 
 		$('#total-tax').text('$' + total_tax);
+
+
+		$('#comm-tax-1-total').text('$' + tax_1);
+		$('#comm-tax-2-total').text('$' + tax_2);
+		$('#comm-venue-tax-1').text('$' + tax_1_venue);
+		$('#comm-venue-tax-2').text('$' + tax_2_venue);
+		$('#comm-cc-fee').text('$' + cc_fee);
+		$('#comm-adjusted').text('$' + adjusted);
+		$('#comm-artist').text('$' + artist);
+		$('#comm-venue').text('$' + venue);
+		$('#comm-venue-net').text('$' + venue_net);
+
+
 	}
 
 	init ()
