@@ -24,7 +24,7 @@ class Recipes(Base):
     meal = Column(String(250))
     date = Column(DateTime)
     picture = Column(String(500))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('recipeUsers.id'))
     user = relationship(RecipeUsers)
 
 class RecipeIngredients(Base):
@@ -32,14 +32,14 @@ class RecipeIngredients(Base):
 
     id = Column(Integer, primary_key=True)
     ingredient = Column(String(250))
-    recipe_id = Column(Integer, ForeignKey('recipe.id'))
+    recipe_id = Column(Integer, ForeignKey('recipes.id'))
     recipe = relationship(Recipes)
 
 class RecipeProcess(Base):
     __tablename__ = 'recipeProcess'
 
     id = Column(Integer, primary_key=True)
-    recipe_id = Column(Integer, ForeignKey('recipe.id'))
+    recipe_id = Column(Integer, ForeignKey('recipes.id'))
     recipe = relationship(Recipes)
     process = Column(String(1000))
 
@@ -49,10 +49,10 @@ class RecipeComments(Base):
 
     id = Column(Integer, primary_key=True)
     comment = Column(String(250), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('recipeUsers.id'))
     user = relationship(RecipeUsers)
     date = Column(DateTime)
-    recipe_id = Column(Integer, ForeignKey('recipe.id'))
+    recipe_id = Column(Integer, ForeignKey('recipes.id'))
     recipe = relationship(Recipes)
 
 
@@ -60,9 +60,9 @@ class RecipeLikes(Base):
     __tablename__ = 'recipeLikes'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('recipeUsers.id'))
     user = relationship(RecipeUsers)
-    recipe_id = Column(Integer, ForeignKey('recipe.id'))
+    recipe_id = Column(Integer, ForeignKey('recipes.id'))
     recipe = relationship(Recipes)
 
 class ghostUser(Base):
