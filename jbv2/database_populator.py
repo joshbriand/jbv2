@@ -129,7 +129,7 @@ newProcess = RecipeProcess(
     recipe_id=recipe_id)
 session.add(newProcess)
 session.commit()
-newRecipe = RecipeProcess(
+newRecipe = Recipes(
     name="Roast Beetroot and Sweet Potato Buddha Bowl with Spicy Tahini Honey Dressing",
     cuisine="Vegan",
     meal="Dinner",
