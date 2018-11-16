@@ -236,19 +236,20 @@ session.add(newProcess)
 session.commit()
 print "recipes added"
 
-names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
-passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 
-for x in range(0,len(names)):
-    if names[x] in usernames:
-        print names[x] + " exists already"
-    else:
-        newUser = ghostUser(name=names[x], password=passwords[x], email="joshbriand@gmail.com", notifications="no")
-        session.add(newUser)
-        session.commit()
-        print names[x] + " added"
-
-newUser = SurveyUsers(username="admin", password="59545")
-session.add(newUser)
-session.commit()
-print "Added admin user"
+# names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
+# passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
+#
+# for x in range(0,len(names)):
+#     if names[x] in usernames:
+#         print names[x] + " exists already"
+#     else:
+#         newUser = ghostUser(name=names[x], password=passwords[x], email="joshbriand@gmail.com", notifications="no")
+#         session.add(newUser)
+#         session.commit()
+#         print names[x] + " added"
+#
+# newUser = SurveyUsers(username="admin", password="59545")
+# session.add(newUser)
+# session.commit()
+# print "Added admin user"
