@@ -227,7 +227,7 @@ newProcess = RecipeProcess(
     recipe_id=recipe_id)
 session.add(newProcess)
 session.commit()
-newProcess = Process(process="""Assemble the bowls with a little of each
+newProcess = RecipeProcess(process="""Assemble the bowls with a little of each
 vegetable, some rice, a small handful of spinach and rocket, a sprinkling of
 cranberries and sunflower seeds, and a drizzle of dressing. Start modestly with
 the dressing as it's strong tasting, and add more if desired. Serve warm or at
