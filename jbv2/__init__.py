@@ -1321,7 +1321,7 @@ def showRecipes(user_id=""):
     meals[0] = "All"
     likeOrder = ""
     session = DBSession()
-    users = session.query(RecipeUsers).order_by(User.id)
+    users = session.query(RecipeUsers).order_by(RecipeUsers.id)
     DBSession.remove()
     if request.method == 'POST':
         # query all recipes
