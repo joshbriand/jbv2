@@ -1405,6 +1405,48 @@ def showRecipes(user_id=""):
                 STATE=state,
                 likeOrder=likeOrder)
 
+@app.route('/recipe/<int:recipe_id>/')
+def showRecipe(recipe_id):
+    '''handler for displaying webpage of an individual recipe'''
+    if recipeExists(recipe_id):
+        # check to see if recipe id exists
+        # query recipe, method, ingredients, likes and comments
+        sessioon = DBSession()
+        recipe = session.query(Recipes).filter_by(id=recipe_id).one()
+        ingredients = session.query(RecipeIngredients).filter_by(
+            recipe_id=recipe_id).all()
+        processes = session.query(RecipeProcess).filter_by(recipe_id=recipe_id).all()
+        likes = session.query(RecipeLikes).filter_by(recipe_id=recipe_id).all()
+        comments = session.query(RecipeComments).filter_by(
+            recipe_id=recipe_id).order_by(
+            Comments.id.desc()).all()
+        liked = False
+        if 'username' in login_session:
+            # check to see if user is logged in
+            if likes:
+                # check to see if likes exist for this recipe
+                '''check to see if user already likes to recipe (if so, the
+                ability to like is changed to the ability to unlike when webpage
+                is rendered)'''
+                liked = userLiked(likes)
+        state = generateState()
+        login_session['state'] = state
+        DBSession.remove()
+        return render_template(
+            'recipe.html',
+            recipe=recipe,
+            ingredients=ingredients,
+            processes=processes,
+            likes=likes,
+            liked=liked,
+            meals=meals,
+            cuisines=cuisines,
+            comments=comments,
+            STATE=state)
+    # redirect to '/' and flash error message if recipe id does not exist
+    flash('Recipe does not exist')
+    return redirect('/recipes/')
+
 
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''
