@@ -4,7 +4,7 @@ from flask import make_response
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
-from database_setup import (Base, User, Recipe, Comments, Like, Process, Ingredient, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions)
+from database_setup import (Base, RecipeUsers, Recipes, RecipeComments, RecipeLikes, RecipeProcess, RecipeIngredients, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions)
 import random
 import string
 from datetime import datetime
@@ -82,6 +82,13 @@ def surveyUserExists(name):
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
+def recipeUserExists(name):
+    session = DBSession()
+    z = session.query(RecipeUsers).filter_by(username=name)
+    print session.query(z.exists()).scalar()
+    DBSession.remove()
+    return session.query(z.exists()).scalar()
+
 
 #does game exist?
 def gameExists(name):
@@ -125,107 +132,6 @@ def showBreweriesPage():
     '''Handler for brewery web app.'''
     if request.method == 'GET':
         return render_template('breweries.html')
-
-@app.route('/gconnect', methods=['POST'])
-def gconnect():
-    '''Google Plus Oauth login'''
-    if request.args.get('state') != login_session['state']:
-        response = make_response(simplejson.dumps('Invalid state parameter.'),
-                                 401)
-        response.headers['Content-Type'] = 'application/simplejson'
-        return response
-
-    # Obtain authorization code
-    code = request.data
-    try:
-        # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets(
-            '/home/ubuntu/google_client_secrets.json', scope='')
-        oauth_flow.redirect_uri = 'postmessage'
-        credentials = oauth_flow.step2_exchange(code)
-    except FlowExchangeError:
-        response = make_response(
-            simplejson.dumps('Failed to upgrade the authorization code.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Check that the access token is valid.
-    access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
-           % access_token)
-    h = httplib2.Http()
-    result = json.loads(h.request(url, 'GET')[1])
-    # If there was an error in the access token info, abort.
-    if result.get('error') is not None:
-        response = make_response(json.dumps(result.get('error')), 500)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Verify that the access token is used for the intended user.
-    gplus_id = credentials.id_token['sub']
-    if result['user_id'] != gplus_id:
-        response = make_response(
-            json.dumps("Token's user ID doesn't match given user ID."), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Verify that the access token is valid for this app.
-    if result['issued_to'] != CLIENT_ID:
-        response = make_response(
-            json.dumps("Token's client ID does not match app's."), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    stored_access_token = login_session.get('access_token')
-    stored_gplus_id = login_session.get('gplus_id')
-    if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = make_response(
-            json.dumps('Current user is already connected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-    # Store the access token in the session for later use.
-    login_session['access_token'] = credentials.access_token
-    login_session['gplus_id'] = gplus_id
-
-    # Get user info
-    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-    params = {'access_token': credentials.access_token, 'alt': 'json'}
-    answer = requests.get(userinfo_url, params=params)
-
-    data = answer.json()
-
-    login_session['username'] = data['name']
-    login_session['email'] = data['email']
-    login_session['provider'] = 'google'
-
-    user_id = getUserID(login_session['email'])
-    if user_id is None:
-        createUser(login_session)
-    login_session['user_id'] = user_id
-
-    output = ''
-    output += '<h1>Welcome, '
-    output += login_session['username']
-    output += '!</h1>'
-    return output
-
-
-@app.route('/disconnect')
-def disconnect():
-    '''Log user off of web app'''
-    if 'provider' in login_session:
-        if login_session['provider'] == 'google':
-            del login_session['gplus_id']
-            del login_session['access_token']
-        del login_session['username']
-        del login_session['email']
-        del login_session['user_id']
-        flash("You have been logged out")
-        return redirect(url_for('showRecipes'))
-    else:
-        flash("You were not logged in to begin with!")
-        return redirect(url_for('showRecipes'))
 
 @app.route('/ghosts/', methods=['GET', 'POST'])
 @app.route('/ghosts/login/', methods=['GET', 'POST'])
@@ -302,7 +208,6 @@ def login():
                     else:
                         flash('Passwords Do Not Match')
                         return render_template('login.html')
-
             else:
                 flash('No Username Entered')
                 return render_template('login.html')
@@ -482,8 +387,6 @@ def menu():
         flash('Please log in')
         return redirect(url_for('login'))
 
-
-
 @app.route('/ghosts/game/<int:game_id>/', methods=['GET', 'POST'])
 def game(game_id):
     if 'username' in login_session:
@@ -646,7 +549,6 @@ def game(game_id):
                     game.previousPlayer = 9
                     session.add(game)
                     session.commit()
-
             if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                 flash("Waiting for Opponent's Move, Please Check Back Later")
             return render_template('board.html',
@@ -934,7 +836,6 @@ def game(game_id):
     else:
         flash('Please log in')
         return redirect(url_for('login'))
-
 
 @app.route('/survey', methods=['GET', 'POST'])
 @app.route('/survey/', methods=['GET', 'POST'])
@@ -1409,16 +1310,111 @@ def surveyResults():
                                 user=user.username,
                                 results=resultsToHTML)
 
+@app.route('/recipes/', methods=['GET', 'POST'])
+@app.route('/recipes/<int:user_id>', methods=['GET', 'POST'])
+def showRecipes(user_id=""):
+    '''Handler for landing page of website.  Displays all recipes in database.
+    Allows user to filter which recipes are shown and the order they are
+    displayed'''
+    # Ensure that first list element in cuisines and meals are 'All'
+    cuisines[0] = "All"
+    meals[0] = "All"
+    likeOrder = ""
+    session = DBSession()
+    users = session.query(RecipeUsers).order_by(User.id)
+    DBSession.remove()
+    if request.method == 'POST':
+        # query all recipes
+        session = DBSession()
+        recipes = session.query(Recipes)
+        # get cuisine type for filtering
+        cuisine = request.form['cuisine']
+        if cuisine != "All":
+            # query recipes for specific cuisine type
+            recipes = recipes.filter_by(cuisine=cuisine)
+        # get meal type for filtering
+        meal = request.form['meal']
+        if meal != "All":
+            # query recipes for specific meal type
+            recipes = recipes.filter_by(meal=meal)
+        # get user for filtering
+        userSelect = request.form['user']
+        if userSelect != "All":
+            userSelect = int(userSelect)
+            # query recipes for specific user/author
+            recipes = recipes.filter_by(user_id=userSelect)
+        # get order for sorting
+        order = request.form['order']
+        if order == "Newest":
+            # sort from newest first to oldest last
+            recipes = recipes.order_by(Recipes.date.desc())
+        elif order == "Oldest":
+            # sort from oldest to newest
+            recipes = recipes.order_by(Recipes.date.asc())
+        elif order == "Alphabetically by Name":
+            # sort alphabetically by recipe name
+            recipes = recipes.order_by(Recipes.name.asc())
+        elif order == "Popular":
+            # sort by most popular recipe first
+            likeOrder = getOrderedLikes()
+        DBSession.remove()
+        return render_template(
+            'recipes.html',
+            recipes=recipes,
+            users=users,
+            cuisine=cuisine,
+            meal=meal,
+            order=order,
+            userSelect=userSelect,
+            meals=meals,
+            cuisines=cuisines,
+            likeOrder=likeOrder)
+    else:
+        state = generateState()
+        login_session['state'] = state
+        for user_login in login_session:
+            print user_login
+        if user_id == "":
+            # render if user selects All Recipes or goes to '/recipes'
+            # query all recipes to display on webpage
+            session = DBSession()
+            recipes = session.query(Recipes).order_by(Recipes.date.desc())
+            DBSession.remove()
+            return render_template(
+                'recipes.html',
+                recipes=recipes,
+                users=users,
+                meals=meals,
+                cuisines=cuisines,
+                STATE=state,
+                likeOrder=likeOrder)
+        else:
+            # webpage if user selects My Recipes
+            session = DBSession()
+            recipes = session.query(Recipes).filter_by(
+                user_id=user_id).order_by(
+                Recipes.date.desc())
+            DBSession.remove()
+            return render_template(
+                'recipes.html',
+                recipes=recipes,
+                users=users,
+                userSelect=user_id,
+                meals=meals,
+                cuisines=cuisines,
+                STATE=state,
+                likeOrder=likeOrder)
+
 
 def recipeExists(recipe_id):
     '''function to check if recipe exists in database'''
-    q = session.query(Recipe).filter_by(id=recipe_id)
+    q = session.query(Recipes).filter_by(id=recipe_id)
     return session.query(q.exists()).scalar()
 
 
 def commentExists(comment_id):
     '''function to check if comment exists in database'''
-    q = session.query(Comments).filter_by(id=comment_id)
+    q = session.query(RecipeComments).filter_by(id=comment_id)
     return session.query(q.exists()).scalar()
 
 
@@ -1433,38 +1429,22 @@ def userLiked(likes):
 def getOrderedLikes():
     '''function to order recipes based on how many likes each one has'''
     likeDict = {}
-    recipes = session.query(Recipe)
+    recipes = session.query(Recipes)
     for recipe in recipes:
         likeDict[recipe.id] = 0
-    likes = session.query(Like)
+    likes = session.query(RecipeLikes)
     for like in likes:
         likeDict[like.recipe_id] += 1
     likeList = sorted(likeDict, key=lambda k: likeDict[k], reverse=True)
     return likeList
 
-
-def createUser(login_session):
-    '''function to create a new user to database if user's email does not exist
-    in the user table'''
-    newUser = User(
-        name=login_session['username'],
-        email=login_session['email'])
-    session.add(newUser)
-    session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
-    users = session.query(User).all()
-    return user.id
-
-
 def getUserID(email):
     '''function to look up and return user id from database'''
     try:
-        user = session.query(User).filter_by(email=email).first()
+        user = session.query(RecipeUsers).filter_by(email=email).first()
         return user.id
     except BaseException:
         return None
-
-
 
 if __name__ == '__main__':
     app.secret_key = "Don't panic!"
