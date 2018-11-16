@@ -1434,7 +1434,7 @@ def getOrderedLikes():
         likeDict[recipe.id] = 0
     likes = session.query(RecipeLikes)
     for like in likes:
-        likeDict[like.recipe_id] += 1
+        likeDict[recipeLikes.recipe_id] += 1
     likeList = sorted(likeDict, key=lambda k: likeDict[k], reverse=True)
     return likeList
 
