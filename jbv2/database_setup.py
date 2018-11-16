@@ -6,17 +6,17 @@ import psycopg2
 
 Base = declarative_base()
 
-
-class User(Base):
-    __tablename__ = 'user'
+class RecipeUsers(Base):
+    __tablename__ = 'recipeUsers'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
 
 
-class Recipe(Base):
-    __tablename__ = 'recipe'
+class Recipes(Base):
+    __tablename__ = 'recipes'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -25,73 +25,45 @@ class Recipe(Base):
     date = Column(DateTime)
     picture = Column(String(500))
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user = relationship(RecipeUsers)
 
-    @property
-    def serialize(self):
-        """Return object data in easily serializeable format"""
-        return {
-            'id': self.id,
-            'name': self.name,
-            'cuisine': self.cuisine,
-            'meal': self.meal,
-            'date': self.date,
-            'picture': self.picture
-        }
-
-
-class Ingredient(Base):
-    __tablename__ = 'ingredient'
+class RecipeIngredients(Base):
+    __tablename__ = 'recipeIngredients'
 
     id = Column(Integer, primary_key=True)
     ingredient = Column(String(250))
     recipe_id = Column(Integer, ForeignKey('recipe.id'))
-    recipe = relationship(Recipe)
+    recipe = relationship(Recipes)
 
-    @property
-    def serialize(self):
-        """Return object data in easily serializeable format"""
-        return {
-            'ingredient': self.ingredient
-        }
-
-
-class Process(Base):
-    __tablename__ = 'process'
+class RecipeProcess(Base):
+    __tablename__ = 'recipeProcess'
 
     id = Column(Integer, primary_key=True)
     recipe_id = Column(Integer, ForeignKey('recipe.id'))
-    recipe = relationship(Recipe)
+    recipe = relationship(Recipes)
     process = Column(String(1000))
 
-    @property
-    def serialize(self):
-        """Return object data in easily serializeable format"""
-        return {
-            'process': self.process
-        }
 
-
-class Comments(Base):
-    __tablename__ = 'comments'
+class RecipeComments(Base):
+    __tablename__ = 'recipeComments'
 
     id = Column(Integer, primary_key=True)
     comment = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user = relationship(RecipeUsers)
     date = Column(DateTime)
     recipe_id = Column(Integer, ForeignKey('recipe.id'))
-    recipe = relationship(Recipe)
+    recipe = relationship(Recipes)
 
 
-class Like(Base):
-    __tablename__ = 'like'
+class RecipeLikes(Base):
+    __tablename__ = 'recipeLikes'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user = relationship(RecipeUsers)
     recipe_id = Column(Integer, ForeignKey('recipe.id'))
-    recipe = relationship(Recipe)
+    recipe = relationship(Recipes)
 
 class ghostUser(Base):
     __tablename__ = 'ghostUser'
