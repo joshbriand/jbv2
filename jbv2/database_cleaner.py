@@ -24,7 +24,10 @@ users = session.query(RecipeUsers)
 for user in users:
     print user.id
     print user.name
-    if user.id > 2:
+    if user.id == "1" or user.id == "2":
+        print "keep"
+    else:
+        print "user deleted"
         session.delete(user)
 print "cleaned"
 users = session.query(RecipeUsers)
