@@ -78,17 +78,51 @@ def userExists(name):
 def surveyUserExists(name):
     session = DBSession()
     z = session.query(SurveyUsers).filter_by(username=name)
-    print session.query(z.exists()).scalar()
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
 def recipeUserExists(name):
     session = DBSession()
     z = session.query(RecipeUsers).filter_by(username=name)
-    print session.query(z.exists()).scalar()
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
+def recipeExists(recipe_id):
+    '''function to check if recipe exists in database'''
+    session = DBSession()
+    q = session.query(Recipes).filter_by(id=recipe_id)
+    DBSession.remove()
+    return session.query(q.exists()).scalar()
+
+
+def commentExists(comment_id):
+    '''function to check if comment exists in database'''
+    session = DBSession()
+    q = session.query(RecipeComments).filter_by(id=comment_id)
+    DBSession.remove()
+    return session.query(q.exists()).scalar()
+
+
+def userLiked(likes):
+    '''function to check if user has liked recipe already'''
+    for like in likes:
+        if login_session['user_id'] == like.user_id:
+            return True
+    return False
+
+def getOrderedLikes():
+    '''function to order recipes based on how many likes each one has'''
+    likeDict = {}
+    session = DBSession()
+    recipes = session.query(Recipes)
+    for recipe in recipes:
+        likeDict[recipe.id] = 0
+    likes = session.query(RecipeLikes)
+    for like in likes:
+        likeDict[recipeLikes.recipe_id] += 1
+    likeList = sorted(likeDict, key=lambda k: likeDict[k], reverse=True)
+    DBSession.remove()
+    return likeList
 
 #does game exist?
 def gameExists(name):
@@ -1446,47 +1480,6 @@ def showRecipe(recipe_id):
     # redirect to '/' and flash error message if recipe id does not exist
     flash('Recipe does not exist')
     return redirect('/recipes/')
-
-
-def recipeExists(recipe_id):
-    '''function to check if recipe exists in database'''
-    q = session.query(Recipes).filter_by(id=recipe_id)
-    return session.query(q.exists()).scalar()
-
-
-def commentExists(comment_id):
-    '''function to check if comment exists in database'''
-    q = session.query(RecipeComments).filter_by(id=comment_id)
-    return session.query(q.exists()).scalar()
-
-
-def userLiked(likes):
-    '''function to check if user has liked recipe already'''
-    for like in likes:
-        if login_session['user_id'] == like.user_id:
-            return True
-    return False
-
-
-def getOrderedLikes():
-    '''function to order recipes based on how many likes each one has'''
-    likeDict = {}
-    recipes = session.query(Recipes)
-    for recipe in recipes:
-        likeDict[recipe.id] = 0
-    likes = session.query(RecipeLikes)
-    for like in likes:
-        likeDict[recipeLikes.recipe_id] += 1
-    likeList = sorted(likeDict, key=lambda k: likeDict[k], reverse=True)
-    return likeList
-
-def getUserID(email):
-    '''function to look up and return user id from database'''
-    try:
-        user = session.query(RecipeUsers).filter_by(email=email).first()
-        return user.id
-    except BaseException:
-        return None
 
 if __name__ == '__main__':
     app.secret_key = "Don't panic!"
