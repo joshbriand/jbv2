@@ -1453,7 +1453,7 @@ def showRecipe(recipe_id):
         likes = session.query(RecipeLikes).filter_by(recipe_id=recipe_id).all()
         comments = session.query(RecipeComments).filter_by(
             recipe_id=recipe_id).order_by(
-            Comments.id.desc()).all()
+            RecipeComments.id.desc()).all()
         liked = False
         if 'username' in login_session:
             # check to see if user is logged in
