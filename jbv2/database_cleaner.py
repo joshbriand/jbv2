@@ -25,7 +25,7 @@ for user in users:
     print user.id
     print user.name
     if user.id > 2:
-        session.remove(user)
+        session.delete(user)
 print "cleaned"
 users = session.query(RecipeUsers)
 for user in users:
