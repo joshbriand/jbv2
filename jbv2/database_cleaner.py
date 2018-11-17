@@ -22,15 +22,24 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 recipes = session.query(Recipes)
 for recipe in recipes:
-    print recipe.id
-    print recipe.name
-    print recipe.user.id
-    if recipe.id == 1 or recipe.id == 2:
-        print "keep"
-    else:
-        print "delete"
-        session.delete(recipe)
-        session.commit()
+    session.delete(recipe)
+    session.commit()
+
+users = session.query(RecipeUsers)
+for user in users:
+    session.delete(user)
+    session.commit()
+
+ingredients = session.query(RecipeIngredients)
+for ingredient in ingredients:
+    session.delete(ingredient)
+    session.commit()
+
+processes = session.query(RecipeProcess)
+for process in processes:
+    session.delete(process)
+    session.commit()
+
 
 # names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 # passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
