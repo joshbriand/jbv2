@@ -24,7 +24,13 @@ recipes = session.query(Recipes)
 for recipe in recipes:
     print recipe.id
     print recipe.name
-    print recipe.user.name
+    print recipe.user.id
+    if recipe.id == 1 or recipe.id == 2:
+        print "keep"
+    else:
+        print "delete"
+        session.delete(recipe)
+        session.commit()
 
 # names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 # passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
