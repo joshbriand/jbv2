@@ -29,6 +29,7 @@ for user in users:
     else:
         print "user deleted"
         session.delete(user)
+        session.commit()
 print "cleaned"
 users = session.query(RecipeUsers)
 for user in users:
