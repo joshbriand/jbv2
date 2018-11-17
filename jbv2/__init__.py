@@ -1445,7 +1445,7 @@ def showRecipe(recipe_id):
     if recipeExists(recipe_id):
         # check to see if recipe id exists
         # query recipe, method, ingredients, likes and comments
-        sessioon = DBSession()
+        session = DBSession()
         recipe = session.query(Recipes).filter_by(id=recipe_id).one()
         ingredients = session.query(RecipeIngredients).filter_by(
             recipe_id=recipe_id).all()
