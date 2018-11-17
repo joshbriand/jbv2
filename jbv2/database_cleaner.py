@@ -20,11 +20,18 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
-    users = session.query(RecipeUsers)
-    for user in users:
-        print user.id
-        print user.name
-DBSession.remove()
+users = session.query(RecipeUsers)
+for user in users:
+    print user.id
+    print user.name
+    if user.id > 2:
+        session.remove(user)
+print "cleaned"
+users = session.query(RecipeUsers)
+for user in users:
+    print user.id
+    print user.name
+
 # names=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 # passwords=['admin', 'josh', 'adam', 'paul', 'stephen', 'james', 'jonathan']
 #
