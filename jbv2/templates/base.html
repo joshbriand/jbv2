@@ -74,19 +74,26 @@
 					    {% endif %}
 					  {% endwith %}
 					</div>
-					<div id="login" class="col-md-4 text-right">
+					<div id="login">
 						{% if 'username' not in session %}
 							<form method="POST">
-								Username<input type="text" name="login-name"></input>
-								<br>
-								Password<input type="password" name="login-password"></input>
+								<div class="col-md-2 text-right">
+									Username<input type="text" name="login-name"></input>
+								</div>
+								<div class="col-md-2 text-right">
+									Password<input type="password" name="login-password"></input>
+								</div>
+								<div class="col-md-1 text-right">
+									<input type="submit" value="Log In" name="login"></input>
+								</div>
 							</form>
 						{% else %}
-							Logged in as {{ session['user_id'] }}
-							Logged in as {{ session['username'] }}
-							Logged in as {{ session['email'] }}
-							<br>
-							<a href="{{ url_for('disconnect') }}">Log Out</a>
+							<div class="col-md-2 text-right">
+								Logged in as {{ user }}
+							</div>
+							<div class="col-md-2 text-right">
+								<a href="{{ url_for('recipeDisconnect') }}">Log Out</a>
+							</div>
 						{% endif %}
 					</div>
 				</div>
