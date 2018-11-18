@@ -1476,7 +1476,7 @@ def showRecipes(user_id=""):
             likeOrder = getOrderedLikes()
         DBSession.remove()
         return render_template(
-            'recipes.html',
+            'recipes/recipes.html',
             recipes=recipes,
             users=users,
             cuisine=cuisine,
@@ -1498,7 +1498,7 @@ def showRecipes(user_id=""):
             recipes = session.query(Recipes).order_by(Recipes.date.desc())
             DBSession.remove()
             return render_template(
-                'recipes.html',
+                'recipes/recipes.html',
                 recipes=recipes,
                 users=users,
                 meals=meals,
@@ -1513,7 +1513,7 @@ def showRecipes(user_id=""):
                 Recipes.date.desc())
             DBSession.remove()
             return render_template(
-                'recipes.html',
+                'recipes/recipes.html',
                 recipes=recipes,
                 users=users,
                 userSelect=user_id,
@@ -1550,7 +1550,7 @@ def showRecipe(recipe_id):
         login_session['state'] = state
         DBSession.remove()
         return render_template(
-            'recipe.html',
+            'recipes/recipe.html',
             recipe=recipe,
             ingredients=ingredients,
             processes=processes,
