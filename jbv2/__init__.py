@@ -1344,6 +1344,89 @@ def surveyResults():
                                 user=user.username,
                                 results=resultsToHTML)
 
+@app.route('/recipe/login', methods=['GET', 'POST'])
+@app.route('/recipe/login/', methods=['GET', 'POST'])
+def recipeConnect():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('recipes/login.html')
+    elif request.method == 'POST':
+        if request.form['login'] == "Log In":
+            login_username = request.form['username']
+            login_password = request.form['password']
+            if login_username:
+                if login_password:
+                    session = DBSession()
+                    recipe_users = session.query(RecipeUsers).all()
+                    DBSession.remove()
+                    for user in recipe_users:
+                        if user.name == login_username:
+                            recipe_user = user
+                            print "success"
+                            break
+                    if recipeUserExists(login_username):
+                        if recipe_user.username == 'admin':
+                            login_hashed_password = login_password
+                        else:
+                            login_hashed_password = make_secure_val(login_password)
+                        if recipe_user.username == login_password:
+                            login_session['username'] = login_username
+                            return redirect(url_for('changeRecipePassword'))
+                        elif recipe_user.password == login_hashed_password:
+                            login_session['username'] = login_username
+                            if login_username == 'admin':
+                                print "successful admin log in"
+                                return redirect(url_for('recipeAdmin'))
+                            else:
+                                print "successful log in"
+                                return redirect(url_for('showRecipes'))
+                        else:
+                            flash('Incorrect Password')
+                            return render_template('recipes/login.html')
+                    else:
+                        flash('Username Not Found')
+                        return render_template('recipes/login.html')
+                else:
+                    flash('No Password Entered')
+                    return render_template('recipes/login.html')
+            elif login_password:
+                flash('No Username Entered')
+                return render_template('recipes/login.html')
+        elif request.form['login'] == "Create User":
+            session = DBSession()
+            new_username = request.form['newUsername']
+            new_password = request.form['newPassword']
+            confirm_password = request.form['confirmPassword']
+            new_hashed_password = make_secure_val(new_password)
+            if new_username:
+                if recipeUserExists(new_username):
+                    flash('Username Already Exists')
+                    return render_template('recipes/login.html')
+                elif validate(new_username, USER_RE) is None:
+                    flash('That is Not a Valid Username')
+                    return render_template('recipes/login.html')
+                else:
+                    if new_password == confirm_password:
+                        if validate(new_password, PASSWORD_RE) is None:
+                            flash('That is Not a Valid Password')
+                            return render_template('recipes/login.html')
+                        else:
+                            newUser = RecipeUsers(name=new_username,
+                                            password=new_hashed_password)
+                            session.add(newUser)
+                            session.commit()
+                            DBSession.remove()
+                            print "new user added"
+                            login_session['username'] = new_username
+                            return redirect(url_for('showRecipes'))
+                    else:
+                        flash('Passwords Do Not Match')
+                        return render_template('recipes/login.html')
+            else:
+                flash('No Username Entered')
+                return render_template('recipes/login.html')
+
+
 @app.route('/recipes/', methods=['GET', 'POST'])
 @app.route('/recipes/<int:user_id>', methods=['GET', 'POST'])
 def showRecipes(user_id=""):
