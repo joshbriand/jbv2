@@ -83,7 +83,7 @@ def surveyUserExists(name):
 
 def recipeUserExists(name):
     session = DBSession()
-    z = session.query(RecipeUsers).filter_by(username=name)
+    z = session.query(RecipeUsers).filter_by(name=name)
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
@@ -1365,11 +1365,11 @@ def recipeConnect():
                             print "success"
                             break
                     if recipeUserExists(login_username):
-                        if recipe_user.username == 'admin':
+                        if recipe_user.name == 'admin':
                             login_hashed_password = login_password
                         else:
                             login_hashed_password = make_secure_val(login_password)
-                        if recipe_user.username == login_password:
+                        if recipe_user.name == login_password:
                             login_session['username'] = login_username
                             return redirect(url_for('changeRecipePassword'))
                         elif recipe_user.password == login_hashed_password:
