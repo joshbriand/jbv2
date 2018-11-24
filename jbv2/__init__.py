@@ -1435,7 +1435,7 @@ def changeRecipePassword():
         users = users.order_by(RecipeUsers.name.asc())
         user = users.filter_by(name=login_session['username']).one()
         DBSession.remove()
-        if user.username == 'admin':
+        if user.name == 'admin':
             admin = True
         else:
             admin = False
