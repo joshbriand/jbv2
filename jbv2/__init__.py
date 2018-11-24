@@ -1344,8 +1344,8 @@ def surveyResults():
                                 user=user.username,
                                 results=resultsToHTML)
 
-@app.route('/recipe/login', methods=['GET', 'POST'])
-@app.route('/recipe/login/', methods=['GET', 'POST'])
+@app.route('/recipes/login', methods=['GET', 'POST'])
+@app.route('/recipes/login/', methods=['GET', 'POST'])
 def recipeConnect():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
@@ -1426,7 +1426,7 @@ def recipeConnect():
                 flash('No Username Entered')
                 return render_template('recipes/login.html')
 
-@app.route('/recipe/changepassword/', methods=['GET', 'POST'])
+@app.route('/recipes/changepassword/', methods=['GET', 'POST'])
 def changeRecipePassword():
     if 'username' in login_session:
         print login_session['username']
@@ -1441,7 +1441,7 @@ def changeRecipePassword():
             admin = False
         if request.method == 'GET':
             flash('Please Change Your Password')
-            return render_template('recipe/changepassword.html',
+            return render_template('recipes/changepassword.html',
                                     admin = admin,
                                     user = user.name)
         elif request.method == 'POST':
@@ -1563,7 +1563,7 @@ def showRecipes(user_id=""):
                 STATE=state,
                 likeOrder=likeOrder)
 
-@app.route('/recipe/<int:recipe_id>/')
+@app.route('/recipes/<int:recipe_id>/')
 def showRecipe(recipe_id):
     '''handler for displaying webpage of an individual recipe'''
     if recipeExists(recipe_id):
@@ -1605,7 +1605,7 @@ def showRecipe(recipe_id):
     flash('Recipe does not exist')
     return redirect('/recipes/')
 
-@app.route('/addrecipe/', methods=['GET', 'POST'])
+@app.route('recipes/addrecipe/', methods=['GET', 'POST'])
 def addRecipe():
     '''handler for adding a new recipe'''
     # change first list elements of cuisines and meals to 'choose one' from
@@ -1689,7 +1689,7 @@ def addRecipe():
                 meals=meals,
                 cuisines=cuisines)
 
-@app.route('/recipe/<int:recipe_id>/edit/', methods=['GET', 'POST'])
+@app.route('/recipes/<int:recipe_id>/edit/', methods=['GET', 'POST'])
 def editRecipe(recipe_id):
     '''handler to edit an existing recipe'''
     # change first list elements of cuisines and meals to 'choose one' from
@@ -1803,7 +1803,7 @@ def editRecipe(recipe_id):
         flash('Recipe does not exist')
     return redirect('/recipes/')
 
-@app.route('/recipe/<int:recipe_id>/delete/', methods=['GET', 'POST'])
+@app.route('/recipes/<int:recipe_id>/delete/', methods=['GET', 'POST'])
 def deleteRecipe(recipe_id):
     '''handler to delete existing recipe'''
     if recipeExists(recipe_id):
@@ -1845,7 +1845,7 @@ def deleteRecipe(recipe_id):
                         return redirect('/recipes/')
                     else:
                         # redirect to recipe webpage if user cancels action
-                        return redirect('/recipe/', recipe_id=recipe_id)
+                        return redirect('/recipes/', recipe_id=recipe_id)
                 else:
                     return render_template(
                         'recipes/deleterecipe.html', recipe=recipeToDelete)
@@ -1862,7 +1862,7 @@ def deleteRecipe(recipe_id):
         flash('Recipe does not exist')
         return redirect('/recipes/')
 
-@app.route('/recipe/<int:recipe_id>/like/')
+@app.route('/recipes/<int:recipe_id>/like/')
 def likeRecipe(recipe_id):
     '''handler to like a recipe'''
     if recipeExists(recipe_id):
@@ -1900,7 +1900,7 @@ def likeRecipe(recipe_id):
         flash('Recipe does not exist')
     return redirect('/recipes/')
 
-@app.route('/recipe/<int:recipe_id>/unlike/')
+@app.route('/recipes/<int:recipe_id>/unlike/')
 def unlikeRecipe(recipe_id):
     '''handler for user to unlike a recipe'''
     if recipeExists(recipe_id):
@@ -1937,7 +1937,7 @@ def unlikeRecipe(recipe_id):
         flash('Recipe does not exist')
     return redirect('/recipes/')
 
-@app.route('/recipe/<int:recipe_id>/addcomment/', methods=['GET', 'POST'])
+@app.route('/recipes/<int:recipe_id>/addcomment/', methods=['GET', 'POST'])
 def addComment(recipe_id):
     '''handler for user to add comment to recipe'''
     if recipeExists(recipe_id):
@@ -1978,7 +1978,7 @@ def addComment(recipe_id):
         return redirect('/recipes/')
 
 @app.route(
-    '/recipe/<int:recipe_id>/editcomment/<int:comment_id>/',
+    '/recipes/<int:recipe_id>/editcomment/<int:comment_id>/',
     methods=['GET','POST'])
 def editComment(recipe_id, comment_id):
     '''handler to edit comment'''
@@ -2045,7 +2045,7 @@ def editComment(recipe_id, comment_id):
         return redirect('/recipes/')
 
 @app.route(
-    '/recipe/<int:recipe_id>/deletecomment/<int:comment_id>/',
+    '/recipes/<int:recipe_id>/deletecomment/<int:comment_id>/',
     methods=[
         'GET',
         'POST'])
