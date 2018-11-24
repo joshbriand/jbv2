@@ -1426,6 +1426,47 @@ def recipeConnect():
                 flash('No Username Entered')
                 return render_template('recipes/login.html')
 
+@app.route('/recipe/changepassword/', methods=['GET', 'POST'])
+def changeRecipePassword():
+    if 'username' in login_session:
+        print login_session['username']
+        session = DBSession()
+        users = session.query(RecipeUsers)
+        users = users.order_by(RecipeUsers.name.asc())
+        user = users.filter_by(name=login_session['username']).one()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            admin = False
+        if request.method == 'GET':
+            flash('Please Change Your Password')
+            return render_template('recipe/changepassword.html',
+                                    admin = admin,
+                                    user = user.name)
+        elif request.method == 'POST':
+            current_password = user.password
+            new_password = request.form['password']
+            confirm_password = request.form['verify']
+            new_secure_password = make_secure_val(new_password)
+            if new_secure_password != current_password:
+                if new_password == confirm_password:
+                    user.password = new_secure_password
+                    session.add(user)
+                    session.commit()
+                    DBSession.remove()
+                    flash('Password Succesfully Changed!')
+                    return redirect(url_for('showRecipes'))
+                else:
+                    flash('Password Do Not Match!')
+                    return render_template(url_for('changeRecipePassword'))
+            else:
+                flash('New Password Must Be Different Than Current Password')
+                return render_template(url_for('changeRecipePassword'))
+    else:
+        flash('Please Log In')
+        return render_template(url_for('recipeConnect'))
+
 
 @app.route('/recipes/', methods=['GET', 'POST'])
 @app.route('/recipes/<int:user_id>', methods=['GET', 'POST'])
