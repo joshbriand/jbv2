@@ -1605,7 +1605,7 @@ def showRecipe(recipe_id):
     flash('Recipe does not exist')
     return redirect('/recipes/')
 
-@app.route('recipes/addrecipe/', methods=['GET', 'POST'])
+@app.route('/recipes/addrecipe/', methods=['GET', 'POST'])
 def addRecipe():
     '''handler for adding a new recipe'''
     # change first list elements of cuisines and meals to 'choose one' from
