@@ -1550,7 +1550,7 @@ def showRecipes(user_id=""):
                 cuisines=cuisines,
                 likeOrder=likeOrder)
 
-@app.route('/recipes/<int:recipe_id>/')
+@app.route('/recipes/recipe<int:recipe_id>/')
 def showRecipe(recipe_id):
     '''handler for displaying webpage of an individual recipe'''
     if recipeExists(recipe_id):
