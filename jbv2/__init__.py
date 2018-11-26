@@ -1574,6 +1574,7 @@ def showRecipe(recipe_id):
         DBSession.remove()
         return render_template(
             'recipes/recipe.html',
+            user=login_session['username'],
             recipe=recipe,
             ingredients=ingredients,
             processes=processes,
