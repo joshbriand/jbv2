@@ -1506,6 +1506,7 @@ def showRecipes(user_id=""):
         DBSession.remove()
         return render_template(
             'recipes/recipes.html',
+            user=login_session['username'],
             recipes=recipes,
             users=users,
             cuisine=cuisine,
@@ -1526,6 +1527,7 @@ def showRecipes(user_id=""):
             DBSession.remove()
             return render_template(
                 'recipes/recipes.html',
+                user=login_session['username'],
                 recipes=recipes,
                 users=users,
                 meals=meals,
@@ -1540,6 +1542,7 @@ def showRecipes(user_id=""):
             DBSession.remove()
             return render_template(
                 'recipes/recipes.html',
+                user=login_session['username'],
                 recipes=recipes,
                 users=users,
                 userSelect=user_id,
