@@ -2089,6 +2089,12 @@ def deleteComment(recipe_id, comment_id):
         flash('Recipe does not exist')
         return redirect('/recipes/')
 
+@app.route('/recipes/logout/', methods=['GET'])
+def recipeDisconnect():
+    login_session.pop('username', None)
+    login_session.pop('user_id', None)
+    return redirect(url_for('recipeConnect'))
+
 if __name__ == '__main__':
     app.secret_key = "Don't panic!"
     app.debug = True
