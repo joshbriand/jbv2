@@ -1530,7 +1530,6 @@ def showRecipes(user_id=""):
                 users=users,
                 meals=meals,
                 cuisines=cuisines,
-                STATE=state,
                 likeOrder=likeOrder)
         else:
             # webpage if user selects My Recipes
@@ -1546,7 +1545,6 @@ def showRecipes(user_id=""):
                 userSelect=user_id,
                 meals=meals,
                 cuisines=cuisines,
-                STATE=state,
                 likeOrder=likeOrder)
 
 @app.route('/recipes/<int:recipe_id>/')
@@ -1583,8 +1581,7 @@ def showRecipe(recipe_id):
             liked=liked,
             meals=meals,
             cuisines=cuisines,
-            comments=comments,
-            STATE=state)
+            comments=comments)
     # redirect to '/' and flash error message if recipe id does not exist
     flash('Recipe does not exist')
     return redirect('/recipes/')
