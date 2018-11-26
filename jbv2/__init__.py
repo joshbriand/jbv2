@@ -129,20 +129,6 @@ def gameExists(name):
     q = session.query(ghostGame).filter_by(id=id)
     return session.query(q.exists()).scalar()
 
-def generateState():
-    '''Create anti-forgery state token'''
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for x in xrange(32))
-    login_session['state'] = state
-    return state
-
-def generateState():
-    '''Create anti-forgery state token'''
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for x in xrange(32))
-    login_session['state'] = state
-    return state
-
 @app.route('/', methods=['GET'])
 def showIndexPage():
     '''Handler for landing page of website.'''
@@ -294,7 +280,6 @@ def changepassword():
     else:
         flash('Please log in')
         return render_template('login.html')
-
 
 @app.route('/ghosts/menu/', methods=['GET', 'POST'])
 def menu():
@@ -1371,9 +1356,11 @@ def recipeConnect():
                             login_hashed_password = make_secure_val(login_password)
                         if recipe_user.name == login_password:
                             login_session['username'] = login_username
+                            login_session['user_id'] = recipe_user.id
                             return redirect(url_for('changeRecipePassword'))
                         elif recipe_user.password == login_hashed_password:
                             login_session['username'] = login_username
+                            login_session['user_id'] = recipe_user.id
                             if login_username == 'admin':
                                 print "successful admin log in"
                                 return redirect(url_for('recipeAdmin'))
@@ -1418,6 +1405,7 @@ def recipeConnect():
                             DBSession.remove()
                             print "new user added"
                             login_session['username'] = new_username
+                            login_session['user_id'] = recipe_user.id
                             return redirect(url_for('showRecipes'))
                     else:
                         flash('Passwords Do Not Match')
@@ -1528,8 +1516,6 @@ def showRecipes(user_id=""):
             cuisines=cuisines,
             likeOrder=likeOrder)
     else:
-        state = generateState()
-        login_session['state'] = state
         for user_login in login_session:
             print user_login
         if user_id == "":
@@ -1587,8 +1573,6 @@ def showRecipe(recipe_id):
                 ability to like is changed to the ability to unlike when webpage
                 is rendered)'''
                 liked = userLiked(likes)
-        state = generateState()
-        login_session['state'] = state
         DBSession.remove()
         return render_template(
             'recipes/recipe.html',
