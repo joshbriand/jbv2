@@ -116,9 +116,9 @@
 					<div id="navigation" class="col-md-1">
 						<a href="{{ url_for('showRecipes') }}">All Recipes</a>
 					</div>
-					{% if 'username' in session %}
+					{% if 'recipes_username' in session %}
 						<div id="navigation" class="col-md-1">
-							<a href="{{ url_for('showRecipes', user_id=session['user_id']) }}">My Recipes</a>
+							<a href="{{ url_for('showRecipes', user_id=session['recipes_user_id']) }}">My Recipes</a>
 							<!--Josh add get param-->
 						</div>
 						<div id="navigation" class="col-md-1">
@@ -140,7 +140,7 @@
 					  {% endwith %}
 					</div>
 					<div id="login">
-						{% if 'username' not in session %}
+						{% if 'recipes_username' not in session %}
 						<div class="col-md-2 text-right">
 						</div>
 						<div class="col-md-2 text-right">

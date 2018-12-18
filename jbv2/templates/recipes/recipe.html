@@ -16,13 +16,13 @@
             {% endif %}
             <h2>{{ recipe.cuisine }} - {{ recipe.meal }}</h2>
             <!--Displays options of editing and deleting if user is author -->
-            {% if session['user_id'] == recipe.user_id %}
+            {% if session['recipes_user_id'] == recipe.user_id %}
                 <a href="{{ url_for('editRecipe', recipe_id=recipe.id) }}">Edit</a>
                 <a href="{{ url_for('deleteRecipe', recipe_id=recipe.id) }}">Delete</a>
             {% endif %}
             <!--Checks to see if user has already liked recipe, displays unlike option
             if user has liked recipe already, like option if not-->
-            {% if liked == False and 'username' in session %}
+            {% if liked == False and 'recipes_username' in session %}
                 <a href="{{ url_for('likeRecipe', recipe_id=recipe.id) }}">Like</a>
             {% elif liked == True %}
                 <a href="{{ url_for('unlikeRecipe', recipe_id=recipe.id) }}">Unlike</a>
@@ -60,7 +60,7 @@
         </div>
         <div class="col-md-4" id="sub">
             <h3>Comments</h3>
-            {% if 'username' in session %}
+            {% if 'recipes_username' in session %}
                 <a href="{{ url_for('addComment', recipe_id=recipe.id) }}">
                     Add a Comment
                 </a>
@@ -78,7 +78,7 @@
                         {{ comment.user.name }}
                         <!--Displays options of editing and deleting if user is author of
                         comment -->
-                        {% if comment.user.name == session['username'] %}
+                        {% if comment.user.name == session['recipes_username'] %}
                             <br>
                             <a href="{{ url_for('editComment', recipe_id=recipe.id, comment_id=comment.id) }}">Edit</a>
                             <a href="{{ url_for('deleteComment', recipe_id=recipe.id, comment_id=comment.id) }}">Delete</a>
