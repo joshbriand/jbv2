@@ -1355,12 +1355,12 @@ def recipeConnect():
                         else:
                             login_hashed_password = make_secure_val(login_password)
                         if recipe_user.name == login_password:
-                            login_session['username'] = login_username
-                            login_session['user_id'] = recipe_user.id
+                            login_session['recipes_username'] = login_username
+                            login_session['recipes_user_id'] = recipe_user.id
                             return redirect(url_for('changeRecipePassword'))
                         elif recipe_user.password == login_hashed_password:
-                            login_session['username'] = login_username
-                            login_session['user_id'] = recipe_user.id
+                            login_session['recipes_username'] = login_username
+                            login_session['recipes_user_id'] = recipe_user.id
                             if login_username == 'admin':
                                 print "successful admin log in"
                                 return redirect(url_for('recipeAdmin'))
@@ -1404,8 +1404,8 @@ def recipeConnect():
                             session.commit()
                             DBSession.remove()
                             print "new user added"
-                            login_session['username'] = new_username
-                            login_session['user_id'] = recipe_user.id
+                            login_session['recipes_username'] = new_username
+                            login_session['recipes_user_id'] = recipe_user.id
                             return redirect(url_for('showRecipes'))
                     else:
                         flash('Passwords Do Not Match')
@@ -1416,12 +1416,12 @@ def recipeConnect():
 
 @app.route('/recipes/changepassword/', methods=['GET', 'POST'])
 def changeRecipePassword():
-    if 'username' in login_session:
-        print login_session['username']
+    if 'recipes_username' in login_session:
+        print login_session['recipes_username']
         session = DBSession()
         users = session.query(RecipeUsers)
         users = users.order_by(RecipeUsers.name.asc())
-        user = users.filter_by(name=login_session['username']).one()
+        user = users.filter_by(name=login_session['recipes_username']).one()
         DBSession.remove()
         if user.name == 'admin':
             admin = True
@@ -1506,7 +1506,7 @@ def showRecipes(user_id=""):
         DBSession.remove()
         return render_template(
             'recipes/recipes.html',
-            user=login_session['username'],
+            user=login_session['recipes_username'],
             recipes=recipes,
             users=users,
             cuisine=cuisine,
@@ -1527,7 +1527,7 @@ def showRecipes(user_id=""):
             DBSession.remove()
             return render_template(
                 'recipes/recipes.html',
-                user=login_session['username'],
+                user=login_session['recipes_username'],
                 recipes=recipes,
                 users=users,
                 meals=meals,
@@ -1542,7 +1542,7 @@ def showRecipes(user_id=""):
             DBSession.remove()
             return render_template(
                 'recipes/recipes.html',
-                user=login_session['username'],
+                user=login_session['recipes_username'],
                 recipes=recipes,
                 users=users,
                 userSelect=user_id,
@@ -1566,7 +1566,7 @@ def showRecipe(recipe_id):
             recipe_id=recipe_id).order_by(
             RecipeComments.id.desc()).all()
         liked = False
-        if 'username' in login_session:
+        if 'recipes_username' in login_session:
             # check to see if user is logged in
             if likes:
                 # check to see if likes exist for this recipe
@@ -1577,7 +1577,7 @@ def showRecipe(recipe_id):
         DBSession.remove()
         return render_template(
             'recipes/recipe.html',
-            user=login_session['username'],
+            user=login_session['recipes_username'],
             recipe=recipe,
             ingredients=ingredients,
             processes=processes,
@@ -1619,7 +1619,7 @@ def addRecipe():
         if picture == "":
             # generic food image in case user does not include one
             picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-        user_id = login_session['user_id']
+        user_id = login_session['recipes_user_id']
         date = datetime.now()
         if error != "":
             '''if there is an error, rerender webpage with prefilled out form and
@@ -1664,7 +1664,7 @@ def addRecipe():
         return redirect(url_for('showRecipe', recipe_id=recipe_id))
         # return to recipe (no s!)
     else:
-        if 'username' not in login_session:
+        if 'recipes_username' not in login_session:
             # redirect to '/' if user not logged in, error message
             flash('User not logged in')
             return redirect('/recipes/')
@@ -1691,8 +1691,8 @@ def editRecipe(recipe_id):
             RecipeIngredients).filter_by(recipe_id=recipe_id).all()
         oldProcesses = session.query(RecipeProcess).filter_by(
             recipe_id=recipe_id).all()
-        if 'username' in login_session:
-            if author.id == login_session['user_id']:
+        if 'recipes_username' in login_session:
+            if author.id == login_session['recipes_user_id']:
                 # if author and user have the same user id
                 # essentially the same process as used in creating a recipe
                 if request.method == "POST":
@@ -1712,7 +1712,7 @@ def editRecipe(recipe_id):
                     if picture == "":
                         # generic food image in case user does not include one
                         picture = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                    user_id = login_session['user_id']
+                    user_id = login_session['recipes_user_id']
                     date = datetime.now()
                     if error != "":
                         flash(error)
@@ -1805,8 +1805,8 @@ def deleteRecipe(recipe_id):
             RecipeIngredients).filter_by(recipe_id=recipe_id).all()
         processesToDelete = session.query(RecipeProcess).filter_by(
             recipe_id=recipe_id).all()
-        if 'username' in login_session:
-            if author.id == login_session['user_id']:
+        if 'recipes_username' in login_session:
+            if author.id == login_session['recipes_user_id']:
                 if request.method == "POST":
                     if request.form['delete'] == "Yes":
                         '''delete all traces of recipe from database when user
@@ -1852,7 +1852,7 @@ def likeRecipe(recipe_id):
     '''handler to like a recipe'''
     if recipeExists(recipe_id):
         # if recipe id exists in database
-        if 'username' in login_session:
+        if 'recipes_username' in login_session:
             # if user is logged in
             # query likes in database
             session = DBSession()
@@ -1868,7 +1868,7 @@ def likeRecipe(recipe_id):
             # if user has not liked this recipe already
             # add like to database
             newLike = RecipeLikes(
-                user_id=login_session['user_id'],
+                user_id=login_session['recipes_user_id'],
                 recipe_id=recipe_id)
             session.add(newLike)
             session.commit()
@@ -1890,7 +1890,7 @@ def unlikeRecipe(recipe_id):
     '''handler for user to unlike a recipe'''
     if recipeExists(recipe_id):
         # if recipe id exists in database
-        if 'username' in login_session:
+        if 'recipes_username' in login_session:
             # if user is logged in
             # query likes from database
             session = DBSession()
@@ -1901,7 +1901,7 @@ def unlikeRecipe(recipe_id):
                     # if user likes recipe
                     # query user's like for recipe and delete
                     likeToDelete = session.query(RecipeLikes).filter_by(
-                        user_id=login_session['user_id'], recipe_id=recipe_id).first()
+                        user_id=login_session['recipes_user_id'], recipe_id=recipe_id).first()
                     session.delete(likeToDelete)
                     session.commit()
                     # redirect and success message
@@ -1928,7 +1928,7 @@ def addComment(recipe_id):
     if recipeExists(recipe_id):
         # recipe exists in database
         if request.method == 'POST':
-            if 'username' in login_session:
+            if 'recipes_username' in login_session:
                 # if user if logged in
                 # get comment from form
                 comment = request.form['comment']
@@ -1943,7 +1943,7 @@ def addComment(recipe_id):
                     newComment = RecipeComments(
                         comment=comment,
                         recipe_id=recipe_id,
-                        user_id=login_session['user_id'],
+                        user_id=login_session['recipes_user_id'],
                         date=date)
                     session.add(newComment)
                     session.commit()
@@ -1981,10 +1981,10 @@ def editComment(recipe_id, comment_id):
                 session = DBSession()
                 author = session.query(RecipeComments).filter_by(
                     id=comment_id).one().user
-                if 'username' in login_session:
+                if 'recipes_username' in login_session:
                     # user is logged in
                     editComment = request.form['comment']
-                    if author.id == login_session['user_id']:
+                    if author.id == login_session['recipes_user_id']:
                         # user id is the same as author id
                         if editComment == "":
                             # redirect and error message if comment is empty
@@ -2047,9 +2047,9 @@ def deleteComment(recipe_id, comment_id):
             commentToDelete = session.query(
                 RecipeComments).filter_by(id=comment_id).one()
             DBSession.remove()
-            if 'username' in login_session:
+            if 'recipes_username' in login_session:
                 # user is logged in
-                if author.id == login_session['user_id']:
+                if author.id == login_session['recipes_user_id']:
                     # user id is the same as author id
                     if request.method == "POST":
                         if request.form['delete'] == "Yes":
@@ -2092,8 +2092,8 @@ def deleteComment(recipe_id, comment_id):
 
 @app.route('/recipes/logout/', methods=['GET'])
 def recipeDisconnect():
-    login_session.pop('username', None)
-    login_session.pop('user_id', None)
+    login_session.pop('recipes_username', None)
+    login_session.pop('recipes_user_id', None)
     return redirect(url_for('recipeConnect'))
 
 if __name__ == '__main__':
