@@ -1574,7 +1574,7 @@ def showRecipe(recipe_id):
                 ability to like is changed to the ability to unlike when webpage
                 is rendered)'''
                 liked = userLiked(likes)
-        DBSession.remove()
+        #DBSession.remove()
         return render_template(
             'recipes/recipe.html',
             user=login_session['recipes_username'],
