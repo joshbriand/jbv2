@@ -72,8 +72,11 @@ def make_temp_password(password):
 
 #does user exist?
 def userExists(name):
+    session = DBSession()
     q = session.query(ghostUser).filter_by(name=name)
-    return session.query(q.exists()).scalar()
+    exists = session.query(q.exists()).scalar()
+    DBSession.remove()
+    return exists
 
 def surveyUserExists(name):
     session = DBSession()
@@ -126,8 +129,11 @@ def getOrderedLikes():
 
 #does game exist?
 def gameExists(name):
+    session = DBSession()
     q = session.query(ghostGame).filter_by(id=id)
-    return session.query(q.exists()).scalar()
+    exists = session.query(q.exists()).scalar()
+    DBSession.remove()
+    return exists
 
 @app.route('/', methods=['GET'])
 def showIndexPage():
@@ -136,6 +142,7 @@ def showIndexPage():
         return render_template('index.html')
 
 @app.route('/merch', methods=['GET'])
+@app.route('/settlement', methods=['GET'])
 def showMerchandiseSettlement():
     '''Handler for landing page of website.'''
     if request.method == 'GET':
@@ -164,9 +171,11 @@ def login():
             login_password = request.form['password']
             if login_username:
                 if login_password:
+                    session = DBSession()
                     users = session.query(ghostUser)
                     user = users.filter_by(name=login_username).first()
                     login_hashed_password = make_secure_val(login_password)
+                    DBSession.remove()
                     if userExists(login_username):
                         if user.name == login_password:
                             login_session['username'] = login_username
@@ -208,21 +217,25 @@ def login():
                         elif new_email:
                             #TODO
                             #RE email
+                            session = DBSession()
                             newUser = ghostUser(name=new_username,
                                         password=new_hashed_password,
                                         email=new_email,
                                         notifications="n")
                             session.add(newUser)
                             session.commit()
+                            DBSession.remove()
                             login_session['username'] = new_username
                             return redirect(url_for('menu'))
                         else:
+                            session = DBSession()
                             newUser = ghostUser(name=new_username,
                                         password=new_hashed_password,
                                         email="none",
                                         notifications="n")
                             session.add(newUser)
                             session.commit()
+                            DBSession.remove()
                             login_session['username'] = new_username
                             return redirect(url_for('menu'))
                     else:
@@ -234,6 +247,7 @@ def login():
 
 @app.route('/ghosts/logout/')
 def logout():
+    session = DBSession()
     login_session.pop('username', None)
     DBSession.remove()
     return redirect(url_for('login'))
@@ -241,9 +255,11 @@ def logout():
 @app.route('/ghosts/changepassword/', methods=['GET', 'POST'])
 def changepassword():
     if 'username' in login_session:
+        session = DBSession()
         users = session.query(ghostUser)
         users = users.order_by(ghostUser.name.asc())
         user = users.filter_by(name=login_session['username']).one()
+        DBSession.remove()
         if request.method == 'GET':
             flash('Please Change Your Password')
             return render_template('changepassword.html',
@@ -264,8 +280,10 @@ def changepassword():
                     if new_password != current_password:
                         if new_password == confirm_password:
                             user.password = new_hashed_password
+                            session = DBSession()
                             session.add(user)
                             session.commit()
+                            DBSession.remove()
                             flash('Password Successfully Changed')
                             return redirect(url_for('menu'))
                         else:
@@ -284,6 +302,7 @@ def changepassword():
 @app.route('/ghosts/menu/', methods=['GET', 'POST'])
 def menu():
     if 'username' in login_session:
+        session = DBSession()
         users = session.query(ghostUser)
         users = users.order_by(ghostUser.name.asc())
         user = users.filter_by(name=login_session['username']).one()
@@ -303,6 +322,7 @@ def menu():
             elif win.won == 'exit':
                 exitWins += 1
         if request.method == 'GET':
+            DBSession.remove()
             return render_template('menu.html',
                                     playerUsername=login_session['username'],
                                     userid=user.id,
@@ -325,6 +345,7 @@ def menu():
                 session.add(user)
                 session.commit()
                 flash('Email Notifications Updated')
+                DBSession.remove()
                 return redirect(url_for('menu'))
             elif "changePassword" in request.form:
                 current_password = request.form['currentPassword']
@@ -339,6 +360,7 @@ def menu():
                             session.add(user)
                             session.commit()
                             flash('Password Successfully Changed')
+                            DBSession.remove()
                             return redirect(url_for('menu'))
                         else:
                             flash('Passwords Do Not Match')
@@ -401,6 +423,7 @@ def menu():
                 session.add(new_game)
                 session.commit()
                 game_id = session.query(ghostGame).filter_by(date=date).one().id
+                DBSession.remove()
                 return redirect(url_for('game', game_id=game_id))
     else:
         flash('Please log in')
@@ -409,6 +432,7 @@ def menu():
 @app.route('/ghosts/game/<int:game_id>/', methods=['GET', 'POST'])
 def game(game_id):
     if 'username' in login_session:
+        session = DBSession()
         users = session.query(ghostUser)
         users = users.order_by(ghostUser.name.asc())
         user = users.filter_by(name=login_session['username']).one()
@@ -432,6 +456,7 @@ def game(game_id):
             userPlayer = 2
         else:
             flash('You Are Not Part Of This Game')
+            DBSession.remove()
             return redirect(url_for('menu'))
         if request.method == 'GET':
             ghostList = ['p1b3','p1b2','p1b3','p1b4','p1y1','p1y2','p1y3','p1y4','p2b3','p2b2','p2b3','p2b4','p2y1','p2y2','p2y3','p2y4']
@@ -570,6 +595,7 @@ def game(game_id):
                     session.commit()
             if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                 flash("Waiting for Opponent's Move, Please Check Back Later")
+            DBSession.remove()
             return render_template('board.html',
                                     playerUsername=login_session['username'],
                                     userid=user.id,
@@ -679,6 +705,7 @@ def game(game_id):
                     game.previousPlayer = game.previousPlayer + userPlayer*10
                     if game.previousPlayer == 30:
                         game.previousPlayer = 2
+                session = DBSession()
                 session.add(game)
                 session.commit()
                 game = session.query(ghostGame).filter(ghostGame.id==game_id).one()
@@ -811,6 +838,7 @@ def game(game_id):
                         winnerid=winnerid,
                         completed=date,
                         won=wonBy)
+                    session = DBSession()
                     session.add(complete_game)
                     session.commit()
                     game.previousPlayer = 9
@@ -836,6 +864,7 @@ def game(game_id):
                     #s.quit()
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
+                DBSession.remove()
                 return render_template('board.html',
                                         playerUsername=login_session['username'],
                                         userid=user.id,
@@ -851,9 +880,11 @@ def game(game_id):
                                         wonBy=wonBy)
             else:
                 flash('ID Match Error, Please Try Again')
+                DBSession.remove()
                 return redirect(url_for('game', game_id=game_id))
     else:
         flash('Please log in')
+        DBSession.remove()
         return redirect(url_for('login'))
 
 @app.route('/survey', methods=['GET', 'POST'])
