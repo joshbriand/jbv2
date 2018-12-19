@@ -798,6 +798,7 @@ def game(game_id):
                         opponentDeadBlue +=1
                     elif ghost[1] == str(opponentPlayer) and ghost[2] == 'y':
                         opponentDeadYellow +=1
+                print "winning condition"
                 print game.b11[1:2]
                 if game.previousPlayer == 0 or game.previousPlayer > 2:
                     winner = ''
