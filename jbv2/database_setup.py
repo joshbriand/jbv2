@@ -78,8 +78,8 @@ class ghostGame(Base):
     __tablename__ = 'ghostGame'
 
     id = Column(Integer, primary_key=True)
-    player1id = Column(Integer, ForeignKey('user.id'))
-    player2id = Column(Integer, ForeignKey('user.id'))
+    player1id = Column(Integer, ForeignKey('ghostUser.id'))
+    player2id = Column(Integer, ForeignKey('ghostUser.id'))
     date = Column(DateTime)
     b11 = Column(String(4))
     b21 = Column(String(4))
