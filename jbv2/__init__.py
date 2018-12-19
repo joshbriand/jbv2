@@ -864,7 +864,7 @@ def game(game_id):
                     #s.quit()
                 if game.previousPlayer == userPlayer or game.previousPlayer == userPlayer * 10:
                     flash("Waiting for Opponent's Move, Please Check Back Later")
-                DBSession.remove()
+                #DBSession.remove()
                 return render_template('board.html',
                                         playerUsername=login_session['username'],
                                         userid=user.id,
