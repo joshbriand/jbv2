@@ -117,7 +117,7 @@ class ghostGame(Base):
     b46 = Column(String(4))
     b56 = Column(String(4))
     b66 = Column(String(4))
-    previousPlayer = Column(Integer, ForeignKey('user.id'))
+    previousPlayer = Column(Integer, ForeignKey('ghostUser.id'))
     previousGhost = Column(String(4), nullable=False)
 
 class ghostComplete(Base):
@@ -125,9 +125,9 @@ class ghostComplete(Base):
 
     id = Column(Integer, primary_key=True)
     gameid = Column(Integer,nullable=False)
-    player1id = Column(Integer, ForeignKey('user.id'))
-    player2id = Column(Integer, ForeignKey('user.id'))
-    winnerid = Column(Integer, ForeignKey('user.id'))
+    player1id = Column(Integer, ForeignKey('ghostUser.id'))
+    player2id = Column(Integer, ForeignKey('ghostUser.id'))
+    winnerid = Column(Integer, ForeignKey('ghostUser.id'))
     completed = Column(DateTime)
     won = Column(String(6))
 
