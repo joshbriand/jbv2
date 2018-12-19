@@ -820,12 +820,12 @@ def game(game_id):
                         wonBy = "blue"
                         winner = userplayer
                         winnerid = userid
-                    elif (game.b11[1:2] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
+                    elif (game.b11[1:3] == "1b" or game.b61[1:3] == "1b") and game.previousPlayer == 2:
                         print "won by exit at top"
                         wonBy = "exit"
                         winner = 1
                         winnerid = game.player1id
-                    elif (game.b16[1:2] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
+                    elif (game.b16[1:3] == "2b" or game.b66[1:3] == "2b") and game.previousPlayer == 1:
                         print "won by exit at bottom"
                         wonBy = "exit"
                         winner = 2
