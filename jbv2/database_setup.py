@@ -162,6 +162,77 @@ class SurveyResults(Base):
     user = relationship(SurveyUsers)
 
 
+class PoolUsers(Base):
+    __tablename__ = 'PoolUsers'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+
+
+class PoolGolfers(Base):
+    __tablename__ = 'PoolGolfers'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    country = Column(String(250), nullable=False)
+    currentRank = Column(Integer, nullable=True)
+    startingRank = Column(Integer, nullable=False)
+
+
+class PoolGroups(Base):
+    __tablename__ = 'PoolGroups'
+
+    id = Column(Integer, primary_key=True)
+    groupname = Column(String(1000), nullable=False)
+    golfer1 = relationship(PoolGolfers)
+    golfer1_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer2 = relationship(PoolGolfers)
+    golfer2_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer3 = relationship(PoolGolfers)
+    golfer3_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer4 = relationship(PoolGolfers)
+    golfer4_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer5 = relationship(PoolGolfers)
+    golfer5_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer6 = relationship(PoolGolfers)
+    golfer6_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer7 = relationship(PoolGolfers)
+    golfer7_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+
+
+class PoolChoices(Base):
+    __tablename__ = 'PoolChoices'
+
+    id = Column(Integer, primary_key=True)
+    group_id = Column(Integer, ForeignKey('PoolGroups.id'))
+    group = relationship(PoolGroups)
+    golfer_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer = relationship(PoolGolfers)
+    user_id = Column(Integer, ForeignKey('PoolUsers.id'))
+    user = relationship(PoolUsers)
+
+
+class PoolTournaments(Base):
+    __tablename__ = 'PoolTournaments'
+
+    id = Column(Integer, primary_key=True)
+    year = Column(Integer, nullable=False)
+    name = Column(String(250), nullable=False)
+
+class PoolResults(Base):
+    __tablename__ = 'PoolResults'
+
+    id = Column(Integer, primary_key=True)
+    golfer_id = Column(Integer, ForeignKey('PoolGolfers.id'))
+    golfer = relationship(PoolGolfers)
+    tournament_id = Column(Integer, ForeignKey('PoolTournaments.id'))
+    tournament = relationship(PoolTournaments)
+    position = Column(Integer, nullable=False)
+    overall = Column(Integer, nullable=False)
+
+
 engine = create_engine('sqlite:////var/www/jbv2/jbv2/jb.db')
 
 Base.metadata.create_all(engine)

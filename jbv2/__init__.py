@@ -4,7 +4,7 @@ from flask import make_response
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
-from database_setup import (Base, RecipeUsers, Recipes, RecipeComments, RecipeLikes, RecipeProcess, RecipeIngredients, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions)
+from database_setup import (Base, RecipeUsers, Recipes, RecipeComments, RecipeLikes, RecipeProcess, RecipeIngredients, ghostUser, ghostGame, ghostComplete, SurveyUsers, SurveyResults, SurveyQuestions, , PoolUsers, PoolGolfers, PoolGroups, PoolChoices, PoolTournaments, PoolResults)
 import random
 import string
 from datetime import datetime
