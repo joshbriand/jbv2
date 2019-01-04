@@ -179,6 +179,8 @@ class PoolGolfers(Base):
     country = Column(String(250), nullable=False)
     currentRank = Column(Integer, nullable=True)
     startingRank = Column(Integer, nullable=False)
+    group_id = Column(Integer, ForeignKey('PoolGroups.id'))
+    group = relationship(PoolGroups) 
 
 
 class PoolGroups(Base):
@@ -186,20 +188,6 @@ class PoolGroups(Base):
 
     id = Column(Integer, primary_key=True)
     groupname = Column(String(1000), nullable=False)
-    golfer1 = relationship(PoolGolfers)
-    golfer1_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer2 = relationship(PoolGolfers)
-    golfer2_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer3 = relationship(PoolGolfers)
-    golfer3_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer4 = relationship(PoolGolfers)
-    golfer4_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer5 = relationship(PoolGolfers)
-    golfer5_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer6 = relationship(PoolGolfers)
-    golfer6_id = Column(Integer, ForeignKey('PoolGolfers.id'))
-    golfer7 = relationship(PoolGolfers)
-    golfer7_id = Column(Integer, ForeignKey('PoolGolfers.id'))
 
 
 class PoolChoices(Base):
