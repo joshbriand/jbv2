@@ -171,6 +171,13 @@ class PoolUsers(Base):
     email = Column(String(250), nullable=False)
 
 
+class PoolGroups(Base):
+    __tablename__ = 'PoolGroups'
+
+    id = Column(Integer, primary_key=True)
+    groupname = Column(String(1000), nullable=False)
+
+
 class PoolGolfers(Base):
     __tablename__ = 'PoolGolfers'
 
@@ -180,14 +187,7 @@ class PoolGolfers(Base):
     currentRank = Column(Integer, nullable=True)
     startingRank = Column(Integer, nullable=False)
     group_id = Column(Integer, ForeignKey('PoolGroups.id'))
-    group = relationship(PoolGroups) 
-
-
-class PoolGroups(Base):
-    __tablename__ = 'PoolGroups'
-
-    id = Column(Integer, primary_key=True)
-    groupname = Column(String(1000), nullable=False)
+    group = relationship(PoolGroups)
 
 
 class PoolChoices(Base):
