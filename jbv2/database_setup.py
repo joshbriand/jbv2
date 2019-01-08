@@ -208,6 +208,7 @@ class PoolTournaments(Base):
     id = Column(Integer, primary_key=True)
     year = Column(Integer, nullable=False)
     name = Column(String(250), nullable=False)
+    tier = Column(Integer, nullable=False)
 
 class PoolResults(Base):
     __tablename__ = 'PoolResults'
