@@ -1059,6 +1059,9 @@ def poolAdmin():
             new_golfer_rank = request.form['golferRank']
             new_golfer_group = request.form['golferGroup']
             if new_golfer_name and new_golfer_country and new_golfer_rank and new_golfer_group:
+                #get group object not string
+                groups = session.query(PoolGroups)
+                newGolferGroup = groups.filter_by(id=new_golfer_group).one()
                 newGolfer = PoolGolfers(
                     name = new_golfer_name,
                     country = new_golfer_country,
