@@ -2,28 +2,24 @@
 
 {% block content %}
 <form method="post">
-	<h2>Add a question to the poll</h2>
-	Question
-	<input type="text" name="question" size="120px">
+	<h2>Add a golfer to the pool</h2>
+	Name
+	<input type="text" name="golferName" size="120px">
 	<br><br>
-	Answer #1
-	<input type="text" name="answer1" size="118px">
+	Country
+	<input type="text" name="golferCountry" size="118px">
 	<br><br>
-	Answer #2
-	<input type="text" name="answer2" size="118px">
+	Rank
+	<input type="text" name="golferRank" size="118px">
 	<br><br>
-	Answer #3
-	<input type="text" name="answer3" size="118px">
+	Group
+	<select name="golferGroup">
+		{% for group in groups %}
+			<option value="{{ group.id }}">{{ group.groupname }}</option>
+		{% endfor %}
+	</select>
 	<br><br>
-	Answer #4
-	<input type="text" name="answer4" size="118px">
-	<br><br>
-	Answer #5
-	<input type="text" name="answer5" size="118px">
-	<br><br>
-	<i>Feel free to leave an answer field blank</i>
-	<br>
-	<input type="submit" value="Add Question">
+	<input type="submit" value="Add Golfer">
 </form>
 
 {% endblock %}

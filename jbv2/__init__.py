@@ -1041,6 +1041,7 @@ def poolAdmin():
         users = session.query(PoolUsers)
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
+        groups = session.query(PoolGroups).all()
         DBSession.remove()
         if user.username == 'admin':
             admin = True
@@ -1050,14 +1051,13 @@ def poolAdmin():
         if request.method == 'GET':
             return render_template('pool/admin.html',
                                     admin = admin,
-                                    user = user)
+                                    user = user,
+                                    groups = groups)
         elif request.method == 'POST':
-            new_question = request.form['question']
-            new_answer_1 = request.form['answer1']
-            new_answer_2 = request.form['answer2']
-            new_answer_3 = request.form['answer3']
-            new_answer_4 = request.form['answer4']
-            new_answer_5 = request.form['answer5']
+            new_golfer_name = request.form['golferName']
+            new_golfer_country = request.form['golferCountry']
+            new_golfer_rank = request.form['golferRank']
+            new_golfer_group = request.form['golferGroup']
             if new_question:
                 if new_answer_1 or new_answer_2 or new_answer_3 or new_answer_4 or new_answer_5:
                     newQuestion = PoolQuestions(question=new_question,
