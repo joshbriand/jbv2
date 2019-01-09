@@ -87,7 +87,9 @@ newTournament = PoolTournaments(year=2019, name="Tour Championship", tier=2)
 session.add(newTournament)
 session.commit()
 
-print "bingo!!"
+newUser = PoolUsers(username="admin", password="59543", email="joshbriand@gmail.com")
+session.add(newUser)
+session.commit()
 
 # newUser = PoolUsers(username="admin", password="triple20", email="joshbriand@gmail.com")
 # session.add(newUser)
