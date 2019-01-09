@@ -891,6 +891,488 @@ def game(game_id):
         DBSession.remove()
         return redirect(url_for('login'))
 
+'''
+Pool
+tier1 = [500,300, 250, 225, 200, 180, 160, 140, 120, 100, 80, 80, 80, 80, 80, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15]
+tier2 = [350, 250, 200, 175, 150, 125, 100, 90, 80, 70, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10]
+tier3 = [250, 150, 125, 100, 90, 80, 70, 60, 50, 40, 30, 30, 30, 30, 30, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5]
+'''
+@app.route('/pool', methods=['GET', 'POST'])
+@app.route('/pool/', methods=['GET', 'POST'])
+@app.route('/pool/login', methods=['GET', 'POST'])
+@app.route('/pool/login/', methods=['GET', 'POST'])
+def poolLogin():
+    '''Handler for landing page of website.'''
+    if request.method == 'GET':
+        return render_template('pool/login.html')
+    elif request.method == 'POST':
+        if request.form['login'] == "Log In":
+            login_username = request.form['username']
+            login_password = request.form['password']
+            if login_username:
+                if login_password:
+                    session = DBSession()
+                    pool_users = session.query(PoolUsers).all()
+                    DBSession.remove()
+                    for user in pool_users:
+                        if user.username == login_username:
+                            pool_user = user
+                            print "success"
+                            break
+                    if poolUserExists(login_username):
+                        if pool_user.username == 'admin':
+                            login_hashed_password = login_password
+                        else:
+                            login_hashed_password = make_secure_val(login_password)
+                        if pool_user.username == login_password:
+                            login_session['username'] = login_username
+                            return redirect(url_for('changePoolPassword'))
+                        elif pool_user.password == login_hashed_password:
+                            login_session['username'] = login_username
+                            if login_username == 'admin':
+                                print "successful admin log in"
+                                return redirect(url_for('poolAdmin'))
+                            else:
+                                print "successful log in"
+                                return redirect(url_for('poolResults'))
+                        else:
+                            flash('Incorrect Password')
+                            return render_template('pool/login.html')
+                    else:
+                        flash('Username Not Found')
+                        return render_template('pool/login.html')
+                else:
+                    flash('No Password Entered')
+                    return render_template('pool/login.html')
+            elif login_password:
+                flash('No Username Entered')
+                return render_template('pool/login.html')
+        elif request.form['login'] == "Create User":
+            session = DBSession()
+            new_username = request.form['newUsername']
+            new_password = request.form['newPassword']
+            confirm_password = request.form['confirmPassword']
+            new_hashed_password = make_secure_val(new_password)
+            if new_username:
+                if poolUserExists(new_username):
+                    flash('Username Already Exists')
+                    return render_template('pool/login.html')
+                elif validate(new_username, USER_RE) is None:
+                    flash('That is Not a Valid Username')
+                    return render_template('pool/login.html')
+                else:
+                    if new_password == confirm_password:
+                        if validate(new_password, PASSWORD_RE) is None:
+                            flash('That is Not a Valid Password')
+                            return render_template('pool/login.html')
+                        else:
+                            newUser = PoolUsers(username=new_username,
+                                            password=new_hashed_password)
+                            session.add(newUser)
+                            session.commit()
+                            DBSession.remove()
+                            print "new user added"
+                            login_session['username'] = new_username
+                            return redirect(url_for('poolResults'))
+                    else:
+                        flash('Passwords Do Not Match')
+                        return render_template('pool/login.html')
+            else:
+                flash('No Username Entered')
+                return render_template('pool/login.html')
+
+@app.route('/pool/logout/', methods=['GET'])
+def poolLogout():
+    login_session.pop('username', None)
+    return redirect(url_for('poolLogin'))
+
+@app.route('/pool/changepassword/', methods=['GET', 'POST'])
+def changePoolPassword():
+    if 'username' in login_session:
+        print login_session['username']
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            admin = False
+        if request.method == 'GET':
+            flash('Please Change Your Password')
+            return render_template('pool/changepassword.html',
+                                    admin = admin,
+                                    user = user.username)
+        elif request.method == 'POST':
+            current_password = user.password
+            new_password = request.form['password']
+            confirm_password = request.form['verify']
+            new_secure_password = make_secure_val(new_password)
+            if new_secure_password != current_password:
+                if new_password == confirm_password:
+                    user.password = new_secure_password
+                    session.add(user)
+                    session.commit()
+                    DBSession.remove()
+                    flash('Password Succesfully Changed!')
+                    return redirect(url_for('poolResults'))
+                else:
+                    flash('Password Do Not Match!')
+                    return render_template(url_for('showPoolChangePassword'))
+            else:
+                flash('New Password Must Be Different Than Current Password')
+                return render_template(url_for('showPoolChangePassword'))
+    else:
+        flash('Please Log In')
+        return render_template(url_for('poolLogin'))
+
+@app.route('/pool/addquestion/', methods=['GET', 'POST'])
+@app.route('/pool/addquestion', methods=['GET', 'POST'])
+def poolAdmin():
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/admin.html',
+                                    admin = admin,
+                                    user = user)
+        elif request.method == 'POST':
+            new_question = request.form['question']
+            new_answer_1 = request.form['answer1']
+            new_answer_2 = request.form['answer2']
+            new_answer_3 = request.form['answer3']
+            new_answer_4 = request.form['answer4']
+            new_answer_5 = request.form['answer5']
+            if new_question:
+                if new_answer_1 or new_answer_2 or new_answer_3 or new_answer_4 or new_answer_5:
+                    newQuestion = PoolQuestions(question=new_question,
+                                                    option1=new_answer_1,
+                                                    option2=new_answer_2,
+                                                    option3=new_answer_3,
+                                                    option4=new_answer_4,
+                                                    option5=new_answer_5)
+                    session.add(newQuestion)
+                    session.commit()
+                    DBSession.remove()
+                    print "new question added"
+                    flash('Question Added Seccessfully!')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user)
+                else:
+                    flash('You Must Enter An Answer')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user)
+            else:
+                flash('You Must Enter A Question')
+                return render_template('pool/admin.html',
+                                        admin = admin,
+                                        user = user)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/deletequestion', methods=['GET', 'POST'])
+@app.route('/pool/deletequestion/', methods=['GET', 'POST'])
+def showPoolDeleteQuestion():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        questions = session.query(PoolQuestions)
+        questions = questions.order_by(PoolQuestions.id.asc())
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/deletequestion.html',
+                                    admin=admin,
+                                    user=user,
+                                    questions=questions)
+        elif request.method == 'POST':
+            delete_question = request.form['deletequestion']
+            delete_question = int(delete_question)
+            if delete_question:
+                questionToDelete = session.query(
+                    PoolQuestions).filter_by(id=delete_question).all()
+                print delete_question
+                if questionToDelete:
+                    for question in questionToDelete:
+                        session.delete(question)
+                        session.commit()
+                        DBSession.remove()
+                        print "question deleted!"
+                    flash ('Question Deleted Successfully!')
+                    questions = session.query(PoolQuestions)
+                    questions = questions.order_by(PoolQuestions.id.asc())
+                    DBSession.remove()
+                    return render_template('pool/deletequestion.html',
+                                            admin=admin,
+                                            user=user,
+                                            questions=questions)
+                else:
+                    flash('Question Not Found In Database')
+                    return render_template('pool/deletequestion.html',
+                                            admin=admin,
+                                            user=user,
+                                            questions=questions)
+            else:
+                flash('You Must Select A Question To Delete')
+                return render_template('pool/deletequestion.html',
+                                        admin=admin,
+                                        user=user,
+                                        questions=questions)
+
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/adduser', methods=['GET', 'POST'])
+@app.route('/pool/adduser/', methods=['GET', 'POST'])
+def showPoolAddUser():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/adduser.html',
+                                    admin = admin,
+                                    user = user)
+        elif request.method == 'POST':
+            new_username = request.form['username']
+            new_password = request.form['password']
+            confirm_password = request.form['verify']
+            new_hashed_password = make_secure_val(new_password)
+            session = DBSession()
+            if new_username:
+                if poolUserExists(new_username):
+                    flash('Username Already Exists')
+                    return render_template('pool/adduser.html',
+                                            admin=admin,
+                                            user=user)
+                elif validate(new_username, USER_RE) is None:
+                    flash('That is Not a Valid Username')
+                    return render_template('pool/adduser.html',
+                                            admin=admin,
+                                            user=user)
+                else:
+                    if new_password == confirm_password:
+                        if validate(new_password, PASSWORD_RE) is None:
+                            flash('That is Not a Valid Password')
+                            return render_template('pool/adduser.html',
+                                                    admin=admin,
+                                                    user=user)
+                        else:
+                            newUser = PoolUsers(username=new_username,
+                                            password=new_hashed_password)
+                            session.add(newUser)
+                            session.commit()
+                            DBSession.remove()
+                            print "user added!!!"
+                            flash('User Added Succesfully!')
+                            return render_template('pool/adduser.html',
+                                                    admin=admin,
+                                                    user=user)
+                    else:
+                        flash('Passwords Do Not Match')
+                        return render_template('pool/adduser.html',
+                                                admin=admin,
+                                                user=user)
+            else:
+                flash('No Username Entered')
+                return render_template('pool/adduser.html',
+                                        admin=admin,
+                                        user=user)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/deleteuser', methods=['GET', 'POST'])
+@app.route('/pool/deleteuser/', methods=['GET', 'POST'])
+def showPoolDeleteUser():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/deleteuser.html',
+                                    admin=admin,
+                                    user=user,
+                                    users=users)
+        elif request.method == 'POST':
+            delete_user = request.form['deleteuser']
+            delete_user = int(delete_user)
+            session = DBSession()
+            if delete_user:
+                resultsToDelete = session.query(
+                    PoolResults).filter_by(user_id=delete_user).all()
+                if resultsToDelete:
+                    for delResult in resultsToDelete:
+                        session.delete(delResult)
+                        session.commit()
+                        DBSession.remove()
+                        print "result deleted!"
+                userToDelete = session.query(
+                    PoolUsers).filter_by(id=delete_user).all()
+                if userToDelete:
+                    for delUser in userToDelete:
+                        session.delete(delUser)
+                        session.commit()
+                        DBSession.remove()
+                        print "user deleted!"
+                    flash ('User Deleted Successfully!')
+                    users = session.query(PoolUsers)
+                    users = users.order_by(PoolUsers.id.asc())
+                    DBSession.remove()
+                    return render_template('pool/deleteuser.html',
+                                            admin=admin,
+                                            user=user,
+                                            users=users)
+                else:
+                    flash('User Not Found In Database')
+                    return render_template('pool/deleteuser.html',
+                                            admin=admin,
+                                            user=user,
+                                            users=users)
+            else:
+                flash('You Must Select A Question To Delete')
+                return render_template('pool/deleteuser.html',
+                                        admin=admin,
+                                        user=user,
+                                        users=users)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/takepoll', methods=['GET', 'POST'])
+@app.route('/pool/takepoll/', methods=['GET', 'POST'])
+def showPoolPoll():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        if login_session['username'] == 'admin':
+            flash('You Must Be Logged In As A User')
+            return redirect(url_for('poolLogin'))
+        else:
+            if request.method == 'GET':
+                session = DBSession()
+                users = session.query(PoolUsers)
+                users = users.order_by(PoolUsers.username.asc())
+                user = users.filter_by(username=login_session['username']).one()
+                questions = session.query(PoolQuestions)
+                questions = questions.order_by(PoolQuestions.id.asc())
+                results = session.query(PoolResults)
+                print "all results"
+                print results
+                user_results = results.filter_by(user_id=user.id)
+                print "user results"
+                print user_results
+                first = user_results.first()
+                print "first?"
+                print first
+                DBSession.remove()
+                return render_template('pool/takepoll.html',
+                                        user=user.username,
+                                        questions=questions,
+                                        results=user_results,
+                                        first=first)
+            elif request.method == 'POST':
+                session = DBSession()
+                users = session.query(PoolUsers)
+                users = users.order_by(PoolUsers.username.asc())
+                user  = users.filter_by(username=login_session['username']).one()
+                questions = session.query(PoolQuestions)
+                for question in questions:
+                    option_selected = request.form.get(str(question.id))
+                    if option_selected:
+                        results = session.query(PoolResults)
+                        user_results = results.filter_by(user_id=user.id)
+                        for user_result in user_results:
+                            if user_result.question.id == question.id:
+                                session.delete(user_result)
+                                session.commit()
+                                print "result deleted!"
+                        newResult = PoolResults(choice = option_selected,
+                                                question_id = question.id,
+                                                user_id = user.id)
+                        session.add(newResult)
+                        session.commit()
+                        print "result added!"
+                DBSession.remove()
+                flash('Thanks For Taking The Pool!')
+                return redirect(url_for('poolResults'))
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+
+@app.route('/pool/results/', methods=['GET', 'POST'])
+def poolResults():
+    if request.method == 'GET':
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        results = session.query(PoolResults)
+        results = results.order_by(PoolResults.question_id.asc())
+        questions = session.query(PoolQuestions)
+        questions = questions.order_by(PoolQuestions.id.asc())
+        DBSession.remove()
+        resultsToHTML = []
+        for question in questions:
+            voters = [question,[],[],[],[],[]]
+            for result in results:
+                if result.question.id == question.id:
+                    if result.choice == question.option1:
+                        voters[1].append(result.user.username)
+                    elif result.choice == question.option2:
+                        voters[2].append(result.user.username)
+                    elif result.choice == question.option3:
+                        voters[3].append(result.user.username)
+                    elif result.choice == question.option4:
+                        voters[4].append(result.user.username)
+                    elif result.choice == question.option5:
+                        voters[5].append(result.user.username)
+            resultsToHTML.append(voters)
+        print resultsToHTML
+        return render_template('pool/results.html',
+                                user=user.username,
+                                results=resultsToHTML)
+
+
+#end pool
+
 @app.route('/survey', methods=['GET', 'POST'])
 @app.route('/survey/', methods=['GET', 'POST'])
 @app.route('/survey/login', methods=['GET', 'POST'])
