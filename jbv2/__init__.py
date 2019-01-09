@@ -1058,32 +1058,27 @@ def poolAdmin():
             new_golfer_country = request.form['golferCountry']
             new_golfer_rank = request.form['golferRank']
             new_golfer_group = request.form['golferGroup']
-            if new_question:
-                if new_answer_1 or new_answer_2 or new_answer_3 or new_answer_4 or new_answer_5:
-                    newQuestion = PoolQuestions(question=new_question,
-                                                    option1=new_answer_1,
-                                                    option2=new_answer_2,
-                                                    option3=new_answer_3,
-                                                    option4=new_answer_4,
-                                                    option5=new_answer_5)
-                    session.add(newQuestion)
-                    session.commit()
-                    DBSession.remove()
-                    print "new question added"
-                    flash('Question Added Seccessfully!')
-                    return render_template('pool/admin.html',
-                                            admin = admin,
-                                            user = user)
-                else:
-                    flash('You Must Enter An Answer')
-                    return render_template('pool/admin.html',
-                                            admin = admin,
-                                            user = user)
-            else:
-                flash('You Must Enter A Question')
+            if new_golfer_name and new_golfer_country and new_golfer_rank and new_golfer_group:
+                newGolfer = PoolGolfers(
+                    name = new_golfer_name,
+                    country = new_golfer_country,
+                    startingRank = new_golfer_rank,
+                    group = new_golfer_group)
+                session.add(newGolfer)
+                session.commit()
+                DBSession.remove()
+                print "new golfer added"
+                flash('Golfer Added Seccessfully!')
                 return render_template('pool/admin.html',
                                         admin = admin,
-                                        user = user)
+                                        user = user,
+                                        groups = groups)
+            else:
+                flash('You Must Enter A Value For Every Field')
+                return render_template('pool/admin.html',
+                                        admin = admin,
+                                        user = user,
+                                        groups = groups)
     else:
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
