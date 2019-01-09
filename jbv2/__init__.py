@@ -84,6 +84,12 @@ def surveyUserExists(name):
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
+def poolUserExists(name):
+    session = DBSession()
+    z = session.query(PoolUsers).filter_by(username=name)
+    DBSession.remove()
+    return session.query(z.exists()).scalar()
+
 def recipeUserExists(name):
     session = DBSession()
     z = session.query(RecipeUsers).filter_by(name=name)
