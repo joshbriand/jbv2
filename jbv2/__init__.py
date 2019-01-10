@@ -1193,6 +1193,7 @@ def showPoolAddUser():
             new_username = request.form['username']
             new_password = request.form['password']
             confirm_password = request.form['verify']
+            new_email = request.form['email']
             new_hashed_password = make_secure_val(new_password)
             session = DBSession()
             if new_username:
@@ -1215,7 +1216,8 @@ def showPoolAddUser():
                                                     user=user)
                         else:
                             newUser = PoolUsers(username=new_username,
-                                            password=new_hashed_password)
+                                            password=new_hashed_password,
+                                            email=new_email)
                             session.add(newUser)
                             session.commit()
                             DBSession.remove()
