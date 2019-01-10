@@ -94,7 +94,7 @@ def poolGolferExists(name):
     session = DBSession()
     z = session.query(PoolGolfers).filter_by(name=name)
     DBSession.remove()
-    return sessions.query(z.exists()).scalar()
+    return session.query(z.exists()).scalar()
 
 def poolRankExists(rank):
     session = DBSession()
