@@ -1,0 +1,14 @@
+{% extends "survey/base.html" %}
+
+{% block content %}
+<h2>Delete a golfer from the pool</h2>
+<form method="post">
+	{% for golfer in golfers %}
+		{{ golfer.startingRank }} {{ golfer.name }}
+		<input type="radio" name="deletegolfer" value="{{ golfer.id }}">
+		<br>
+	{% endfor %}
+	<input type="submit" value="Delete">
+</form>
+
+{% endblock %}

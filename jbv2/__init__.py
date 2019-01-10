@@ -1045,8 +1045,8 @@ def changePoolPassword():
         flash('Please Log In')
         return render_template(url_for('poolLogin'))
 
-@app.route('/pool/addquestion/', methods=['GET', 'POST'])
-@app.route('/pool/addquestion', methods=['GET', 'POST'])
+@app.route('/pool/addgolfer/', methods=['GET', 'POST'])
+@app.route('/pool/addgolfer', methods=['GET', 'POST'])
 def poolAdmin():
     if 'username' in login_session:
         session = DBSession()
@@ -1110,62 +1110,61 @@ def poolAdmin():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-@app.route('/pool/deletequestion', methods=['GET', 'POST'])
-@app.route('/pool/deletequestion/', methods=['GET', 'POST'])
-def showPoolDeleteQuestion():
+@app.route('/pool/deletegolfer', methods=['GET', 'POST'])
+@app.route('/pool/deletegolfer/', methods=['GET', 'POST'])
+def showPoolDeleteGolfer():
     '''Handler for landing page of website.'''
     if 'username' in login_session:
         session = DBSession()
         users = session.query(PoolUsers)
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
-        questions = session.query(PoolQuestions)
-        questions = questions.order_by(PoolQuestions.id.asc())
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
         DBSession.remove()
         if user.username == 'admin':
             admin = True
         else:
             flash('Access Restricted to Admin User Only')
-
             return redirect(url_for('poolLogin'))
         if request.method == 'GET':
-            return render_template('pool/deletequestion.html',
+            return render_template('pool/deletegolfer.html',
                                     admin=admin,
                                     user=user,
-                                    questions=questions)
+                                    golfers=golfers)
         elif request.method == 'POST':
-            delete_question = request.form['deletequestion']
-            delete_question = int(delete_question)
-            if delete_question:
-                questionToDelete = session.query(
-                    PoolQuestions).filter_by(id=delete_question).all()
-                print delete_question
-                if questionToDelete:
-                    for question in questionToDelete:
-                        session.delete(question)
+            delete_golfer = request.form['deletegolfer']
+            delete_golfer = int(delete_golfer)
+            if delete_golfer:
+                golferToDelete = session.query(
+                    PoolGolfers).filter_by(id=delete_golfer).all()
+                print delete_golfer
+                if golferToDelete:
+                    for golfer in golferToDelete:
+                        session.delete(golfer)
                         session.commit()
                         DBSession.remove()
-                        print "question deleted!"
-                    flash ('Question Deleted Successfully!')
-                    questions = session.query(PoolQuestions)
-                    questions = questions.order_by(PoolQuestions.id.asc())
+                        print "golfer deleted!"
+                    flash ('Golfer Deleted Successfully!')
+                    golfers = session.query(PoolGolfers)
+                    golfers = golfers.order_by(PoolGolfers.startingRank.asc())
                     DBSession.remove()
-                    return render_template('pool/deletequestion.html',
+                    return render_template('pool/deletegolfer.html',
                                             admin=admin,
                                             user=user,
-                                            questions=questions)
+                                            golfers=golfers)
                 else:
-                    flash('Question Not Found In Database')
-                    return render_template('pool/deletequestion.html',
+                    flash('Golfer Not Found In Database')
+                    return render_template('pool/deletegolfer.html',
                                             admin=admin,
                                             user=user,
-                                            questions=questions)
+                                            golfers=golfers)
             else:
-                flash('You Must Select A Question To Delete')
-                return render_template('pool/deletequestion.html',
+                flash('You Must Select A Golfer To Delete')
+                return render_template('pool/deletegolfer.html',
                                         admin=admin,
                                         user=user,
-                                        questions=questions)
+                                        golfers=golfers)
 
     else:
         flash('You Must Be Logged In To Access This Page')
