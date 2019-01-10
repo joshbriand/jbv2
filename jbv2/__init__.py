@@ -1265,14 +1265,14 @@ def showPoolDeleteUser():
             delete_user = int(delete_user)
             session = DBSession()
             if delete_user:
-                resultsToDelete = session.query(
-                    PoolResults).filter_by(user_id=delete_user).all()
-                if resultsToDelete:
-                    for delResult in resultsToDelete:
-                        session.delete(delResult)
+                choicesToDelete = session.query(
+                    PoolChoices).filter_by(user_id=delete_user).all()
+                if choicesToDelete:
+                    for delChoice in choicesToDelete:
+                        session.delete(delChoice)
                         session.commit()
                         DBSession.remove()
-                        print "result deleted!"
+                        print "choice deleted!"
                 userToDelete = session.query(
                     PoolUsers).filter_by(id=delete_user).all()
                 if userToDelete:
