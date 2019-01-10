@@ -90,6 +90,18 @@ def poolUserExists(name):
     DBSession.remove()
     return session.query(z.exists()).scalar()
 
+def poolGolferExists(name):
+    session = DBSession()
+    z = session.query(PoolGolfers).filter_by(name=name)
+    DBSession.remove()
+    return sessions.query(z.exists()).scalar()
+
+def poolRankExists(rank):
+    session = DBSession()
+    z = session.query(PoolGolfers).filter_by(startingRank=rank)
+    DBSession.remove()
+    return session.query(z.exists()).scalar()
+
 def recipeUserExists(name):
     session = DBSession()
     z = session.query(RecipeUsers).filter_by(name=name)
@@ -1059,22 +1071,35 @@ def poolAdmin():
             new_golfer_rank = request.form['golferRank']
             new_golfer_group = request.form['golferGroup']
             if new_golfer_name and new_golfer_country and new_golfer_rank and new_golfer_group:
-                groups = session.query(PoolGroups)
-                newGolferGroup = groups.filter_by(id=new_golfer_group).one()
-                newGolfer = PoolGolfers(
-                    name = new_golfer_name,
-                    country = new_golfer_country,
-                    startingRank = new_golfer_rank,
-                    group = newGolferGroup)
-                session.add(newGolfer)
-                session.commit()
-                DBSession.remove()
-                print "new golfer added"
-                flash('Golfer Added Seccessfully!')
-                return render_template('pool/admin.html',
-                                        admin = admin,
-                                        user = user,
-                                        groups = groups)
+                if poolGolferExists(new_golfer_name):
+                    flash('Golfer Name Already Exists')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user,
+                                            groups = groups)
+                elif poolRankExists(new_golfer_rank):
+                    flash('Golfer Rank Already Exists')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user,
+                                            groups = groups)
+                else:
+                    groups = session.query(PoolGroups)
+                    newGolferGroup = groups.filter_by(id=new_golfer_group).one()
+                    newGolfer = PoolGolfers(
+                        name = new_golfer_name,
+                        country = new_golfer_country,
+                        startingRank = new_golfer_rank,
+                        group = newGolferGroup)
+                    session.add(newGolfer)
+                    session.commit()
+                    DBSession.remove()
+                    print "new golfer added"
+                    flash('Golfer Added Seccessfully!')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user,
+                                            groups = groups)
             else:
                 flash('You Must Enter A Value For Every Field')
                 return render_template('pool/admin.html',
