@@ -32,10 +32,10 @@
 				<td>
 					<select name="{{ golfer.id }}">
 						{% for group in groups %}
-							{% if group == golfer.group %}
-								<option value="{{ group }}" selected>{{ group.name }}</option>
+							{% if group.id == golfer.group.id %}
+								<option value="{{ group.id }}" selected>{{ group.name }}</option>
 							{% else %}
-								<option value="{{ group }}">{{ group.name }}</option>
+								<option value="{{ group.id }}">{{ group.name }}</option>
 							{% endif %}
 						{% endfor %}
 					</select>
@@ -44,17 +44,6 @@
 
 		{% endfor %}
 	</table>
-
-
-	{% for group in groups %}
-		<h2>{{ group.groupName }}</h2>
-		{% for golfer in golfers %}
-			{% if golfer.group == group %}
-				{{ golfer.startingRank }} - {{ golfer.name }} - {{ golfer.country }}
-				<br>
-			{% endif %}
-		{% endfor %}
-	{% endfor %}
 
 	<input type="submit" value="Submit Changes">
 </form>
