@@ -33,9 +33,9 @@
 					<select name="{{ golfer.id }}">
 						{% for group in groups %}
 							{% if group.id == golfer.group.id %}
-								<option value="{{ group.id }}" selected>{{ group.name }}</option>
+								<option value="{{ group.id }}" selected>{{ group.groupName }}</option>
 							{% else %}
-								<option value="{{ group.id }}">{{ group.name }}</option>
+								<option value="{{ group.id }}">{{ group.groupName }}</option>
 							{% endif %}
 						{% endfor %}
 					</select>
