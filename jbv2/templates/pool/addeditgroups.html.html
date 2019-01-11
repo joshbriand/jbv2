@@ -1,0 +1,16 @@
+{% extends "pool/base.html" %}
+
+{% block content %}
+<h2>Add/Edit Groups</h2>
+<form method="post">
+	{% for group in groups %}
+		<h2>{{ group.groupName }}</h2>
+		{% for golfer in golfers %}
+			{{ golfer.startingRank }} - {{ golfer.name }} - {{ golfer.country }}
+		{% endfor %}
+	{% endfor %}
+
+	<input type="submit" value="Submit Changes">
+</form>
+
+{% endblock %}

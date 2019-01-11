@@ -175,7 +175,7 @@ class PoolGroups(Base):
     __tablename__ = 'PoolGroups'
 
     id = Column(Integer, primary_key=True)
-    groupname = Column(String(1000), nullable=False)
+    groupName = Column(String(1000), nullable=False)
 
 
 class PoolGolfers(Base):
