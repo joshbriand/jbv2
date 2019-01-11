@@ -3,6 +3,49 @@
 {% block content %}
 <h2>Add/Edit Groups</h2>
 <form method="post">
+	<table>
+		<tr>
+			<td>
+				Starting Rank
+			</td>
+			<td>
+				Name
+			</td>
+			<td>
+				Country
+			</td>
+			<td>
+				Group
+			</td>
+		</tr>
+		{% for golfer in golfers %}
+			<tr>
+				<td>
+					{{ golfer.startingRank }}
+				</td>
+				<td>
+					{{ golfer.name }}
+				</td>
+				<td>
+					{{ golfer.country }}
+				</td>
+				<td>
+					<select name="{{ golfer.id }}">
+						{% for group in groups %}
+							{% if group == golfer.group %}
+								<option value="{{ group }}" selected>{{ group.name }}</option>
+							{% else %}
+								<option value="{{ group }}">{{ group.name }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+
+		{% endfor %}
+	</table>
+
+
 	{% for group in groups %}
 		<h2>{{ group.groupName }}</h2>
 		{% for golfer in golfers %}

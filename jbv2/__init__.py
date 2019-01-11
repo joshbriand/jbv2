@@ -1182,7 +1182,7 @@ def showPoolAddEditGroups():
         golfers = session.query(PoolGolfers)
         golfers = golfers.order_by(PoolGolfers.startingRank.asc())
         groups = session.query(PoolGroups)
-        groups = groups.order_by(PoolGroups.groupName.asc())
+        groups = groups.order_by(PoolGroups.id.asc())
         DBSession.remove()
         if user.username == 'admin':
             admin = True
