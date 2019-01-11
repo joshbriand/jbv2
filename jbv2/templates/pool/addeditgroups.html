@@ -6,7 +6,10 @@
 	{% for group in groups %}
 		<h2>{{ group.groupName }}</h2>
 		{% for golfer in golfers %}
-			{{ golfer.startingRank }} - {{ golfer.name }} - {{ golfer.country }}
+			{% if golfer.group == group %}
+				{{ golfer.startingRank }} - {{ golfer.name }} - {{ golfer.country }}
+				<br>
+			{% endif %}
 		{% endfor %}
 	{% endfor %}
 
