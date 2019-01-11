@@ -1,0 +1,45 @@
+{% extends "pool/base.html" %}
+
+{% block content %}
+<h2>View Groups</h2>
+<form method="post">
+	<table>
+		<tr>
+			<td>
+				<b>Starting Rank</b>
+			</td>
+			<td>
+				<b>Name</b>
+			</td>
+			<td>
+				<b>Country</b>
+			</td>
+		</tr>
+		{% for group in groups %}
+			<tr>
+				<td>
+					<h2>{{group.groupName}}</h2>
+				</td>
+			</tr>
+			{% for golfer in golfers %}
+				{% if golfer.group.id == group.id %}
+					<tr>
+						<td>
+							{{ golfer.startingRank }}
+						</td>
+						<td>
+							{{ golfer.name }}
+						</td>
+						<td>
+							{{ golfer.country }}
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		{% endfor %}
+	</table>
+
+	<input type="submit" value="Submit Changes">
+</form>
+
+{% endblock %}

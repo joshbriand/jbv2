@@ -1170,9 +1170,9 @@ def showPoolDeleteGolfer():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-@app.route('/pool/groups', methods=['GET', 'POST'])
-@app.route('/pool/groups/', methods=['GET', 'POST'])
-def showPoolAddEditGroups():
+@app.route('/pool/editgroups', methods=['GET', 'POST'])
+@app.route('/pool/editgroups/', methods=['GET', 'POST'])
+def showPoolEditGroups():
     '''Handler for landing page of website.'''
     if 'username' in login_session:
         session = DBSession()
@@ -1190,7 +1190,7 @@ def showPoolAddEditGroups():
             flash('Access Restricted to Admin User Only')
             return redirect(url_for('poolLogin'))
         if request.method == 'GET':
-            return render_template('pool/addeditgroups.html',
+            return render_template('pool/editgroups.html',
                                     admin=admin,
                                     user=user,
                                     golfers=golfers,
@@ -1229,6 +1229,97 @@ def showPoolAddEditGroups():
                                         user=user,
                                         golfers=golfers)
 
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/editgroups', methods=['GET', 'POST'])
+@app.route('/pool/editgroups/', methods=['GET', 'POST'])
+def showPoolEditGroups():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        groups = session.query(PoolGroups)
+        groups = groups.order_by(PoolGroups.id.asc())
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/editgroups.html',
+                                    admin=admin,
+                                    user=user,
+                                    golfers=golfers,
+                                    groups=groups)
+        elif request.method == 'POST':
+            delete_golfer = request.form['deletegolfer']
+            delete_golfer = int(delete_golfer)
+            if delete_golfer:
+                golferToDelete = session.query(
+                    PoolGolfers).filter_by(id=delete_golfer).all()
+                print delete_golfer
+                if golferToDelete:
+                    for golfer in golferToDelete:
+                        session.delete(golfer)
+                        session.commit()
+                        DBSession.remove()
+                        print "golfer deleted!"
+                    flash ('Golfer Deleted Successfully!')
+                    golfers = session.query(PoolGolfers)
+                    golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+                    DBSession.remove()
+                    return render_template('pool/deletegolfer.html',
+                                            admin=admin,
+                                            user=user,
+                                            golfers=golfers)
+                else:
+                    flash('Golfer Not Found In Database')
+                    return render_template('pool/deletegolfer.html',
+                                            admin=admin,
+                                            user=user,
+                                            golfers=golfers)
+            else:
+                flash('You Must Select A Golfer To Delete')
+                return render_template('pool/deletegolfer.html',
+                                        admin=admin,
+                                        user=user,
+                                        golfers=golfers)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+@app.route('/pool/viewgroups', methods=['GET', 'POST'])
+@app.route('/pool/viewgroups/', methods=['GET', 'POST'])
+def showPoolViewGroups():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        groups = session.query(PoolGroups)
+        groups = groups.order_by(PoolGroups.id.asc())
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/editgroups.html',
+                                    admin=admin,
+                                    user=user,
+                                    golfers=golfers,
+                                    groups=groups)
     else:
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
