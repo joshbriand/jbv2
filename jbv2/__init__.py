@@ -1204,42 +1204,70 @@ def showPoolEditGroups():
                                     golfers=golfers,
                                     groups=groups)
         elif request.method == 'POST':
-            #for loop
-            #for golger in golfers
-            #mass change
+            for golfer in golfers:
+                edit_golfer_rank = request.form['%s rank' % golfer.id]
+                edit_golfer_name = request.form['%s name' % golfer.id]
+                edit_golfer_country = request.form['%s country' % golfer.id]
+                #group.id
+                edit_golfer_group = request.form['%s group' % golfer.id]
+                if edit_golfer_name and edit_golfer_country and edit_golfer_rank and edit_golfer_group:
+                    if poolGolferExists(edit_golfer_name) and edit_golfer_name != golfer.name:
+                        flash('Golfer Name Already Exists')
+                        return render_template('pool/editgroups.html',
+                                                admin = admin,
+                                                user = user,
+                                                golfers=golfers,
+                                                groups = groups)
+                    elif poolRankExists(edit_golfer_rank) and edit_golfer_rank != golfer.startingRank:
+                        flash('Golfer Rank Already Exists')
+                        return render_template('pool/editgroups.html',
+                                                admin = admin,
+                                                user = user,
+                                                golfers=golfers,
+                                                groups = groups)
+                    else:
+                        try:
+                            rank = int(edit_golfer_rank)
+                            groups = session.query(PoolGroups)
+                            editGolferGroup = groups.filter_by(id=edit_golfer_group).one()
+                            editGolfer = PoolGolfers(
+                                name = edit_golfer_name,
+                                country = edit_golfer_country,
+                                startingRank = edit_golfer_rank,
+                                group = edit_golfer_group)
+                            session.add(editGolfer)
+                            session.commit()
+                            DBSession.remove()
 
-            delete_golfer = request.form['deletegolfer']
-            delete_golfer = int(delete_golfer)
-            if delete_golfer:
-                golferToDelete = session.query(
-                    PoolGolfers).filter_by(id=delete_golfer).all()
-                print delete_golfer
-                if golferToDelete:
-                    for golfer in golferToDelete:
-                        session.delete(golfer)
-                        session.commit()
-                        DBSession.remove()
-                        print "golfer deleted!"
-                    flash ('Golfer Deleted Successfully!')
-                    golfers = session.query(PoolGolfers)
-                    golfers = golfers.order_by(PoolGolfers.startingRank.asc())
-                    DBSession.remove()
-                    return render_template('pool/deletegolfer.html',
-                                            admin=admin,
-                                            user=user,
-                                            golfers=golfers)
+                        except ValueError:
+                            flash('Rank Must Be An Integer')
+                            return render_template('pool/editgroups.html',
+                                                    admin = admin,
+                                                    user = user,
+                                                    golfers=golfers,
+                                                    groups = groups)
                 else:
-                    flash('Golfer Not Found In Database')
-                    return render_template('pool/deletegolfer.html',
-                                            admin=admin,
-                                            user=user,
-                                            golfers=golfers)
-            else:
-                flash('You Must Select A Golfer To Delete')
-                return render_template('pool/deletegolfer.html',
-                                        admin=admin,
-                                        user=user,
-                                        golfers=golfers)
+                    flash('You Must Enter A Value For Every Field')
+                    return render_template('pool/editgroups.html',
+                                            admin = admin,
+                                            user = user,
+                                            golfers=golfers,
+                                            groups = groups)
+            flash('Golfer Editted Seccessfully!')
+            session = DBSession()
+            users = session.query(PoolUsers)
+            users = users.order_by(PoolUsers.username.asc())
+            user = users.filter_by(username=login_session['username']).one()
+            golfers = session.query(PoolGolfers)
+            golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+            groups = session.query(PoolGroups)
+            groups = groups.order_by(PoolGroups.id.asc())
+            DBSession.remove()
+            return render_template('pool/editgroups.html',
+                                    admin = admin,
+                                    user = user,
+                                    golfers=golfers,
+                                    groups = groups)
 
     else:
         flash('You Must Be Logged In To Access This Page')
