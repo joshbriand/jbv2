@@ -1083,6 +1083,12 @@ def poolAdmin():
                                             admin = admin,
                                             user = user,
                                             groups = groups)
+                elif not isInstance(int(new_golfer_rank), int):
+                    flash('Rank Must Be An Integer')
+                    return render_template('pool/admin.html',
+                                            admin = admin,
+                                            user = user,
+                                            groups = groups)
                 else:
                     groups = session.query(PoolGroups)
                     newGolferGroup = groups.filter_by(id=new_golfer_group).one()
@@ -1196,6 +1202,10 @@ def showPoolEditGroups():
                                     golfers=golfers,
                                     groups=groups)
         elif request.method == 'POST':
+            #for loop
+            #for golger in golfers
+            #mass change
+
             delete_golfer = request.form['deletegolfer']
             delete_golfer = int(delete_golfer)
             if delete_golfer:
