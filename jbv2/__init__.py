@@ -1230,12 +1230,11 @@ def showPoolEditGroups():
                             rank = int(edit_golfer_rank)
                             groups = session.query(PoolGroups)
                             editGolferGroup = groups.filter_by(id=edit_golfer_group).one()
-                            editGolfer = PoolGolfers(
-                                name = edit_golfer_name,
-                                country = edit_golfer_country,
-                                startingRank = edit_golfer_rank,
-                                group = edit_golfer_group)
-                            session.add(editGolfer)
+                            golfer.name = edit_golfer_name
+                            golfer.country = edit_golfer_country
+                            golfer.startingRank = edit_golfer_rank
+                            golfer.group = editGolferGroup
+                            session.add(golfer)
                             session.commit()
                             DBSession.remove()
 
