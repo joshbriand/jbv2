@@ -1083,7 +1083,7 @@ def poolAdmin():
                                             admin = admin,
                                             user = user,
                                             groups = groups)
-                elif not isInstance(int(new_golfer_rank), int):
+                elif not isinstance(int(new_golfer_rank), int):
                     flash('Rank Must Be An Integer')
                     return render_template('pool/admin.html',
                                             admin = admin,
