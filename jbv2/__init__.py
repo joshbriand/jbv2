@@ -1209,7 +1209,7 @@ def showPoolEditGroups():
                 edit_golfer_name = request.form['%s name' % golfer.id]
                 edit_golfer_country = request.form['%s country' % golfer.id]
                 edit_golfer_group = request.form['%s group' % golfer.id]
-                if edit_golfer_rank == golfer.startingRank and edit_golfer_name == golfer.name and edit_golfer_country == golfer.country and edit_golfer_group == golfer.group.id:
+                if edit_golfer_rank == str(golfer.startingRank) and edit_golfer_name == golfer.name and edit_golfer_country == golfer.country and edit_golfer_group == golfer.group.id:
                     continue
                 if edit_golfer_name and edit_golfer_country and edit_golfer_rank and edit_golfer_group:
                     if poolGolferExists(edit_golfer_name) and edit_golfer_name != golfer.name:
