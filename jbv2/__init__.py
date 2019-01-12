@@ -1254,7 +1254,7 @@ def showPoolViewGroups():
             flash('Access Restricted to Admin User Only')
             return redirect(url_for('poolLogin'))
         if request.method == 'GET':
-            return render_template('pool/editgroups.html',
+            return render_template('pool/viewgroups.html',
                                     admin=admin,
                                     user=user,
                                     golfers=golfers,
