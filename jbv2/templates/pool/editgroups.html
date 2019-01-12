@@ -21,16 +21,17 @@
 		{% for golfer in golfers %}
 			<tr>
 				<td>
-					{{ golfer.startingRank }}
+					<input type="text" name="{{ golfer.id }} rank" value="{{ golfer.startingRank }}">
 				</td>
 				<td>
-					{{ golfer.name }}
+					<input type="text" name="{{ golfer.id }} name" value="{{ golfer.name }}">
 				</td>
 				<td>
-					{{ golfer.country }}
+					<input type="text" name="{{ golfer.id }} country" value="{{ golfer.country }}">
+
 				</td>
 				<td>
-					<select name="{{ golfer.id }}">
+					<select name="{{ golfer.id }} group">
 						{% for group in groups %}
 							{% if group.id == golfer.group.id %}
 								<option value="{{ group.id }}" selected>{{ group.groupName }}</option>
