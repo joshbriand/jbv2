@@ -1083,29 +1083,31 @@ def poolAdmin():
                                             admin = admin,
                                             user = user,
                                             groups = groups)
-                elif not isinstance(int(new_golfer_rank), int):
-                    flash('Rank Must Be An Integer')
-                    return render_template('pool/admin.html',
-                                            admin = admin,
-                                            user = user,
-                                            groups = groups)
                 else:
-                    groups = session.query(PoolGroups)
-                    newGolferGroup = groups.filter_by(id=new_golfer_group).one()
-                    newGolfer = PoolGolfers(
-                        name = new_golfer_name,
-                        country = new_golfer_country,
-                        startingRank = new_golfer_rank,
-                        group = newGolferGroup)
-                    session.add(newGolfer)
-                    session.commit()
-                    DBSession.remove()
-                    print "new golfer added"
-                    flash('Golfer Added Seccessfully!')
-                    return render_template('pool/admin.html',
-                                            admin = admin,
-                                            user = user,
-                                            groups = groups)
+                    try:
+                        rank = int(new_golfer_rank)
+                        groups = session.query(PoolGroups)
+                        newGolferGroup = groups.filter_by(id=new_golfer_group).one()
+                        newGolfer = PoolGolfers(
+                            name = new_golfer_name,
+                            country = new_golfer_country,
+                            startingRank = rank,
+                            group = newGolferGroup)
+                        session.add(newGolfer)
+                        session.commit()
+                        DBSession.remove()
+                        print "new golfer added"
+                        flash('Golfer Added Seccessfully!')
+                        return render_template('pool/admin.html',
+                                                admin = admin,
+                                                user = user,
+                                                groups = groups)
+                    except ValueError:
+                        flash('Rank Must Be An Integer')
+                        return render_template('pool/admin.html',
+                                                admin = admin,
+                                                user = user,
+                                                groups = groups)
             else:
                 flash('You Must Enter A Value For Every Field')
                 return render_template('pool/admin.html',
