@@ -1213,14 +1213,14 @@ def showPoolEditGroups():
                     pass
                 if edit_golfer_name and edit_golfer_country and edit_golfer_rank and edit_golfer_group:
                     if poolGolferExists(edit_golfer_name) and edit_golfer_name != golfer.name:
-                        flash('%s Golfer Name Already Exists' % edit_golfer_name)
+                        flash('Golfer Name (%s) Already Exists' % edit_golfer_name)
                         return render_template('pool/editgroups.html',
                                                 admin = admin,
                                                 user = user,
                                                 golfers=golfers,
                                                 groups = groups)
                     elif poolRankExists(edit_golfer_rank) and edit_golfer_rank != golfer.startingRank:
-                        flash('Golfer Rank Already Exists')
+                        flash('Golfer Rank (%s) Already Exists' % edit_golfer_rank)
                         return render_template('pool/editgroups.html',
                                                 admin = admin,
                                                 user = user,
