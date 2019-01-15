@@ -168,7 +168,7 @@ class PoolUsers(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
-    email = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=True)
 
 
 class PoolGroups(Base):
