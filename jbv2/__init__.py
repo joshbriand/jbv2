@@ -1273,6 +1273,101 @@ def showPoolEditGroups():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
+@app.route('/pool/addresults', methods=['GET', 'POST'])
+@app.route('/pool/addresults/', methods=['GET', 'POST'])
+def showPoolAddResults():
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        tournaments = session.query(PoolTournaments)
+        tournaments = tournaments.order_by(PoolTournaments.id.asc())
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/addresults.html',
+                                    admin=admin,
+                                    user=user,
+                                    golfers=golfers,
+                                    tournaments=tournaments)
+        elif request.method == 'POST':
+            for golfer in golfers:
+                edit_golfer_rank = request.form['%s rank' % golfer.id]
+                edit_golfer_name = request.form['%s name' % golfer.id]
+                edit_golfer_country = request.form['%s country' % golfer.id]
+                edit_golfer_group = request.form['%s group' % golfer.id]
+                if edit_golfer_rank == str(golfer.startingRank) and edit_golfer_name == golfer.name and edit_golfer_country == golfer.country and edit_golfer_group == str(golfer.group.id):
+                    continue
+                if edit_golfer_name and edit_golfer_country and edit_golfer_rank and edit_golfer_group:
+                    if poolGolferExists(edit_golfer_name) and edit_golfer_name != golfer.name:
+                        flash('Golfer Name (%s) Already Exists' % edit_golfer_name)
+                        return render_template('pool/editgroups.html',
+                                                admin = admin,
+                                                user = user,
+                                                golfers=golfers,
+                                                groups = groups)
+                    elif poolRankExists(edit_golfer_rank) and edit_golfer_rank != golfer.startingRank:
+                        flash('Golfer Rank (%s) Already Exists' % edit_golfer_rank)
+                        return render_template('pool/editgroups.html',
+                                                admin = admin,
+                                                user = user,
+                                                golfers=golfers,
+                                                groups = groups)
+                    else:
+                        try:
+                            rank = int(edit_golfer_rank)
+                            groups = session.query(PoolGroups)
+                            editGolferGroup = groups.filter_by(id=edit_golfer_group).one()
+                            golfer.name = edit_golfer_name
+                            golfer.country = edit_golfer_country
+                            golfer.startingRank = edit_golfer_rank
+                            golfer.group = editGolferGroup
+                            session.add(golfer)
+                            session.commit()
+                            DBSession.remove()
+
+                        except ValueError:
+                            flash('Rank Must Be An Integer')
+                            return render_template('pool/editgroups.html',
+                                                    admin = admin,
+                                                    user = user,
+                                                    golfers=golfers,
+                                                    groups = groups)
+                else:
+                    flash('You Must Enter A Value For Every Field')
+                    return render_template('pool/editgroups.html',
+                                            admin = admin,
+                                            user = user,
+                                            golfers=golfers,
+                                            groups = groups)
+            flash('Golfer Editted Seccessfully!')
+            session = DBSession()
+            users = session.query(PoolUsers)
+            users = users.order_by(PoolUsers.username.asc())
+            user = users.filter_by(username=login_session['username']).one()
+            golfers = session.query(PoolGolfers)
+            golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+            groups = session.query(PoolGroups)
+            groups = groups.order_by(PoolGroups.id.asc())
+            DBSession.remove()
+            return render_template('pool/editgroups.html',
+                                    admin = admin,
+                                    user = user,
+                                    golfers=golfers,
+                                    groups = groups)
+
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
+
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])
 @app.route('/pool/viewgroups/', methods=['GET', 'POST'])
