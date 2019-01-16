@@ -3,6 +3,7 @@
 {% block content %}
 <h2>Add Results</h2>
 <form method="post">
+	Tournament
 	<select name="tournament">
 		{% for tournament in tournaments %}
 			<option value="{{ tournament.id }}">{{ tournament.name }}</option>
@@ -23,7 +24,7 @@
 					{{ golfer.name }}
 				</td>
 				<td>
-					<input type="text" name="{{ golfer.id }} rank">
+					<input type="text" name="{{ golfer.id }} result">
 				</td>
 			</tr>
 		{% endfor %}
