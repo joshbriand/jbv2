@@ -1306,7 +1306,7 @@ def showPoolAddResults():
                 golfer_result = request.form['%s result' % golfer.id]
                 if golfer_result != '':
                     for result in results:
-                        if tournament_id == result.tournament.id and golfer.name == result.golfer.name:
+                        if tournament_id == str(result.tournament.id) and golfer.name == result.golfer.name:
                             flash('Tournament Results For %s Already Exist' % golfer.name)
                             return render_template('pool/addresults.html',
                                                     admin = admin,
