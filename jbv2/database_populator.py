@@ -28,7 +28,7 @@ session = DBSession()
 
 results = session.query(PoolResults)
 result = results.filter_by(id=4)
-session.remove(result)
+session.delete(result)
 session.commit()
 
 # newUser=PoolUsers(username='ryanarnold', password='ryanarnold', email='')
