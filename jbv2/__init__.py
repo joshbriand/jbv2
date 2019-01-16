@@ -1304,32 +1304,33 @@ def showPoolAddResults():
             tournaments = session.query(PoolTournaments)
             tournament = tournaments.filter_by(name=tournament_name).one()
             for golfer in golfers:
-                for result in tournament_results:
-                    if tournament_result == result.tournament.name and golfer.name == result.golfer.name:
-                        flash('Tournament Results For %s Already Exist' % golfer.name)
+                golfer_result = request.form['%s result' % golfer.id]
+                if golfer_result != '':
+                    for result in tournament_results:
+                        if tournament_result == result.tournament.name and golfer.name == result.golfer.name:
+                            flash('Tournament Results For %s Already Exist' % golfer.name)
+                            return render_template('pool/addresults.html',
+                                                    admin = admin,
+                                                    user = user,
+                                                    golfers=golfers,
+                                                    tournaments=tournaments)
+                    try:
+                        golfer_result_int = int(golfer_result)
+                        newGolferResult = PoolResults(
+                            golfer = golfer,
+                            tournament = tournament,
+                            position = 0,
+                            overall = golfer_result_int)
+                        session.add(newGolferResult)
+                        session.commit()
+                        DBSession.remove()
+                    except ValueError:
+                        flash('Rank Must Be An Integer')
                         return render_template('pool/addresults.html',
                                                 admin = admin,
                                                 user = user,
                                                 golfers=golfers,
                                                 tournaments=tournaments)
-                golfer_result = request.form['%s result' % golfer.id]
-                try:
-                    golfer_result_int = int(golfer_result)
-                    newGolferResult = PoolResults(
-                        golfer = golfer,
-                        tournament = tournament,
-                        position = 0,
-                        overall = golfer_result_int)
-                    session.add(newGolferResult)
-                    session.commit()
-                    DBSession.remove()
-                except ValueError:
-                    flash('Rank Must Be An Integer')
-                    return render_template('pool/addresults.html',
-                                            admin = admin,
-                                            user = user,
-                                            golfers=golfers,
-                                            tournaments=tournaments)
             flash('Ranks Added Seccessfully!')
             session = DBSession()
             users = session.query(PoolUsers)
