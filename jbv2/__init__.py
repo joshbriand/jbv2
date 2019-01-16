@@ -1300,7 +1300,7 @@ def showPoolAddResults():
         elif request.method == 'POST':
             results = session.query(PoolResults)
             tournament_name = request.form['tournament']
-            tournament_results = results.filter_by(name=tournament_name).all()
+            tournament_results = results.filter_by(tournament.name=tournament_name).all()
             tournaments = session.query(PoolTournaments)
             tournament = tournaments.filter_by(name=tournament_name).one()
             for golfer in golfers:
