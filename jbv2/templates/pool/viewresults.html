@@ -7,6 +7,9 @@
 		<td>
 			<b>Golfer</b>
 		</td>
+		<td>
+			<b>Total Score</b>
+		</td>
 		{% for tournament in tournaments %}
 			<td>
 				<b>{{ tournament.name }}</b>
@@ -16,6 +19,7 @@
 	{% for golfer in golfers %}
 		<tr>
 			<td>{{ golfer.name }}</td>
+			<td id="{{ golfer.id }} score"></td>
 			{% for tournament in tournaments %}
 				<td>
 					{% for result in results %}

@@ -26,11 +26,19 @@ session = DBSession()
 # for tournie in tournaments:
 #     tournie.delete()
 
-tournaments = session.query(PoolTournaments)
-for tournament in tournaments:
-    if tournament.id > 20:
-        session.delete(tournament)
-        session.commit()
+golfers = session.query(PoolGolfers)
+users = session.query(PoolUsers)
+user = users.filter_by(username='ryanarnold').one()
+golfer = golfers.filter_by(name='Brooks Koepka').one()
+choice = PoolChoices(user=user, golfer=golfer, group=golfer.group)
+session.add(choice)
+session.commit()
+
+# tournaments = session.query(PoolTournaments)
+# for tournament in tournaments:
+#     if tournament.id > 20:
+#         session.delete(tournament)
+#         session.commit()
 
 # newUser=PoolUsers(username='ryanarnold', password='ryanarnold', email='')
 # session.add(newUser)
