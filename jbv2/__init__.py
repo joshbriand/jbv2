@@ -1306,7 +1306,7 @@ def showPoolAddResults():
             for golfer in golfers:
                 for result in tournament_results:
                     if tournament_result == result.tournament.name and golfer.name == result.golfer.name:
-                        flash('Tournament Results For %s Already Exist' , % golfer.name)
+                        flash('Tournament Results For %s Already Exist', % golfer.name)
                         return render_template('pool/addresults.html',
                                                 admin = admin,
                                                 user = user,
