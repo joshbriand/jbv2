@@ -27,7 +27,7 @@ session = DBSession()
 #     tournie.delete()
 
 results = session.query(PoolResults)
-result = results.filter_by(id=4)
+result = results.filter_by(id=4).one()
 session.delete(result)
 session.commit()
 
