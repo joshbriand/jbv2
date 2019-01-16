@@ -1350,6 +1350,37 @@ def showPoolAddResults():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
+@app.route('/pool/viewresults', methods=['GET', 'POST'])
+@app.route('/pool/viewresults/', methods=['GET', 'POST'])
+def showPoolViewResults():
+    '''Handler for landing page of website.'''
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        tournaments = session.query(PoolTournaments)
+        tournaments = tournaments.order_by(PoolTournaments.id.asc())
+        results = session.query(PoolResults)
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/viewresults.html',
+                                    admin=admin,
+                                    user=user,
+                                    golfers=golfers,
+                                    tournaments=tournaments,
+                                    results=results)
+    else:
+        flash('You Must Be Logged In To Access This Page')
+        return redirect(url_for('poolLogin'))
+
 
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])

@@ -1,0 +1,18 @@
+{% extends "pool/base.html" %}
+
+{% block content %}
+<h2>View Results</h2>
+<table>
+	<tr>
+			<td>
+				<b>Golfer</b>
+			</td>
+			{% for tournament in tournaments %}
+			<td>
+				<b>{{ tournament.name }}</b>
+			</td>
+		</tr>
+
+</table>
+
+{% endblock %}
