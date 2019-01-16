@@ -1299,14 +1299,14 @@ def showPoolAddResults():
                                     tournaments=tournaments)
         elif request.method == 'POST':
             results = session.query(PoolResults)
-            tournament_name = request.form['tournament']
+            tournament_id = request.form['tournament']
             tournaments = session.query(PoolTournaments)
-            tournament = tournaments.filter_by(name=tournament_name).one()
+            tournament = tournaments.filter_by(id=tournament_id).one()
             for golfer in golfers:
                 golfer_result = request.form['%s result' % golfer.id]
                 if golfer_result != '':
                     for result in results:
-                        if tournament_name == result.tournament.name and golfer.name == result.golfer.name:
+                        if tournament_id == result.tournament.id and golfer.name == result.golfer.name:
                             flash('Tournament Results For %s Already Exist' % golfer.name)
                             return render_template('pool/addresults.html',
                                                     admin = admin,
