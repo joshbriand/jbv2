@@ -1560,9 +1560,7 @@ def poolStandings():
         results = session.query(PoolResults)
         DBSession.remove()
         points = [[0] * users.count()] * tournaments.count()
-        for point in points:
-            print point
-        tier1 = [500,300, 250, 225, 200, 180, 160, 140, 120, 100, 80, 80, 80, 80, 80, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15]
+        tier1 = [500, 300, 250, 225, 200, 180, 160, 140, 120, 100, 80, 80, 80, 80, 80, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15]
         tier2 = [350, 250, 200, 175, 150, 125, 100, 90, 80, 70, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10]
         tier3 = [250, 150, 125, 100, 90, 80, 70, 60, 50, 40, 30, 30, 30, 30, 30, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5]
         for choice in choices:
@@ -1575,8 +1573,9 @@ def poolStandings():
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
-        for point in points:
-            print point
+            print "again"
+            for point in points:
+                print point
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
