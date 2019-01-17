@@ -1,0 +1,36 @@
+{% extends "pool/base.html" %}
+
+{% block content %}
+<h2>View Results</h2>
+<table>
+	<tr>
+		<td>
+			<b>Golfer</b>
+		</td>
+		<td>
+			<b>Total Score</b>
+		</td>
+		{% for tournament in tournaments %}
+			<td>
+				<b>{{ tournament.name }}</b>
+			</td>
+		{% endfor %}
+	</tr>
+	{% for golfer in golfers %}
+		<tr>
+			<td>{{ golfer.name }}</td>
+			<td id="{{ golfer.id }} score"></td>
+			{% for tournament in tournaments %}
+				<td>
+					{% for result in results %}
+						{% if result.tournament == tournament and result.golfer == golfer %}
+							{{ result.overall }}
+						{% endif %}
+					{% endfor %}
+				</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

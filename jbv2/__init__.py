@@ -1547,69 +1547,9 @@ def showPoolDeleteUser():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-@app.route('/pool/takepoll', methods=['GET', 'POST'])
-@app.route('/pool/takepoll/', methods=['GET', 'POST'])
-def showPoolPoll():
-    '''Handler for landing page of website.'''
-    if 'username' in login_session:
-        if login_session['username'] == 'admin':
-            flash('You Must Be Logged In As A User')
-            return redirect(url_for('poolLogin'))
-        else:
-            if request.method == 'GET':
-                session = DBSession()
-                users = session.query(PoolUsers)
-                users = users.order_by(PoolUsers.username.asc())
-                user = users.filter_by(username=login_session['username']).one()
-                questions = session.query(PoolQuestions)
-                questions = questions.order_by(PoolQuestions.id.asc())
-                results = session.query(PoolResults)
-                print "all results"
-                print results
-                user_results = results.filter_by(user_id=user.id)
-                print "user results"
-                print user_results
-                first = user_results.first()
-                print "first?"
-                print first
-                DBSession.remove()
-                return render_template('pool/takepoll.html',
-                                        user=user.username,
-                                        questions=questions,
-                                        results=user_results,
-                                        first=first)
-            elif request.method == 'POST':
-                session = DBSession()
-                users = session.query(PoolUsers)
-                users = users.order_by(PoolUsers.username.asc())
-                user  = users.filter_by(username=login_session['username']).one()
-                questions = session.query(PoolQuestions)
-                for question in questions:
-                    option_selected = request.form.get(str(question.id))
-                    if option_selected:
-                        results = session.query(PoolResults)
-                        user_results = results.filter_by(user_id=user.id)
-                        for user_result in user_results:
-                            if user_result.question.id == question.id:
-                                session.delete(user_result)
-                                session.commit()
-                                print "result deleted!"
-                        newResult = PoolResults(choice = option_selected,
-                                                question_id = question.id,
-                                                user_id = user.id)
-                        session.add(newResult)
-                        session.commit()
-                        print "result added!"
-                DBSession.remove()
-                flash('Thanks For Taking The Pool!')
-                return redirect(url_for('poolResults'))
-    else:
-        flash('You Must Be Logged In To Access This Page')
-        return redirect(url_for('poolLogin'))
 
-
-@app.route('/pool/results/', methods=['GET', 'POST'])
-def poolResults():
+@app.route('/pool/standings/', methods=['GET', 'POST'])
+def poolStandings():
     if request.method == 'GET':
         session = DBSession()
         users = session.query(PoolUsers)
@@ -1620,24 +1560,7 @@ def poolResults():
         questions = session.query(PoolQuestions)
         questions = questions.order_by(PoolQuestions.id.asc())
         DBSession.remove()
-        resultsToHTML = []
-        for question in questions:
-            voters = [question,[],[],[],[],[]]
-            for result in results:
-                if result.question.id == question.id:
-                    if result.choice == question.option1:
-                        voters[1].append(result.user.username)
-                    elif result.choice == question.option2:
-                        voters[2].append(result.user.username)
-                    elif result.choice == question.option3:
-                        voters[3].append(result.user.username)
-                    elif result.choice == question.option4:
-                        voters[4].append(result.user.username)
-                    elif result.choice == question.option5:
-                        voters[5].append(result.user.username)
-            resultsToHTML.append(voters)
-        print resultsToHTML
-        return render_template('pool/results.html',
+        return render_template('pool/standings.html',
                                 user=user.username,
                                 results=resultsToHTML)
 
