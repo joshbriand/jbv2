@@ -1555,14 +1555,17 @@ def poolStandings():
         users = session.query(PoolUsers)
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        tournaments = session.query(PoolTournaments)
+        tournaments = tournaments.order_by(PoolTournaments.id.asc())
         results = session.query(PoolResults)
-        results = results.order_by(PoolResults.question_id.asc())
-        questions = session.query(PoolQuestions)
-        questions = questions.order_by(PoolQuestions.id.asc())
         DBSession.remove()
         return render_template('pool/standings.html',
                                 user=user.username,
-                                results=resultsToHTML)
+                                golfers=golfers,
+                                tournaments=tournaments,
+                                results=results)
 
 
 #end pool
