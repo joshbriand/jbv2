@@ -1566,16 +1566,14 @@ def poolStandings():
         for choice in choices:
             golferResults = results.filter_by(golfer=choice.golfer).all()
             for golferResult in golferResults:
-                print golferResult.tournament.id
                 if golferResult.tournament.tier == 1:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier1[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 2:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
-            print "again"
-            for point in points:
-                print point
+                print golferResult.tournament.id
+                print points[1]
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
