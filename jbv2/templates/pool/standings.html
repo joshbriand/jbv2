@@ -21,17 +21,17 @@
 			{% if username.username == user.username %}
 				<tr>
 					<td><b>{{ username.username }}</b></td>
-					<td id="{{ user.id }} total"></td>
+					<td id="{{ username.id }} total"></td>
 					<td>
-						<b>{{ points[user.id - 1] }}</b>
+						<b>{{ points[username.id - 1] }}</b>
 					</td>
 				</tr>
 			{% else %}
 				<tr>
 					<td>{{ username.username }}</td>
-					<td id="{{ user.id }} total"></td>
+					<td id="{{ username.id }} total"></td>
 					<td>
-						{{ points[user.id - 1] }}
+						{{ points[username.id - 1] }}
 					</td>
 				</tr>
 			{% endif %}
