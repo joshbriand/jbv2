@@ -1566,6 +1566,7 @@ def poolStandings():
         for choice in choices:
             golferResults = results.filter_by(golfer=choice.golfer).all()
             for golferResult in golferResults:
+                print golferResult.tournament.id
                 if golferResult.tournament.tier == 1:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier1[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 2:
