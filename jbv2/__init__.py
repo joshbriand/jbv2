@@ -1559,7 +1559,7 @@ def poolStandings():
         choices = session.query(PoolChoices)
         results = session.query(PoolResults)
         DBSession.remove()
-        blankArray = [0] * users.count()]
+        blankArray = [0] * users.count()
         points = []
         for i in range(0,tournaments.count()):
             points.append(blankArray)
