@@ -1556,19 +1556,22 @@ def poolStandings():
         golfers = golfers.order_by(PoolGolfers.startingRank.asc())
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
+        choices = session.query(PoolChoices)
         results = session.query(PoolResults)
         DBSession.remove()
         points = [0] * users.count()
         tier1 = [500,300, 250, 225, 200, 180, 160, 140, 120, 100, 80, 80, 80, 80, 80, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15]
         tier2 = [350, 250, 200, 175, 150, 125, 100, 90, 80, 70, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10]
         tier3 = [250, 150, 125, 100, 90, 80, 70, 60, 50, 40, 30, 30, 30, 30, 30, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5]
-        for result in results:
-            if result.tournament.tier == 1:
-                points[result.user.id] += tier1[result.overall - 1]
-            elif result.tournament.tier == 2:
-                points[result.user.id] += tier2[result.overall - 1]
-            elif result.tournament.tier == 3:
-                points[result.user.id] += tier3[result.overall - 1]
+        for choice in choices:
+            golferResults = results.filter_by(golfer=choice.golfer).all()
+            for golferResult in golferResults:
+                if golferResult.tournament.tier == 1:
+                    points[choice.user.id - 1] += tier1[golferResult.overall - 1]
+                elif golferResult.tournament.tier == 2:
+                    points[choice.user.id - 1] += tier2[golferResult.overall - 1]
+                elif golferResult.tournament.tier == 3:
+                    points[choice.user.id - 1] += tier3[golferResult.overall - 1]
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
