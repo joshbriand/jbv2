@@ -2,16 +2,16 @@
 
 {% block content %}
 <h2>Standings</h2>
-<table>
+<table class="grid">
 	<tr>
-		<td>
+		<td class="grid">
 			<b>Golfer</b>
 		</td>
-		<td>
+		<td class="grid">
 			<b>Points Total</b>
 		</td>
 		{% for tournament in tournaments %}
-			<td>
+			<td class="grid">
 				<b>{{ tournament.name }}</b>
 			</td>
 		{% endfor %}
@@ -20,10 +20,10 @@
 		{% if username.username != "admin" %}
 			{% if username.username == user %}
 				<tr>
-					<td><b>{{ username.username }}</b></td>
-					<td id="{{ username.id }} total"></td>
+					<td class="grid"><b>{{ username.username }}</b></td>
+					<td  class="grid" id="{{ username.id }} total"></td>
 					{% for tournament in tournaments %}
-						<td  id="{{ username.id }}">
+						<td  class="grid" id="{{ username.id }}">
 							{% if points[tournament.id - 1][username.id - 1] != 0 %}
 								<b>{{ points[tournament.id - 1][username.id - 1] }}</b>
 							{% endif %}
@@ -32,10 +32,10 @@
 				</tr>
 			{% else %}
 				<tr>
-					<td>{{ username.username }}</td>
-					<td id="{{ username.id }} total"></td>
+					<td class="grid">{{ username.username }}</td>
+					<td class="grid" id="{{ username.id }} total"></td>
 					{% for tournament in tournaments %}
-						<td id="{{ username.id }}">
+						<td class="grid" id="{{ username.id }}">
 							{% if points[tournament.id - 1][username.id - 1] != 0 %}
 								{{ points[tournament.id - 1][username.id - 1] }}
 							{% endif %}
@@ -46,5 +46,9 @@
 		{% endif %}
 	{% endfor %}
 </table>
+<script type="text/javascript" src="{{ url_for('static',filename='jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='standings.js') }}"></script>
+<script>
 
+</script>
 {% endblock %}
