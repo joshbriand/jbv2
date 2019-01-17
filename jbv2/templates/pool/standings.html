@@ -23,8 +23,10 @@
 					<td><b>{{ username.username }}</b></td>
 					<td id="{{ username.id }} total"></td>
 					{% for tournament in tournaments %}
-						<td>
-							<b>{{ points[tournament.id - 1][username.id - 1] }}</b>
+						<td  id="{{ username.id }}">
+							{% if points[tournament.id - 1][username.id - 1] != 0 %}
+								<b>{{ points[tournament.id - 1][username.id - 1] }}</b>
+							{% endif %}
 						</td>
 					{% endfor %}
 				</tr>
@@ -33,8 +35,10 @@
 					<td>{{ username.username }}</td>
 					<td id="{{ username.id }} total"></td>
 					{% for tournament in tournaments %}
-						<td>
-							{{ points[tournament.id - 1][username.id - 1] }}
+						<td id="{{ username.id }}">
+							{% if points[tournament.id - 1][username.id - 1] != 0 %}
+								{{ points[tournament.id - 1][username.id - 1] }}
+							{% endif %}
 						</td>
 					{% endfor %}
 				</tr>
