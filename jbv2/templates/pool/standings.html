@@ -16,14 +16,26 @@
 			</td>
 		{% endfor %}
 	</tr>
-	{% for user in users %}
-		<tr>
-			<td>{{ user.username }}</td>
-			<td id="{{ user.id }} total"></td>
-			<td>
-				{{ points[user.id - 1] }}
-			</td>
-		</tr>
+	{% for username in users %}
+		{% if username.username != "admin" %}
+			{% if username.username == user.username %}
+				<tr>
+					<td><b>{{ username.username }}</b></td>
+					<td id="{{ user.id }} total"></td>
+					<td>
+						<b>{{ points[user.id - 1] }}</b>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td>{{ username.username }}</td>
+					<td id="{{ user.id }} total"></td>
+					<td>
+						{{ points[user.id - 1] }}
+					</td>
+				</tr>
+			{% endif %}
+		{% endif %}
 	{% endfor %}
 </table>
 
