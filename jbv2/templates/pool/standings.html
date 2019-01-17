@@ -18,21 +18,25 @@
 	</tr>
 	{% for username in users %}
 		{% if username.username != "admin" %}
-			{% if username.username == user.username %}
+			{% if username.username == user %}
 				<tr>
 					<td><b>{{ username.username }}</b></td>
 					<td id="{{ username.id }} total"></td>
-					<td>
-						<b>{{ points[username.id - 1] }}</b>
-					</td>
+					{% for tournament in tournaments %}
+						<td>
+							<b>{{ points[tournament.id - 1][username.id - 1] }}</b>
+						</td>
+					{% endfor %}
 				</tr>
 			{% else %}
 				<tr>
 					<td>{{ username.username }}</td>
 					<td id="{{ username.id }} total"></td>
-					<td>
-						{{ points[username.id - 1] }}
-					</td>
+					{% for tournament in tournaments %}
+						<td>
+							{{ points[tournament.id - 1][username.id - 1] }}
+						</td>
+					{% endfor %}
 				</tr>
 			{% endif %}
 		{% endif %}
