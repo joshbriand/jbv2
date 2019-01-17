@@ -8,7 +8,7 @@
 			<b>Golfer</b>
 		</td>
 		<td>
-			<b>Total Score</b>
+			<b>Points Total</b>
 		</td>
 		{% for tournament in tournaments %}
 			<td>
@@ -16,19 +16,13 @@
 			</td>
 		{% endfor %}
 	</tr>
-	{% for golfer in golfers %}
+	{% for user in users %}
 		<tr>
-			<td>{{ golfer.name }}</td>
-			<td id="{{ golfer.id }} score"></td>
-			{% for tournament in tournaments %}
-				<td>
-					{% for result in results %}
-						{% if result.tournament == tournament and result.golfer == golfer %}
-							{{ result.overall }}
-						{% endif %}
-					{% endfor %}
-				</td>
-			{% endfor %}
+			<td>{{ user.username }}</td>
+			<td id="{{ user.id }} total"></td>
+			<td>
+				{{ points[user.id - 1] }}
+			</td>
 		</tr>
 	{% endfor %}
 </table>
