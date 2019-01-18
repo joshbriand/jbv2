@@ -156,7 +156,7 @@ def gameExists(name):
 def calculate_rank(vector):
   a = {}
   rank = 1
-  for num in sorted(vector, reverse):
+  for num in sorted(vector, reverse = True):
     if num not in a:
       a[num] = rank
       rank = rank + 1
