@@ -23,7 +23,7 @@
 		{% if username.username != "admin" %}
 			{% if username.username == user %}
 				<tr>
-					<td class="grid"><b>{{ rank[username.id - 1] }}</b></td>
+					<td class="grid"><b>{{ ranks[username.id - 1] }}</b></td>
 					<td class="grid"><b>{{ username.username }}</b></td>
 					<td  class="grid" id="{{ username.id }} total"><b>{{ totals[username.id - 1] }}</b></td>
 					{% for tournament in tournaments %}
@@ -36,7 +36,7 @@
 				</tr>
 			{% else %}
 				<tr>
-					<td class="grid">{{ rank[username.id - 1] }}</td>
+					<td class="grid">{{ ranks[username.id - 1] }}</td>
 					<td class="grid">{{ username.username }}</td>
 					<td class="grid" id="{{ username.id }} total">{{ totals[username.id - 1] }}</td>
 					{% for tournament in tournaments %}
