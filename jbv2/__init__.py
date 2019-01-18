@@ -153,13 +153,13 @@ def gameExists(name):
     DBSession.remove()
     return exists
 
-def calculate_rank(vector,query):
+def calculate_rank(vector):
   a = {}
-  rank = query.count() - 1
-  for num in sorted(vector):
+  rank = 1
+  for num in sorted(vector, reverse):
     if num not in a:
       a[num] = rank
-      rank = rank - 1
+      rank = rank + 1
   return[a[i] for i in vector]
 
 @app.route('/', methods=['GET'])
@@ -1587,7 +1587,7 @@ def poolStandings():
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
-        ranks = calculate_rank(totals, users)
+        ranks = calculate_rank(totals)
         print ranks
         return render_template('pool/standings.html',
                                 user=user.username,
