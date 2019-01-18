@@ -19,6 +19,7 @@ import re, hmac
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from scipy import rankdata
 
 app = Flask(__name__)
 
@@ -1578,6 +1579,8 @@ def poolStandings():
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
+        rank = rankdata(totals)
+        print rank
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
