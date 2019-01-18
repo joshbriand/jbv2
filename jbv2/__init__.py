@@ -1577,7 +1577,7 @@ def poolStandings():
                     totals[choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
-                    totals[choice.user.id - 1] += tier3[golferResult.overall - 1] 
+                    totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
@@ -1585,7 +1585,8 @@ def poolStandings():
                                 tournaments=tournaments,
                                 results=results,
                                 points=points,
-                                totals=totals)
+                                totals=totals,
+                                rank=rank)
 
 
 #end pool
