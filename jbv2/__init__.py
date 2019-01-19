@@ -166,9 +166,10 @@ def calculate_rank(vector):
     print results
     for i in range(0, len(results) - 1):
         if i != len(results) - 1:
+            print "not end"
             if results[i] == results[i+1]:
                 print "tie"
-                results[i] = "T" & results[i]
+                results[i] = "T" & str(results[i])
     return results
 
 @app.route('/', methods=['GET'])
