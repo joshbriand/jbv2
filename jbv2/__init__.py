@@ -162,6 +162,8 @@ def calculate_rank(vector):
             a[num] = rank
             rank = rank + 1
     results = [a[i] for i in vector]
+    print "here"
+    print results
     for i in range(0, len(results) - 1):
         if i != len(results) - 1:
             if results[i] == results[i+1]:
