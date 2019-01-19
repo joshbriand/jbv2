@@ -162,15 +162,11 @@ def calculate_rank(vector):
             a[num] = rank
             rank = rank + 1
     results = [a[i] for i in vector]
-    print "here"
-    print results
+    resultsFinal = results
     for i in range(0, len(results) - 1):
-        if i != len(results) - 1:
-            print "not end"
-            if results[i] in results:
-                print "tie"
-                results[i] = "T" + str(results[i])
-    return results
+        if results.count(results[i]) > 1:
+            resultsFinal[i] = "T" + str(results[i])
+    return resultsFinal
 
 @app.route('/', methods=['GET'])
 def showIndexPage():
