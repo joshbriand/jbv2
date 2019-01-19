@@ -165,6 +165,7 @@ def calculate_rank(vector):
     for i in range(0, len(results) - 1):
         if i != len(results) - 1:
             if results[i] == results[i+1]:
+                print "tie"
                 results[i] = "T" & results[i]
     return results
 
