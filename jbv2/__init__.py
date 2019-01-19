@@ -162,10 +162,12 @@ def calculate_rank(vector):
             a[num] = rank
             rank = rank + 1
     results = [a[i] for i in vector]
-    resultsFinal = results
+    resultsFinal = results[:]
     for i in range(0, len(results) - 1):
         if results.count(results[i]) > 1:
             resultsFinal[i] = "T" + str(results[i])
+        else:
+            resultsFinal[i] = str(results[i])
     return resultsFinal
 
 @app.route('/', methods=['GET'])
