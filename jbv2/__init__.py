@@ -160,7 +160,7 @@ def calculate_rank(vector):
     for num in sorted(vector, reverse = True):
         if num not in a:
             a[num] = rank
-            rank = rank + 1
+            rank = rank + sorted(vector, reverse = True).count(num)
     results = [a[i] for i in vector]
     resultsFinal = results[:]
     for i in range(0, len(results) - 1):
