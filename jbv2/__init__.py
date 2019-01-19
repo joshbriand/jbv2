@@ -154,14 +154,19 @@ def gameExists(name):
     return exists
 
 def calculate_rank(vector):
-  a = {}
-  rank = 1
-  print sorted(vector, reverse = True)
-  for num in sorted(vector, reverse = True):
-    if num not in a:
-      a[num] = rank
-      rank = rank + 1
-  return[a[i] for i in vector]
+    a = {}
+    rank = 1
+    print sorted(vector, reverse = True)
+    for num in sorted(vector, reverse = True):
+        if num not in a:
+            a[num] = rank
+            rank = rank + 1
+    results = [a[i] for i in vector]
+    for i in range(0, len(results) - 1):
+        if i != len(results) - 1:
+            if results[i] == results [i + 1]:
+                results[i] = "T" & results[i]
+    return results
 
 @app.route('/', methods=['GET'])
 def showIndexPage():
