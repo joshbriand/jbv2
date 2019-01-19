@@ -164,7 +164,7 @@ def calculate_rank(vector):
     results = [a[i] for i in vector]
     for i in range(0, len(results) - 1):
         if i != len(results) - 1:
-            if results[i] == results [i + 1]:
+            if results[i] == results[i+1]:
                 results[i] = "T" & results[i]
     return results
 
