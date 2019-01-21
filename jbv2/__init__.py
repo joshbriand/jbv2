@@ -1608,7 +1608,7 @@ def poolStandings():
                                 ranks=ranks)
 
 
-@app.route('/pool/<str:user>', methods=['GET', 'POST'])
+@app.route('/pool/<user>', methods=['GET', 'POST'])
 def poolTeam(user=""):
     if request.method == 'GET':
         session = DBSession()
