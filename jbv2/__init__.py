@@ -1048,7 +1048,7 @@ def changePoolPassword():
                     session.commit()
                     DBSession.remove()
                     flash('Password Succesfully Changed!')
-                    return redirect(url_for('poolResults'))
+                    return redirect(url_for('poolStandings'))
                 else:
                     flash('Password Do Not Match!')
                     return render_template(url_for('showPoolChangePassword'))
