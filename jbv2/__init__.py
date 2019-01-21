@@ -1608,8 +1608,8 @@ def poolStandings():
                                 ranks=ranks)
 
 
-@app.route('/pool/<int:user_id>', methods=['GET', 'POST'])
-def poolTeam(user_id=""):
+@app.route('/pool/<str:user>', methods=['GET', 'POST'])
+def poolTeam(user=""):
     if request.method == 'GET':
         session = DBSession()
         users = session.query(PoolUsers)

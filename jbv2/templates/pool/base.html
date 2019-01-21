@@ -192,7 +192,7 @@ dev<!DOCTYPE html>
                     <a href = "/pool/standings">Standings</a>
                   </td>
                   <td>
-                    <a href = "{{ url_for('poolTeam', user_id=session['user_id']) }}">My Team</a>
+                    <a href = "{{ url_for('poolTeam', user=user.username }}">My Team</a>
                   </td>
                 </tr>
               </table>
