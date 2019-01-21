@@ -966,7 +966,7 @@ def poolLogin():
                                 return redirect(url_for('poolAdmin'))
                             else:
                                 print "successful log in"
-                                return redirect(url_for('poolResults'))
+                                return redirect(url_for('poolStandings'))
                         else:
                             flash('Incorrect Password')
                             return render_template('pool/login.html')
@@ -1051,10 +1051,10 @@ def changePoolPassword():
                     return redirect(url_for('poolStandings'))
                 else:
                     flash('Password Do Not Match!')
-                    return render_template(url_for('showPoolChangePassword'))
+                    return render_template(url_for('changePoolPassword'))
             else:
                 flash('New Password Must Be Different Than Current Password')
-                return render_template(url_for('showPoolChangePassword'))
+                return render_template(url_for('changePoolPassword'))
     else:
         flash('Please Log In')
         return render_template(url_for('poolLogin'))
