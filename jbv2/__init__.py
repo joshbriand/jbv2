@@ -1620,7 +1620,6 @@ def poolTeam(username):
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         choices = session.query(PoolChoices)
-        choices = choices.filter_by(user=user).all()
         results = session.query(PoolResults)
         DBSession.remove()
         #needs work
@@ -1652,8 +1651,7 @@ def poolTeam(username):
                                 results=results,
                                 points=points,
                                 totals=totals,
-                                ranks=ranks,
-                                choices=choices)
+                                ranks=ranks)
 
 #end pool
 
