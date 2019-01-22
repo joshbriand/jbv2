@@ -1620,6 +1620,7 @@ def poolTeam(username):
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         choices = session.query(PoolChoices)
+        choices = choices.filter_by(user=user).all()
         results = session.query(PoolResults)
         DBSession.remove()
         #needs work
@@ -1643,7 +1644,7 @@ def poolTeam(username):
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         ranks = calculate_rank(totals)
         print ranks
-        return render_template('pool/standings.html',
+        return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
                                 golfers=golfers,
@@ -1651,7 +1652,8 @@ def poolTeam(username):
                                 results=results,
                                 points=points,
                                 totals=totals,
-                                ranks=ranks)
+                                ranks=ranks,
+                                choices=choices)
 
 #end pool
 
