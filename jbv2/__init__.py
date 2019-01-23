@@ -1656,15 +1656,10 @@ def poolTeam(username):
             for golferResult in golferResults:
                 if golferResult.tournament.tier == 1:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier1[golferResult.overall - 1]
-                    totals[choice.user.id - 1] += tier1[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 2:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier2[golferResult.overall - 1]
-                    totals[choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier3[golferResult.overall - 1]
-                    totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
-        ranks = calculate_rank(totals)
-        rank = ranks[user.id - 1]
         golfer_ranks = calculate_golfer_rank(points)
         print golfer_ranks
         user_choices = choices.filter_by(user=user).all()
@@ -1676,8 +1671,6 @@ def poolTeam(username):
                                 results=results,
                                 points=points,
                                 totals=totals,
-                                ranks=ranks,
-                                rank=rank,
                                 choices=user_choices)
 
 #end pool
