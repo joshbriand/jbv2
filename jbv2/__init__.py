@@ -1658,15 +1658,6 @@ def poolTeam(username):
                 elif golferResult.tournament.tier == 2:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
-                    print "tournie"
-                    print golferResult.tournament.id - 1
-                    print points[golferResult.tournament.id - 1]
-                    print "golfer"
-                    print golfer.id - 1
-                    print points[golferResult.tournament.id - 1][golfer.id - 1]
-                    print "overall"
-                    print golferResult.overall - 1
-                    print tier3[golferResult.overall - 1]
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier3[golferResult.overall - 1]
         golfer_ranks = calculate_golfer_rank(points)
         print golfer_ranks
