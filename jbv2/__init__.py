@@ -1652,11 +1652,7 @@ def poolTeam(username):
         print len(tier3)
         for golfer in golfers:
             golferResults = results.filter_by(golfer=golfer).all()
-            print "golfer count"
-            print len(golfer)
             for golferResult in golferResults:
-                print "result count"
-                print len(golferResult.tournament)
                 if golferResult.tournament.tier == 1:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier1[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 2:
