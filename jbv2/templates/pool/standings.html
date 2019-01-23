@@ -24,7 +24,7 @@
 			{% if username.username == user %}
 				<tr>
 					<td class="grid"><b>{{ ranks[username.id - 1] }}</b></td>
-					<td class="grid"><b>{{ username.username }}</b></td>
+					<td class="grid"><b><a href="{{ url_for('poolTeam', username=username.username) }}">{{ username.username }}</a></b></td>
 					<td  class="grid" id="{{ username.id }} total"><b>{{ totals[username.id - 1] }}</b></td>
 					{% for tournament in tournaments %}
 						<td  class="grid" id="{{ username.id }}">
