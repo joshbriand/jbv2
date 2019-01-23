@@ -1616,7 +1616,6 @@ def poolStandings():
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         ranks = calculate_rank(totals)
-        print ranks
         return render_template('pool/standings.html',
                                 user=user.username,
                                 users=users,
@@ -1660,6 +1659,10 @@ def poolTeam(username):
                 elif golferResult.tournament.tier == 3:
                     points[golferResult.tournament.id - 1][golfer.id - 1] += tier3[golferResult.overall - 1]
         golfer_ranks = calculate_golfer_rank(points)
+        golfer_points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        for tournament in points:
+            for x in range(0, len(tournament - 1)):
+                golfer_points[x] += tournament[x]
         user_choices = choices.filter_by(user=user).all()
         return render_template('pool/team.html',
                                 user=user.username,
@@ -1670,7 +1673,8 @@ def poolTeam(username):
                                 points=points,
                                 totals=totals,
                                 choices=user_choices,
-                                ranks=golfer_ranks)
+                                ranks=golfer_ranks,
+                                golfer_points=golfer_points)
 
 #end pool
 
