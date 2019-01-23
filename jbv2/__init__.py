@@ -1663,7 +1663,7 @@ def poolTeam(username):
         for tournament in points:
             for x in range(0, len(tournament)-1):
                 golfer_points[x] += tournament[x]
-        user_choices = choices.filter_by(user=username).all()
+        user_choices = choices.filter_by(user.username=username).all()
         return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
