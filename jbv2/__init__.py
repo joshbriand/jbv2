@@ -170,6 +170,27 @@ def calculate_rank(vector):
             resultsFinal[i] = str(results[i])
     return resultsFinal
 
+def calculate_golfer_rank(vector):
+    points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    for tournament in vector:
+        for i in range(0, tournament.length() - 1):
+            points[i] += tournament[i]
+    a = {}
+    rank = 1
+    print sorted(points, reverse = True)
+    for num in sorted(points, reverse = True):
+        if num not in a:
+            a[num] = rank
+            rank = rank + sorted(points, reverse = True).count(num)
+    results = [a[i] for i in points]
+    resultsFinal = results[:]
+    for i in range(0, len(results) - 1):
+        if results.count(results[i]) > 1:
+            resultsFinal[i] = "T" + str(results[i])
+        else:
+            resultsFinal[i] = str(results[i])
+    return resultsFinal
+
 @app.route('/', methods=['GET'])
 def showIndexPage():
     '''Handler for landing page of website.'''
@@ -1630,22 +1651,23 @@ def poolTeam(username):
         points[1][0] = 2
         print points
         totals = [0] * users.count()
-        for choice in choices:
-            golferResults = results.filter_by(golfer=choice.golfer).all()
+        for golfer in golfers:
+            golferResults = results.filter_by(golfer=golfer).all()
             for golferResult in golferResults:
                 if golferResult.tournament.tier == 1:
-                    #points[golferResult.tournament.id - 1][choice.user.id - 1] += tier1[golferResult.overall - 1]
+                    points[golferResult.tournament.id - 1][golfer.id - 1] += tier1[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier1[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 2:
-                    #points[golferResult.tournament.id - 1][choice.user.id - 1] += tier2[golferResult.overall - 1]
+                    points[golferResult.tournament.id - 1][golfer.id - 1] += tier2[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
-                    #points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
+                    points[golferResult.tournament.id - 1][golfer.id - 1] += tier3[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         ranks = calculate_rank(totals)
         rank = ranks[user.id - 1]
+        golfer_ranks = calculate_golfer_rank(points)
+        print golfer_ranks
         user_choices = choices.filter_by(user=user).all()
-        golfer_ranks = [] * golfers.count()
         return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
