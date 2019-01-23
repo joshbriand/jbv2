@@ -1662,7 +1662,7 @@ def poolTeam(username):
         golfer_ranks = calculate_golfer_rank(points)
         golfer_points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         for tournament in points:
-            for x in range(0, len(tournament)-1):
+            for x in range(0, len(tournament)):
                 golfer_points[x] += tournament[x]
 
         user_choices = choices.filter_by(user=page_user).all()

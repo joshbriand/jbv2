@@ -28,7 +28,7 @@
 				{{ choice.golfer.name }}
 			</td>
 			<td class="grid">
-				{{ golfer_points[choice.golfer.id] }}
+				{{ golfer_points[choice.golfer.id - 1] }}
 			</td>
 			{% for tournament in tournaments %}
 				<td class="grid">
