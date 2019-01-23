@@ -1625,7 +1625,7 @@ def poolTeam(username):
         tier1 = [500, 300, 250, 225, 200, 180, 160, 140, 120, 100, 80, 80, 80, 80, 80, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15]
         tier2 = [350, 250, 200, 175, 150, 125, 100, 90, 80, 70, 50, 50, 50, 50, 50, 40, 40, 40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10]
         tier3 = [250, 150, 125, 100, 90, 80, 70, 60, 50, 40, 30, 30, 30, 30, 30, 25, 25, 25, 25, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5]
-        points = [[0] * golfers.count()] * tournaments.count()
+        points = list([0] * golfers.count()) * tournaments.count()
         print points
         points[2][2] = 10
         print points
@@ -1646,7 +1646,6 @@ def poolTeam(username):
         rank = ranks[user.id - 1]
         user_choices = choices.filter_by(user=user).all()
         golfer_ranks = [] * golfers.count()
-        golfer_
         return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
