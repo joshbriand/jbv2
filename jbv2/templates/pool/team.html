@@ -2,14 +2,10 @@
 
 {% block content %}
 <h2>{{ user }}'s Standings</h2>
-<h3>Current Rank: {{ rank }}</h3>
 <table class="grid">
 	<tr>
 		<td class="grid">
 			<b>Rank</b>
-		</td>
-		<td class="grid">
-			<b>User</b>
 		</td>
 		<td class="grid">
 			<b>Points Total</b>
@@ -20,6 +16,12 @@
 			</td>
 		{% endfor %}
 	</tr>
-
+	{% for choice in choices %}
+		<tr>
+			<td class="grid">
+				{{ choice.golfer.name }}
+			</td>
+		</tr>
+	{% endfor %}
 </table>
 {% endblock %}
