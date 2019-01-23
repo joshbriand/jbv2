@@ -27,7 +27,14 @@
 			<td class="grid">
 				{{ choice.golfer.name }}
 			</td>
-			<td></td>
+			<td class="grid">
+				points
+			</td>
+			{% for tournament in tournaments %}
+				{% if points[tournament.id - 1][choice.golfer.id - 1] != 99 %}
+					{{ points[tournament.id - 1][choice.golfer.id - 1] }}
+				{% endif %}
+			{% endfor %}
 		</tr>
 	{% endfor %}
 </table>
