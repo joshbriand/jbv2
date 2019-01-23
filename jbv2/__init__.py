@@ -173,7 +173,7 @@ def calculate_rank(vector):
 def calculate_golfer_rank(vector):
     points = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     for tournament in vector:
-        for i in range(0, tournament.length() - 1):
+        for i in range(0, len(tournament) - 1):
             points[i] += tournament[i]
     a = {}
     rank = 1
