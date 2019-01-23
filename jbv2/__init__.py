@@ -1643,6 +1643,7 @@ def poolTeam(username):
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         ranks = calculate_rank(totals)
         print ranks
+        rank = ranks[user.id - 1]
         return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
@@ -1651,7 +1652,8 @@ def poolTeam(username):
                                 results=results,
                                 points=points,
                                 totals=totals,
-                                ranks=ranks)
+                                ranks=ranks,
+                                rank=rank)
 
 #end pool
 
