@@ -1634,6 +1634,7 @@ def poolTeam(username):
         users = session.query(PoolUsers)
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
+        page_user = users.filter_by(username=username).one()
         golfers = session.query(PoolGolfers)
         golfers = golfers.order_by(PoolGolfers.startingRank.asc())
         tournaments = session.query(PoolTournaments)
@@ -1663,7 +1664,8 @@ def poolTeam(username):
         for tournament in points:
             for x in range(0, len(tournament)-1):
                 golfer_points[x] += tournament[x]
-        user_choices = choices.filter_by(user.username=username).all()
+
+        user_choices = choices.filter_by(user=page_user).all()
         return render_template('pool/team.html',
                                 user=user.username,
                                 users=users,
@@ -1675,7 +1677,7 @@ def poolTeam(username):
                                 choices=user_choices,
                                 ranks=golfer_ranks,
                                 golfer_points=golfer_points,
-                                page_user=page_user)
+                                page_user=page_user.username)
 
 #end pool
 
