@@ -1327,7 +1327,7 @@ def showPoolAddResults():
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         results = session.query(PoolResults)
         for result in results:
-            tournaments = tournaments.filter_by(tournament_id!=result.tournament_id)
+            tournaments = tournaments.filter_by(id!=result.tournament_id)
         DBSession.remove()
         if user.username == 'admin':
             admin = True
