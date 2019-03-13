@@ -1659,6 +1659,9 @@ def poolStandings():
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier2[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier2[golferResult.overall - 1]
                 elif golferResult.tournament.tier == 3:
+                    print golferResult.overall
+                    print golferResult.golfer.name
+                    print golferResult.tournament.name
                     points[golferResult.tournament.id - 1][choice.user.id - 1] += tier3[golferResult.overall - 1]
                     totals[choice.user.id - 1] += tier3[golferResult.overall - 1]
         ranks = calculate_rank(totals)
