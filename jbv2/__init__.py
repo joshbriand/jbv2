@@ -949,10 +949,11 @@ def game(game_id):
 
 '''
 Pool
--api
+-api (espn?)
 -styling
 -sort
 -calculate points on result entry
+-error handling when results exist
 '''
 @app.route('/pool', methods=['GET', 'POST'])
 @app.route('/pool/', methods=['GET', 'POST'])
@@ -1324,6 +1325,9 @@ def showPoolAddResults():
         golfers = golfers.order_by(PoolGolfers.startingRank.asc())
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
+        results = session.query(PoolResults)
+        for result in results:
+            tournaments = tournaments.filter_by(tournament_id!=result.tournament_id)
         DBSession.remove()
         if user.username == 'admin':
             admin = True
@@ -1335,7 +1339,8 @@ def showPoolAddResults():
                                     admin=admin,
                                     user=user,
                                     golfers=golfers,
-                                    tournaments=tournaments)
+                                    tournaments=tournaments,
+                                    results=results)
         elif request.method == 'POST':
             results = session.query(PoolResults)
             tournament_id = request.form['tournament']
