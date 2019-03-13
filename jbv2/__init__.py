@@ -1326,9 +1326,17 @@ def showPoolAddResults():
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         results = session.query(PoolResults)
-        for result in results:
-            tournaments = tournaments.filter_by(id=result.tournament_id)
         DBSession.remove()
+        available_tournaments_id = []
+        available_tournaments_name = []
+        for tournament in tournaments:
+            available_tournaments_id.append(tournament.id)
+            available_tournaments_name.append(tournament.name)
+        for i in range(0,len(available_tournaments_id)):
+            for result in results:
+                if available_tournaments_id[i] == result.tournament_id:
+                    available_tournaments_id[i] = -available_tournaments_id[i]
+                    available_tournaments_name[i] += "(results exist)"
         if user.username == 'admin':
             admin = True
         else:
@@ -1340,7 +1348,9 @@ def showPoolAddResults():
                                     user=user,
                                     golfers=golfers,
                                     tournaments=tournaments,
-                                    results=results)
+                                    results=results,
+                                    available_tournaments_id=available_tournaments_id,
+                                    available_tournaments_name=available_tournaments_name)
         elif request.method == 'POST':
             results = session.query(PoolResults)
             tournament_id = request.form['tournament']

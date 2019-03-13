@@ -5,9 +5,12 @@
 <form method="post">
 	Tournament
 	<select name="tournament">
-		{% for tournament in tournaments %}
-			<option value="{{ tournament.id }}">{{ tournament.name }}</option>
+		{% for i in range(0,available_tournaments_id|length) %}
+			<option value="{{ available_tournaments_id[i] }}">{{ available_tournaments_name[i] }}</option>
 		{% endfor %}
+		<!-- {% for tournament in tournaments %}
+			<option value="{{ tournament.id }}">{{ tournament.name }}</option>
+		{% endfor %} -->
 	</select>
 	<table>
 		<tr>
