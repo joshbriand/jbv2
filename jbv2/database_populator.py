@@ -24,7 +24,7 @@ session = DBSession()
 
 results = session.query(PoolResults)
 for result in results:
-    if result.tournament.name == "Farmers Insurance Open" and result.golfer.name == "Rickie Fowler":
+    if result.tournament.name == "Farmers Insurance Open" and result.golfer.name == "Bill Haas":
         result.overall = 51
         session.add(result)
         session.commit()
