@@ -1322,7 +1322,7 @@ def showPoolAddResults():
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
         golfers = session.query(PoolGolfers)
-        golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+        golfers = golfers.order_by(PoolGolfers.name.asc())
         tournaments = session.query(PoolTournaments)
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         results = session.query(PoolResults)
@@ -1355,11 +1355,7 @@ def showPoolAddResults():
             results = session.query(PoolResults)
             tournament_id = request.form['tournament']
             tournaments = session.query(PoolTournaments)
-            print tournament_id
-            print type(tournament_id)
             tournament_id = int(tournament_id)
-            print tournament_id
-            print type(tournament_id)
             if tournament_id < 0:
                 flash('Results already exist for this tournament')
                 return render_template('pool/addresults.html',
