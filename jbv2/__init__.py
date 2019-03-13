@@ -1357,6 +1357,9 @@ def showPoolAddResults():
             tournaments = session.query(PoolTournaments)
             print tournament_id
             print type(tournament_id)
+            tournament_id = int(tournament_id)
+            print tournament_id
+            print type(tournament_id)
             if tournament_id < 0:
                 flash('Results already exist for this tournament')
                 return render_template('pool/addresults.html',
