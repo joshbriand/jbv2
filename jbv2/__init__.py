@@ -1336,7 +1336,7 @@ def showPoolAddResults():
             for result in results:
                 if available_tournaments_id[i] == result.tournament_id:
                     available_tournaments_id[i] = -available_tournaments_id[i]
-                    available_tournaments_name[i] += "(results exist)"
+                    available_tournaments_name[i] += " (RESULTS EXIST)"
         if user.username == 'admin':
             admin = True
         else:
@@ -1356,6 +1356,15 @@ def showPoolAddResults():
             tournament_id = request.form['tournament']
             tournaments = session.query(PoolTournaments)
             tournament = tournaments.filter_by(id=tournament_id).one()
+            if tournament_id < 0:
+                flash('Results already exist for this tournament')
+                return render_template('pool/addresults.html',
+                                        admin = admin,
+                                        user = user,
+                                        golfers=golfers,
+                                        tournaments=tournaments,
+                                        available_tournaments_id=available_tournaments_id,
+                                        available_tournaments_name=available_tournaments_name)
             for golfer in golfers:
                 golfer_result = request.form['%s result' % golfer.id]
                 if golfer_result != '':
@@ -1366,7 +1375,9 @@ def showPoolAddResults():
                                                     admin = admin,
                                                     user = user,
                                                     golfers=golfers,
-                                                    tournaments=tournaments)
+                                                    tournaments=tournaments,
+                                                    available_tournaments_id=available_tournaments_id,
+                                                    available_tournaments_name=available_tournaments_name)
                     try:
                         golfer_result_int = int(golfer_result)
                         newGolferResult = PoolResults(
@@ -1383,7 +1394,9 @@ def showPoolAddResults():
                                                 admin = admin,
                                                 user = user,
                                                 golfers=golfers,
-                                                tournaments=tournaments)
+                                                tournaments=tournaments,
+                                                available_tournaments_id=available_tournaments_id,
+                                                available_tournaments_name=available_tournaments_name)
             flash('Ranks Added Seccessfully!')
             session = DBSession()
             users = session.query(PoolUsers)
@@ -1398,7 +1411,9 @@ def showPoolAddResults():
                                     admin = admin,
                                     user = user,
                                     golfers=golfers,
-                                    tournaments=tournaments)
+                                    tournaments=tournaments,
+                                    available_tournaments_id=available_tournaments_id,
+                                    available_tournaments_name=available_tournaments_name)
 
     else:
         flash('You Must Be Logged In To Access This Page')
