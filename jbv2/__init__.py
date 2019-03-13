@@ -1355,7 +1355,6 @@ def showPoolAddResults():
             results = session.query(PoolResults)
             tournament_id = request.form['tournament']
             tournaments = session.query(PoolTournaments)
-            tournament = tournaments.filter_by(id=tournament_id).one()
             if tournament_id < 0:
                 flash('Results already exist for this tournament')
                 return render_template('pool/addresults.html',
@@ -1365,6 +1364,7 @@ def showPoolAddResults():
                                         tournaments=tournaments,
                                         available_tournaments_id=available_tournaments_id,
                                         available_tournaments_name=available_tournaments_name)
+            tournament = tournaments.filter_by(id=tournament_id).one()
             for golfer in golfers:
                 golfer_result = request.form['%s result' % golfer.id]
                 if golfer_result != '':
