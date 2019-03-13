@@ -1408,6 +1408,16 @@ def showPoolAddResults():
             tournaments = session.query(PoolTournaments)
             tournaments = tournaments.order_by(PoolTournaments.id.asc())
             DBSession.remove()
+            available_tournaments_id = []
+            available_tournaments_name = []
+            for tournament in tournaments:
+                available_tournaments_id.append(tournament.id)
+                available_tournaments_name.append(tournament.name)
+            for i in range(0,len(available_tournaments_id)):
+                for result in results:
+                    if available_tournaments_id[i] == result.tournament_id:
+                        available_tournaments_id[i] = -available_tournaments_id[i]
+                        available_tournaments_name[i] += " (RESULTS EXIST)"
             return render_template('pool/addresults.html',
                                     admin = admin,
                                     user = user,
