@@ -26,6 +26,8 @@
 						{% for result in results %}
 							{% if result.tournament == tournament and result.golfer == golfer %}
 								<input type="text" name="{{ tournament.id }}-{{ golfer.id }}" value="{{ result.overall }}">
+							{% elif result == results[products|length - 1] and result.golfer != golfer and result.tournament != tournament %}
+								<input type="text" name="{{ tournament.id }}-{{ golfer.id }}">
 							{% endif %}
 						{% endfor %}
 					</td>
