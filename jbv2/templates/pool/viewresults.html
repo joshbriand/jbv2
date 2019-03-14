@@ -16,21 +16,25 @@
 			</td>
 		{% endfor %}
 	</tr>
-	{% for golfer in golfers %}
-		<tr>
-			<td class="grid">{{ golfer.name }}</td>
-			<td class="grid" id="{{ golfer.id }} score"></td>
-			{% for tournament in tournaments %}
-				<td class="grid">
-					{% for result in results %}
-						{% if result.tournament == tournament and result.golfer == golfer %}
-							{{ result.overall }}
-						{% endif %}
-					{% endfor %}
-				</td>
-			{% endfor %}
-		</tr>
-	{% endfor %}
+	<form method="post">
+		{% for golfer in golfers %}
+			<tr>
+				<td class="grid">{{ golfer.name }}</td>
+				<td class="grid" id="{{ golfer.id }} score"></td>
+				{% for tournament in tournaments %}
+					<td class="grid">
+						<input type="text" name="{{ tournament.id }}-{{ golfer.id }}" value="
+							{% for result in results %}
+								{% if result.tournament == tournament and result.golfer == golfer %}
+									{{ result.overall }}
+								{% endif %}
+							{% endfor %}
+						">
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</form>
 </table>
 
 {% endblock %}
