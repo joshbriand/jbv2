@@ -23,13 +23,11 @@
 				<td class="grid" id="{{ golfer.id }} score"></td>
 				{% for tournament in tournaments %}
 					<td class="grid">
-						<input type="text" name="{{ tournament.id }}-{{ golfer.id }}" value="
-							{% for result in results %}
-								{% if result.tournament == tournament and result.golfer == golfer %}
-									{{ result.overall }}
-								{% endif %}
-							{% endfor %}
-						">
+						{% for result in results %}
+							{% if result.tournament == tournament and result.golfer == golfer %}
+								<input type="text" name="{{ tournament.id }}-{{ golfer.id }}" value="{{ result.overall }}">
+							{% endif %}
+						{% endfor %}
 					</td>
 				{% endfor %}
 			</tr>
