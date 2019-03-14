@@ -1445,18 +1445,25 @@ def showPoolViewResults():
         tournaments = tournaments.order_by(PoolTournaments.id.asc())
         results = session.query(PoolResults)
         DBSession.remove()
+        available_tournaments_id = []
+        available_tournaments_name = []
+        for tournament in tournaments:
+            available_tournaments_id.append(tournament.id)
+            available_tournaments_name.append(tournament.name)
         if user.username == 'admin':
             admin = True
         else:
             flash('Access Restricted to Admin User Only')
             return redirect(url_for('poolLogin'))
         if request.method == 'GET':
-            return render_template('pool/viewresults.html',
+            return render_template('pool/viewresults2.html',
                                     admin=admin,
                                     user=user,
                                     golfers=golfers,
                                     tournaments=tournaments,
-                                    results=results)
+                                    results=results,
+                                    available_tournaments_id=available_tournaments_id,
+                                    available_tournaments_name=available_tournaments_name)
     else:
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
