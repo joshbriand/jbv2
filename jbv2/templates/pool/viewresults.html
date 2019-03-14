@@ -2,26 +2,26 @@
 
 {% block content %}
 <h2>View Results</h2>
-<table>
+<table class="grid">
 	<tr>
-		<td>
+		<td class="grid">
 			<b>Golfer</b>
 		</td>
-		<td>
+		<td class="grid">
 			<b>Total Score</b>
 		</td>
 		{% for tournament in tournaments %}
-			<td>
+			<td class="grid">
 				<b>{{ tournament.name }}</b>
 			</td>
 		{% endfor %}
 	</tr>
 	{% for golfer in golfers %}
 		<tr>
-			<td>{{ golfer.name }}</td>
-			<td id="{{ golfer.id }} score"></td>
+			<td class="grid">{{ golfer.name }}</td>
+			<td class="grid" id="{{ golfer.id }} score"></td>
 			{% for tournament in tournaments %}
-				<td>
+				<td class="grid">
 					{% for result in results %}
 						{% if result.tournament == tournament and result.golfer == golfer %}
 							{{ result.overall }}
