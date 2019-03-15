@@ -1515,6 +1515,34 @@ def showPoolViewResult(tournament_id):
                                     golfers=golfers,
                                     tournament=tournament,
                                     golfer_dict=golfer_dict)
+        elif request.method == 'POST':
+            for golfer in golfers:
+                golfer_result = request.form['%s result' % golfer.id]
+                if golfer_result != '':
+                    try:
+                        golfer_result_int = int(golfer_result)
+                        newGolferResult = PoolResults(
+                            golfer = golfer,
+                            tournament = tournament,
+                            position = 0,
+                            overall = golfer_result_int)
+                        session.add(newGolferResult)
+                        session.commit()
+                        DBSession.remove()
+                    except ValueError:
+                        flash('Rank Must Be An Integer')
+                        return redirect(url_for('showPoolViewResult', tournament_id=tournament_id))
+            flash('Ranks Added Seccessfully!')
+            session = DBSession()
+            users = session.query(PoolUsers)
+            users = users.order_by(PoolUsers.username.asc())
+            user = users.filter_by(username=login_session['username']).one()
+            golfers = session.query(PoolGolfers)
+            golfers = golfers.order_by(PoolGolfers.startingRank.asc())
+            tournaments = session.query(PoolTournaments)
+            tournaments = tournaments.order_by(PoolTournaments.id.asc())
+            DBSession.remove()
+            return redirect(url_for('showPoolViewResult', tournament_id=tournament_id))
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])
 @app.route('/pool/viewgroups/', methods=['GET', 'POST'])
