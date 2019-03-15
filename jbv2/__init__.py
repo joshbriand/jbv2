@@ -1494,14 +1494,13 @@ def showPoolViewResult(tournament_id):
         tournament = tournaments.filter_by(id=tournament_id).one()
         results = session.query(PoolResults)
         results = results.filter_by(tournament=tournament).all()
-        golfer_list = []
-        for golfer in golfers:
-            golfer_list.append(None)
-        for result in results:
-            golfer_list[result.golfer.id-1] = result.position
         golfers = golfers.order_by(PoolGolfers.name.asc())
-
         DBSession.remove()
+        golfer_dict = {}
+        for golfer in golfers:
+            golfer_dict[golfer.id] = None
+        for result in results:
+            golfer_dict[result.golfer.id] = result.position
         if user.username == 'admin':
             admin = True
         else:
@@ -1513,7 +1512,7 @@ def showPoolViewResult(tournament_id):
                                     user=user,
                                     golfers=golfers,
                                     tournament=tournament,
-                                    golfer_list=golfer_list)
+                                    golfer_dict=golfer_dict)
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])
 @app.route('/pool/viewgroups/', methods=['GET', 'POST'])
