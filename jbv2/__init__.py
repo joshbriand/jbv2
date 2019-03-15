@@ -1499,8 +1499,10 @@ def showPoolViewResult(tournament_id):
         golfer_dict = {}
         for golfer in golfers:
             golfer_dict[golfer.id] = None
+        print golfer_dict
         for result in results:
-            golfer_dict[result.golfer.id] = result.position
+            golfer_dict[result.golfer.id] = result.overall
+        print golfer_dict
         if user.username == 'admin':
             admin = True
         else:
