@@ -1498,7 +1498,7 @@ def showPoolViewResult(tournament_id):
         for golfer in golfers:
             golfer_list.append(None)
         for result in results:
-            golfer_list[result.golfer.id] = result.position
+            golfer_list[result.golfer.id-1] = result.position
         golfers = golfers.order_by(PoolGolfers.name.asc())
 
         DBSession.remove()
