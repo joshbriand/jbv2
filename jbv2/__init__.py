@@ -1481,7 +1481,7 @@ def showPoolViewResults():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-@app.route('/pool/viewresult_<int:tournament_id>/')
+@app.route('/pool/viewresult_<int:tournament_id>/', methods=['GET', 'POST'])
 def showPoolViewResult(tournament_id):
     ##here josh josh
     if 'username' in login_session:
