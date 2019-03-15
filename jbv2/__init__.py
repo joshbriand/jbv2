@@ -1490,6 +1490,8 @@ def showPoolViewResult(tournament_id):
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
         golfers = session.query(PoolGolfers)
+        tournaments = session.query(PoolTournaments)
+        tournament = tournaments.filter_by(id=tournament_id).one()
         results = session.query(PoolResults)
         results = results.filter_by(tournament=tournament).all()
         golfer_list = []
@@ -1498,8 +1500,7 @@ def showPoolViewResult(tournament_id):
         for result in results:
             golfer_list[result.golfer.id] = result.position
         golfers = golfers.order_by(PoolGolfers.name.asc())
-        tournaments = session.query(PoolTournaments)
-        tournament = tournaments.filter_by(id=tournament_id).one()
+
         DBSession.remove()
         if user.username == 'admin':
             admin = True
