@@ -1456,19 +1456,59 @@ def showPoolViewResults():
             flash('Access Restricted to Admin User Only')
             return redirect(url_for('poolLogin'))
         if request.method == 'GET':
-            return render_template('pool/viewresults2.html',
+            return render_template('pool/viewresults.html',
                                     admin=admin,
                                     user=user,
                                     golfers=golfers,
                                     tournaments=tournaments,
-                                    results=results,
                                     available_tournaments_id=available_tournaments_id,
                                     available_tournaments_name=available_tournaments_name)
+        else:
+            tournament_id = request.form['tournament']
+            tournaments = session.query(PoolTournaments)
+            tournament_id = int(tournament_id)
+            if tournament_id < 0 or tournament_id not in available_tournaments_id:
+                flash('Tournament does not exist')
+                return render_template('pool/viewresults.html',
+                                        admin = admin,
+                                        user = user,
+                                        golfers=golfers,
+                                        tournaments=tournaments,
+                                        available_tournaments_id=available_tournaments_id,
+                                        available_tournaments_name=available_tournaments_name)
+            else:
+                return redirect(url_for('showPoolViewResult', tournament_id=tournament_id))
     else:
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-
+@app.route('/pool/viewresult<int:tournament_id>/')
+def showPoolViewResult(tournament_id):
+    ##here josh josh
+    if 'username' in login_session:
+        session = DBSession()
+        users = session.query(PoolUsers)
+        users = users.order_by(PoolUsers.username.asc())
+        user = users.filter_by(username=login_session['username']).one()
+        golfers = session.query(PoolGolfers)
+        golfers = golfers.order_by(PoolGolfers.name.asc())
+        tournaments = session.query(PoolTournaments)
+        tournament = tournaments.filter_by(id=tournament_id).one()
+        results = session.query(PoolResults)
+        results = results.filter_by(tournament.id=tournament_id).all()
+        DBSession.remove()
+        if user.username == 'admin':
+            admin = True
+        else:
+            flash('Access Restricted to Admin User Only')
+            return redirect(url_for('poolLogin'))
+        if request.method == 'GET':
+            return render_template('pool/viewresult.html',
+                                    admin=admin,
+                                    user=user,
+                                    golfers=golfers,
+                                    tournament=tournament,
+                                    results=results)
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])
 @app.route('/pool/viewgroups/', methods=['GET', 'POST'])

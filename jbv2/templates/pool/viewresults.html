@@ -2,39 +2,15 @@
 
 {% block content %}
 <h2>View Results</h2>
-<table class="grid">
-	<tr>
-		<td class="grid">
-			<b>Golfer</b>
-		</td>
-		<td class="grid">
-			<b>Total Score</b>
-		</td>
-		{% for tournament in tournaments %}
-			<td class="grid">
-				<b>{{ tournament.name }}</b>
-			</td>
+<br>
+<form method="post">
+	Tournament
+	<select name="tournament">
+		{% for i in range(0,available_tournaments_id|length) %}
+			<option value="{{ available_tournaments_id[i] }}">{{ available_tournaments_name[i] }}</option>
 		{% endfor %}
-	</tr>
-	<form method="post">
-		{% for golfer in golfers %}
-			<tr>
-				<td class="grid">{{ golfer.name }}</td>
-				<td class="grid" id="{{ golfer.id }} score"></td>
-				{% for tournament in tournaments %}
-					<td class="grid">
-						{% for result in results %}
-							{% if result.tournament == tournament and result.golfer == golfer %}
-								<input type="text" name="{{ tournament.id }}-{{ golfer.id }}" value="{{ result.overall }}">
-							{% elif result == results[products|length - 1] and result.golfer != golfer and result.tournament != tournament %}
-								<input type="text" name="{{ tournament.id }}-{{ golfer.id }}">
-							{% endif %}
-						{% endfor %}
-					</td>
-				{% endfor %}
-			</tr>
-		{% endfor %}
-	</form>
-</table>
+	</select>
+	<input type="submit" value="View/Edit Results">
+</form>
 
 {% endblock %}

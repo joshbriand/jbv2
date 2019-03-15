@@ -1,0 +1,31 @@
+{% extends "pool/base.html" %}
+
+{% block content %}
+<h2>View/Edit Results for {{ tournament.name }}</h2>
+<form method="post">
+	Tournament
+	<table>
+		<tr>
+			<td>
+				<b>Name</b>
+			</td>
+			<td>
+				<b>Rank</b>
+			</td>
+		</tr>
+		{% for golfer in golfers %}
+			<tr>
+				<td>
+					{{ golfer.name }}
+				</td>
+				<td>
+					<input type="text" name="{{ golfer.id }} result">
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<input type="submit" value="Submit Results">
+</form>
+
+{% endblock %}
