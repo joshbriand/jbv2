@@ -1481,7 +1481,7 @@ def showPoolViewResults():
         flash('You Must Be Logged In To Access This Page')
         return redirect(url_for('poolLogin'))
 
-@app.route('/pool/viewresult<int:tournament_id>/')
+@app.route('/pool/viewresult_<int:tournament_id>/')
 def showPoolViewResult(tournament_id):
     ##here josh josh
     if 'username' in login_session:
@@ -1490,11 +1490,16 @@ def showPoolViewResult(tournament_id):
         users = users.order_by(PoolUsers.username.asc())
         user = users.filter_by(username=login_session['username']).one()
         golfers = session.query(PoolGolfers)
+        results = session.query(PoolResults)
+        results = results.filter_by(tournament=tournament).all()
+        golfer_list = []
+        for golfer in golfers:
+            golfer_list.append(None)
+        for result in results:
+            golfer_list[result.golfer.id] = result.position
         golfers = golfers.order_by(PoolGolfers.name.asc())
         tournaments = session.query(PoolTournaments)
         tournament = tournaments.filter_by(id=tournament_id).one()
-        results = session.query(PoolResults)
-        results = results.filter_by(tournament=tournament).all()
         DBSession.remove()
         if user.username == 'admin':
             admin = True
@@ -1507,7 +1512,7 @@ def showPoolViewResult(tournament_id):
                                     user=user,
                                     golfers=golfers,
                                     tournament=tournament,
-                                    results=results)
+                                    golfer_list=golfer_list)
 
 @app.route('/pool/viewgroups', methods=['GET', 'POST'])
 @app.route('/pool/viewgroups/', methods=['GET', 'POST'])
