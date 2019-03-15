@@ -18,7 +18,7 @@
 					{{ golfer.name }}
 				</td>
 				<td>
-					{% if {{ golfer_dict[ golfer.id ] }} == "None" %}
+					{% if golfer_dict[golfer.id] == "None" %}
 						<input type="text" name="{{ golfer.id }} result">
 					{% else %}
 						<input type="text" name="{{ golfer.id }} result" value="{{ golfer_dict[ golfer.id ] }}">
