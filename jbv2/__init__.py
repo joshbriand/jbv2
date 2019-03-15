@@ -1495,7 +1495,6 @@ def showPoolViewResult(tournament_id):
         results = session.query(PoolResults)
         results = results.filter_by(tournament=tournament).all()
         golfers = golfers.order_by(PoolGolfers.name.asc())
-        DBSession.remove()
         golfer_dict = {}
         for golfer in golfers:
             golfer_dict[golfer.id] = None
@@ -1503,6 +1502,7 @@ def showPoolViewResult(tournament_id):
         for result in results:
             golfer_dict[int(result.golfer.id)] = int(result.overall)
         print golfer_dict
+        DBSession.remove()
         if user.username == 'admin':
             admin = True
         else:
