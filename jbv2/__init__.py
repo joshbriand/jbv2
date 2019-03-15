@@ -1497,7 +1497,7 @@ def showPoolViewResult(tournament_id):
         golfers = golfers.order_by(PoolGolfers.name.asc())
         golfer_dict = {}
         for golfer in golfers:
-            golfer_dict[golfer.id] = None
+            golfer_dict[golfer.id] = ""
         print golfer_dict
         for result in results:
             golfer_dict[int(result.golfer.id)] = int(result.overall)
