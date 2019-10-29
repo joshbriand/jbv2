@@ -8,7 +8,8 @@ $('#joshbriand').click(function(){
                 $('#slogan').css('display', 'table');
                 $('#actualSlogan').fadeIn(1200);
 	}
-	console.log($('audioElement').volume);
+	console.log($('#audioElement').volume);
+	console.log('here');
 })
 
 $('#navSpacer').click(function(){
