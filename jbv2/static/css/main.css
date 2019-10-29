@@ -173,6 +173,10 @@ h2 {
   font-size: 3vh;
 }
 
+#audioElement {
+  display: none;
+}
+
 @media screen and (min-width: 736px) and (orientation: landscape) {
   .side {
     width: 3.125vw;
@@ -264,4 +268,3 @@ h2 {
     margin: 0px;
   }
 }
-

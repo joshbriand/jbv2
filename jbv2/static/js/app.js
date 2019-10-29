@@ -8,6 +8,7 @@ $('#joshbriand').click(function(){
                 $('#slogan').css('display', 'table');
                 $('#actualSlogan').fadeIn(1200);
 	}
+	console.log($('audioElement'.volume);
 })
 
 $('#navSpacer').click(function(){
@@ -182,5 +183,3 @@ function up (content, link) {
 	downLink = '';
 	downSection = '';
 };
-
-console.log($('audioElement'.volume);
