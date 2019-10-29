@@ -166,6 +166,10 @@ $('#contactLink').click(function(){
 	};
 });
 
+$('#audioElement').onvolumechange(function{
+	console.log('here');
+});
+
 function up (content, link) {
 	if (content !== '') {
 		content.slideUp('slow');
@@ -182,6 +186,3 @@ function up (content, link) {
 	downLink = '';
 	downSection = '';
 };
-
-console.log($('#audioElement').volume);
-console.log('here');
