@@ -166,7 +166,7 @@ $('#contactLink').click(function(){
 	};
 });
 
-$('#audioElement').onvolumechange(function{
+$('#audioElement').onvolumechange(function() {
 	console.log('here');
 });
 
