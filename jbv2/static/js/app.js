@@ -182,3 +182,5 @@ function up (content, link) {
 	downLink = '';
 	downSection = '';
 };
+
+console.log($('audioElement'.volume);
